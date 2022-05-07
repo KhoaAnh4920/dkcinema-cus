@@ -22,12 +22,15 @@ export const userSlice = createSlice({
             // Cập nhật state username với giá trị truyền vào qua action (action.payload)
             // Chạy thử console.log(action) để xem chi tiết giá trị action truyền vào
             state.username = action.payload;
+        },
+        updateLanguage: (state, action) => {
+            state.language = action.payload
         }
     }
 });
 
 // Export action ra để sử dụng cho tiện.
-export const { updateUsername } = userSlice.actions;
+export const { updateUsername, updateLanguage } = userSlice.actions;
 
 // Action là 1 hàm trả về object dạng {type, payload}, chạy thử console.log(updateUsername()) để xem chi tiết
 

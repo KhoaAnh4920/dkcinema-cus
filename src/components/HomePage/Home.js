@@ -5,11 +5,27 @@ import Phim2 from '../../assets/Phim2.png';
 import './Home.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
+import { FormattedMessage } from 'react-intl';
+import { useDispatch } from "react-redux";
+import { updateLanguage } from "../../redux/userSlice";
+import { useSelector } from "react-redux";
+import { selectLanguage } from "../../redux/userSlice";
+import { LANGUAGES } from '../../utils/constant';
 
 
 
 
 function Home() {
+    const language = useSelector(selectLanguage);
+    const dispatch = useDispatch();
+
+
+    const changeLanguage = (language) => {
+        // fire redux event: actions
+
+        console.log(language);
+        dispatch(updateLanguage(language));
+    }
 
     return (
         <>
@@ -23,39 +39,42 @@ function Home() {
                     <div className='center-content'>
                         <div className='child-content'>
                             <div className='search'>
-
-                                <input type='text' placeholder='Nhập nội dung bạn cần tìm...' />
+                                <FormattedMessage id="homeHeader.search" defaultMessage="search">
+                                    {placeholder =>
+                                        <input type='text' placeholder={placeholder} />
+                                    }
+                                </FormattedMessage>
                                 <i className="fas fa-search"></i>
                             </div>
                         </div>
                     </div>
                     <div className='right-content'>
                         <div className='child-content'>
-                            <i class="fas fa-user"></i>
-                            <div className='login-customer'>Đăng nhập / Đăng ký</div>
+                            <i className="fas fa-user"></i>
+                            <div className='login-customer'><FormattedMessage id="homeHeader.login" /> / <FormattedMessage id="homeHeader.register" /></div>
                         </div>
-                        <div className='language-vi active'><span>VN</span> </div>
+                        <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}><span onClick={() => changeLanguage(LANGUAGES.VI)}>VN</span> </div>
                         <span className='dash-language'>|</span>
-                        <div className='language-en'><span>EN</span></div>
+                        <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}><span onClick={() => changeLanguage(LANGUAGES.EN)}>EN</span></div>
                     </div>
                 </div>
 
             </div>
             <div className='home-header-content-bottom'>
-                <nav class="navbar navbar-expand-md navbar-light">
-                    {/* <a class="navbar-brand" href="/">
+                <nav className="navbar navbar-expand-md navbar-light">
+                    {/* <a className="navbar-brand" href="/">
                         <img src="/img/frontpage/logotest.png">logo
                     </a> */}
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarsExampleDefault">
-                        <ul class="navbar-nav ">
-                            <li class="nav-item "><a class="nav-link" href="/">TRANG CHỦ</a></li>
-                            <li class="nav-item "><a class="nav-link" href="/">MUA VÉ</a></li>
-                            <li class="nav-item "><a class="nav-link" href="/">PHIM</a></li>
-                            <li class="nav-item "><a class="nav-link" href="/">TIN TỨC</a></li>
-                            <li class="nav-item "><a class="nav-link" href="/">HỖ TRỢ</a></li>
+                    <div className="collapse navbar-collapse d-flex justify-content-center" id="navbarsExampleDefault">
+                        <ul className="navbar-nav ">
+                            <li className="nav-item "><a className="nav-link" href="/"><FormattedMessage id="homeHeader.home" /></a></li>
+                            <li className="nav-item "><a className="nav-link" href="/"><FormattedMessage id="homeHeader.buyTicket" /></a></li>
+                            <li className="nav-item "><a className="nav-link" href="/"><FormattedMessage id="homeHeader.movie" /></a></li>
+                            <li className="nav-item "><a className="nav-link" href="/"><FormattedMessage id="homeHeader.news" /></a></li>
+                            <li className="nav-item "><a className="nav-link" href="/"><FormattedMessage id="homeHeader.support" /></a></li>
                         </ul>
                     </div>
                 </nav>

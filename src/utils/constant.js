@@ -10,6 +10,11 @@ export const path = {
 
 };
 
+export const LANGUAGES = {
+    VI: 'vi',
+    EN: 'en'
+};
+
 // Chưa sửa //
 
 export const ROLES_TYPE = {
