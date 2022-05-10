@@ -2,6 +2,8 @@ import logo from '../logo.svg';
 import './App.scss';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import Home from '../components/HomePage/Home';
+import DanhSachPhim from '../components/ListMovie/DanhSachPhim';
+import ReviewFilms from '../components/ReviewMovie/ReviewFilms';
 import { ToastContainer } from 'react-toastify';
 import { path } from '../utils/constant';
 // import { ConnectedRouter as Router } from 'connected-react-router';
@@ -60,6 +62,8 @@ function App() {
         <span className="content-container">
           <Switch>
             <Route path="/" exact component={Home} />
+            <Route path="/phim-dang-chieu" exact component={DanhSachPhim} />
+            <Route path="/review-phim" exact component={ReviewFilms} />
           </Switch>
         </span>
       </div>
