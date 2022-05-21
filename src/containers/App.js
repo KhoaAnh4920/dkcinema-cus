@@ -11,6 +11,9 @@ import { ToastContainer } from 'react-toastify';
 import { path } from '../utils/constant';
 import ChiTietPhim from '../components/DetailFilms/ChiTietPhim';
 // import { ConnectedRouter as Router } from 'connected-react-router';
+import BookTicket from '../components/BuyTicket/BookTicket';
+import BuyTicket from '../components/BuyTicket/BuyTicket';
+import Payment from '../components/BuyTicket/Payment';
 
 
 
@@ -71,6 +74,9 @@ function App() {
           <Route path="/login" exact component={Login} />
           <Route path="/giai-dap" exact component={HoTroGiaiDap} />
           <Route path="/chi-tiet-phim" exact component={ChiTietPhim} />
+          <Route path="/dat-ve" exact component={BookTicket} />
+          <Route path="/lich-chieu" exact component={BuyTicket} />
+          <Route path="/thanh-toan" exact component={Payment} />
         </span>
       </div>
     </Routes>

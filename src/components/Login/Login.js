@@ -19,6 +19,8 @@ import quang_cao_1 from '../../assets/1.jpg';
 import quang_cao_2 from '../../assets/2.jpg';
 import quang_cao_3 from '../../assets/3.jpg';
 import quang_cao_4 from '../../assets/4.jpg';
+import Header from '../Share/Header';
+import Footer from '../Share/Footer';
 
 
 
@@ -45,16 +47,16 @@ function Login() {
         dots: true,
         infinite: true,
         speed: 500,
-        slidesToShow: 3,
+        slidesToShow: 4,
         slidesToScroll: 1,
     };
 
-    const changeLanguage = (language) => {
-        // fire redux event: actions
+    // const changeLanguage = (language) => {
+    //     // fire redux event: actions
 
-        console.log(language);
-        dispatch(updateLanguage(language));
-    }
+    //     console.log(language);
+    //     dispatch(updateLanguage(language));
+    // }
 
     const handleOnChangeDatePicker = (date) => {
         console.log(date);
@@ -62,57 +64,7 @@ function Login() {
 
     return (
         <>
-            <div className='home-header-container'>
-                <div className='home-header-content-top'>
-                    <div className='left-content'>
-                        {/* <i className="fas fa-bars"></i> */}
-                        <img className='header-logo' src={logo} onClick={() => this.returnToHome()} />
-
-                    </div>
-                    <div className='center-content'>
-                        <div className='child-content'>
-                            <div className='search'>
-                                <FormattedMessage id="homeHeader.search" defaultMessage="search">
-                                    {placeholder =>
-                                        <input type='text' placeholder={placeholder} />
-                                    }
-                                </FormattedMessage>
-                                <i className="fas fa-search"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div className='right-content'>
-                        <div className='child-content'>
-                            <i className="fas fa-user"></i>
-                            <div className='login-customer'><FormattedMessage id="homeHeader.login" /> / <FormattedMessage id="homeHeader.register" /></div>
-                        </div>
-                        <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}><span onClick={() => changeLanguage(LANGUAGES.VI)}>VN</span> </div>
-                        <span className='dash-language'>|</span>
-                        <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}><span onClick={() => changeLanguage(LANGUAGES.EN)}>EN</span></div>
-                    </div>
-                </div>
-
-            </div>
-            <div className='home-header-content-bottom'>
-                <nav className="navbar navbar-expand-md navbar-light">
-                    {/* <a className="navbar-brand" href="/">
-                        <img src="/img/frontpage/logotest.png">logo
-                    </a> */}
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse d-flex justify-content-center" id="navbarsExampleDefault">
-                        <ul className="navbar-nav ">
-                            <li className="nav-item "><a className="nav-link" href="/"><FormattedMessage id="homeHeader.home" /></a></li>
-                            <li className="nav-item "><a className="nav-link" href="/"><FormattedMessage id="homeHeader.buyTicket" /></a></li>
-                            <li className="nav-item "><a className="nav-link" href="/"><FormattedMessage id="homeHeader.movie" /></a></li>
-                            <li className="nav-item "><a className="nav-link" href="/"><FormattedMessage id="homeHeader.news" /></a></li>
-                            <li className="nav-item "><a className="nav-link" href="/"><FormattedMessage id="homeHeader.support" /></a></li>
-                        </ul>
-                    </div>
-                </nav>
-
-            </div>
+            <Header />
 
             <div className='loginPage-container'>
                 <div className='row col-12'>
@@ -295,6 +247,8 @@ function Login() {
                     </Slider>
                 </div>
             </div>
+
+            <Footer />
 
 
         </>

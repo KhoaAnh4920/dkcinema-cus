@@ -1,0 +1,162 @@
+.bookingPageController {
+    height: 800px;
+    width: 100%;
+    padding: 0 80px;
+
+
+    .tab-movies {
+        // background-color: blue;
+        margin: 35px 0;
+
+        .tab_showmovie {
+            .panel-default {
+                .panel-heading {
+                    border-radius: 0;
+                    color: #ffffff;
+                    background-color: orange;
+                    border-color: orange;
+                    border-top-color: orange;
+                    border-right-color: orange;
+                    border-bottom-color: orange;
+                    border-left-color: orange;
+                    height: 40px;
+                    line-height: 20px;
+                    text-align: center;
+                    padding: 10px 15px;
+                    border-top-right-radius: 25px;
+                    border-top-left-radius: 25px;
+
+                    .panel-title {
+                        font-size: 16px;
+                        color: #ffffff;
+                        text-transform: uppercase;
+                    }
+                }
+
+                .list-group {
+                    height: 100%;
+                    width: 100%;
+                    background-color: #fafafa;
+                    border-left: 1px solid #dfdfdf;
+                    border-right: 1px solid #dfdfdf;
+
+
+                    .movie-item {
+                        padding: 20px 10px 20px 10px;
+                        border-bottom: 1px solid #dfdfdf;
+                        list-style-type: none;
+                        cursor: pointer;
+
+                        &:hover {
+                            background-color: #f3e6cb;
+                        }
+
+                        .showtimes-row {
+                            height: 100%;
+                            width: 100%;
+                            // background-color: red;
+
+                            img {
+                                width: 95px;
+                                float: left;
+                                margin-right: 10px;
+                            }
+
+                            i {
+                                float: right;
+                                margin: 6px 0
+                            }
+
+                            .icon-c13 {
+                                width: 28px;
+                                height: 22px;
+                                display: inline-block;
+                                background: url('https://www.galaxycine.vn/website/images/ic-c13.png') no-repeat;
+                                background-size: cover;
+                            }
+
+                            .title-movie {
+                                font-size: 18px;
+                                line-height: 20px;
+                                position: relative;
+
+                                p {
+                                    font-size: 14px;
+                                    margin-bottom: 4px;
+                                }
+
+                                p.vn {
+                                    color: #a0a3a7;
+                                    font-size: 11px;
+                                    text-transform: uppercase;
+                                }
+                            }
+
+
+                        }
+                    }
+
+                    .scheudle-item {
+                        padding: 20px 10px 20px 10px;
+                        border-bottom: 1px solid #dfdfdf;
+                        list-style-type: none;
+
+                        .ngay-chieu {
+                            h6 {
+                                font-weight: bold;
+                            }
+                        }
+
+                        .book-schedule {
+                            width: 100%;
+                            padding: 10px 10px 10px 0px;
+                            display: flex;
+
+
+                            .dinh-dang {
+                                width: 20%;
+                            }
+
+
+                            .schedule-movies {
+                                // background-color: yellow;
+                                width: 70%;
+                                display: flex;
+                                margin-left: 20px;
+
+                                .time-content-btns {
+                                    display: flex;
+                                    gap: 15px;
+                                    flex-wrap: wrap;
+
+                                    button {
+                                        padding: 3px 5px;
+                                        border: none;
+                                        outline: none;
+                                        background-color: #fff04b;
+                                        min-width: 75px;
+                                        font-size: 14px;
+                                        border-radius: 3px;
+                                        font-weight: 600;
+                                        color: #333;
+
+                                        &:hover {
+                                            background-color: #ebcf93;
+                                            color: #000;
+                                        }
+                                    }
+
+                                    .btn-vie {
+                                        min-width: 75px;
+                                    }
+
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
