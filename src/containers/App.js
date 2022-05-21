@@ -1,13 +1,15 @@
 import logo from '../logo.svg';
 import './App.scss';
-import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { BrowserRouter as Routes, Route, Link, Switch } from "react-router-dom";
 import Home from '../components/HomePage/Home';
 import DanhSachPhim from '../components/ListMovie/DanhSachPhim';
 import ReviewFilms from '../components/ReviewMovie/ReviewFilms';
 import FilmsIntroduction from '../components/FilmsIntroduction/FilmsIntroduction';
 import Login from '../components/Login/Login';
+import HoTroGiaiDap from '../components/SupportQA/HoTroGiaiDap';
 import { ToastContainer } from 'react-toastify';
 import { path } from '../utils/constant';
+import ChiTietPhim from '../components/DetailFilms/ChiTietPhim';
 // import { ConnectedRouter as Router } from 'connected-react-router';
 
 
@@ -56,22 +58,22 @@ function App() {
     //   />
     // </Router>
 
-    <Router>
+    <Routes>
       {/* <Route path="/" exact component={Home} /> */}
       <div className="main-container">
 
 
         <span className="content-container">
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/phim-dang-chieu" exact component={DanhSachPhim} />
-            <Route path="/review-phim" exact component={ReviewFilms} />
-            <Route path="/gioi-thieu-phim" exact component={FilmsIntroduction} />
-            <Route path="/login" exact component={Login} />
-          </Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/phim-dang-chieu" exact component={DanhSachPhim} />
+          <Route path="/review-phim" exact component={ReviewFilms} />
+          <Route path="/gioi-thieu-phim" exact component={FilmsIntroduction} />
+          <Route path="/login" exact component={Login} />
+          <Route path="/giai-dap" exact component={HoTroGiaiDap} />
+          <Route path="/chi-tiet-phim" exact component={ChiTietPhim} />
         </span>
       </div>
-    </Router>
+    </Routes>
   );
 }
 
