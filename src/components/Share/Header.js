@@ -86,6 +86,17 @@ export default function Header() {
                             </li>
                             <li className="nav-item ">
                                 <Link to="/" className='nav-link'><FormattedMessage id="homeHeader.news" /></Link>
+                                <div className="drop-down-menu">
+                                    <ul className="sub-navbar-nav">
+                                        <li className="sub-nav-item">
+                                            <Link to="/review-phim" className='sub-nav-link'><FormattedMessage id="homeHeader.reviewFilm" /></Link>
+                                        </li>
+                                        <li className="sub-nav-item">
+                                            <Link to="/" className='sub-nav-link'><FormattedMessage id="homeHeader.introFilm" /></Link>
+                                        </li>
+                                    </ul>
+                                </div>
+
                             </li>
                             <li className="nav-item ">
                                 <Link to="/" className='nav-link'><FormattedMessage id="homeHeader.support" /></Link>

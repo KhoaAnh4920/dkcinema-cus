@@ -14,6 +14,7 @@ import ChiTietPhim from '../components/DetailFilms/ChiTietPhim';
 import BookTicket from '../components/BuyTicket/BookTicket';
 import BuyTicket from '../components/BuyTicket/BuyTicket';
 import Payment from '../components/BuyTicket/Payment';
+import BookTicketThrough from '../components/DetailFilms/BookTicket';
 
 
 
@@ -77,6 +78,7 @@ function App() {
           <Route path="/dat-ve" exact component={BookTicket} />
           <Route path="/lich-chieu" exact component={BuyTicket} />
           <Route path="/thanh-toan" exact component={Payment} />
+          <Route path="/dat-ve-qua-phim" exact component={BookTicketThrough} />
         </span>
       </div>
     </Routes>

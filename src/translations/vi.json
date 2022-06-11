@@ -7,7 +7,9 @@
         "support": "HỖ TRỢ",
         "login": "Đăng nhập",
         "register": "Đăng ký",
-        "search": "Nhập nội dung bạn cần tìm..."
+        "search": "Nhập nội dung bạn cần tìm...",
+        "reviewFilm": "ĐÁNH GIÁ PHIM",
+        "introFilm": "GIỚI THIỆU PHIM"
     },
     "banner": {
         "title1": "NỀN TẢNG Y TẾ",

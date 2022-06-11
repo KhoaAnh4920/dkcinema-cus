@@ -12,6 +12,7 @@ import { selectLanguage } from "../../redux/userSlice";
 import { LANGUAGES } from '../../utils/constant';
 import Pagination from 'react-bootstrap/Pagination';
 import { FacebookProvider, Like } from 'react-facebook';
+import { useHistory } from "react-router-dom";
 import Footer from '../Share/Footer';
 import Header from '../Share/Header';
 
@@ -19,6 +20,10 @@ import Header from '../Share/Header';
 
 
 function ReviewFilms() {
+    let history = useHistory();
+    const redirectReview = () => {
+        history.push("/review-phim");
+    }
     // const language = useSelector(selectLanguage);
     // const dispatch = useDispatch();
 

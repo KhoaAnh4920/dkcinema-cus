@@ -11,13 +11,14 @@ import { selectLanguage } from "../../redux/userSlice";
 import { LANGUAGES } from '../../utils/constant';
 import { Image, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DatePicker from '../Share/DatePicker';
+import Select from 'react-select';
 import { faAngleDoubleRight, faPlayCircle, faStar } from '@fortawesome/free-solid-svg-icons';
-import "./ChiTietPhim.scss";
 import Plyr from 'plyr-react'
 import 'plyr-react/dist/plyr.css'
 import "react-modal-video/scss/modal-video.scss";
 import { FacebookProvider, Like } from 'react-facebook';
-import Slider from "react-slick";
+import './BookTicket.scss';
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -27,8 +28,9 @@ import quang_cao_3 from '../../assets/3.jpg';
 import quang_cao_4 from '../../assets/4.jpg';
 import Footer from '../Share/Footer';
 import Header from '../Share/Header';
+import Rate from '../Share/Rate';
 import { useHistory } from "react-router-dom";
-function ChiTietPhim() {
+function BookTicketThrough() {
     let history = useHistory();
     const redirectBookTicket = () => {
         history.push("/dat-ve-qua-phim");
@@ -37,6 +39,12 @@ function ChiTietPhim() {
     const handleShowVideo = () => {
         setOpen(!open);
     }
+    const options = [
+        { value: 0, label: 'Nữ' },
+        { value: 1, label: 'Nam' },
+    ];
+    const [selectedOption, setSelectedOption] = useState(null);
+
     const trailer = {
         type: "video",
         sources: [
@@ -63,10 +71,13 @@ function ChiTietPhim() {
         console.log(language);
         dispatch(updateLanguage(language));
     }
+    const [dayBook, setDayBook] = useState(null);
+    //Rating component
+    const [rating, setRating] = useState(0);
+    const [rating1, setRating1] = useState(0);
     return (
         <>
             <Header />
-
             <div className='detail-film'>
                 <div className='container box'>
                     <div className='row row-detail'>
@@ -151,7 +162,7 @@ function ChiTietPhim() {
                                     <li ><div className="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
                                     <button className='btn-review'><a href='#'>đánh giá</a> </button>
                                     <div className='rating'>
-
+                                        <Rate />
                                     </div>
                                 </div>
 
@@ -161,50 +172,119 @@ function ChiTietPhim() {
                 </div>
 
             </div >
-            <div className='content-film container'>
-                <div className='row row-content'>
-                    <div className='col-8 col-left'>
+            <div className='content-calendar container'>
+                <div className='row row-book'>
+                    <div className='box col-8 col-left'>
                         <div className='title'>
-                            <h5>nội dung phim</h5>
+                            <h5>lịch chiếu</h5>
                         </div>
-                        <div className='content'>
-                            <p>
-                                With it installed in the code editor you are using, you can type “lorem” and then tab and it will expand into a paragraph of Lorem Ipsum placeholder text. But it can do more! You can control how much you get, place it within HTML structure as it expands, and get different bits of it in repeated elements.
-                            </p>
-                            <p>
-                                With it installed in the code editor you are using, you can type “lorem” and then tab and it will expand into a paragraph of Lorem Ipsum placeholder text. But it can do more! You can control how much you get, place it within HTML structure as it expands, and get different bits of it in repeated elements.
-                            </p>
-                            <div className='trailer'>
-                                <Plyr source={trailer} />
+                        <div className='combobox-group col-12'>
+                            <div className='row row-combobox'>
+                                <div className='form-group col-4 se-province'>
+                                    <Select
+                                        defaultValue={selectedOption}
+                                        onChange={selectedOption}
+                                        options={options}
+                                    />
+                                </div>
+                                <div className='form-group col-4 date'>
+                                    <DatePicker
+                                        className='form-coltrol'
+                                        value={dayBook}
+                                        readonly='true'
+                                        placeholder="DD/MM/YYYY"
+                                        scrollableMonthYearDropdown
+
+                                    />
+                                </div>
+                                <div className='form-group col-4'>
+                                    <Select
+                                        defaultValue={selectedOption}
+                                        onChange={selectedOption}
+                                        options={options}
+                                    />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div className='calendar-group'>
+                            <div className='calender'>
+                                <div className='title-cal'>
+                                    <h5>rạp nguyễn du</h5>
+                                </div>
+                                <div className='type-film'>
+                                    2D - Không Phụ Đề
+                                </div>
+                                <div className='form-group btn-group'>
+                                    <button>10:00</button>
+                                    <button>12:00</button>
+                                    <button>13:45</button>
+                                    <button>15:15</button>
+                                </div>
                             </div>
                         </div>
-                        <div className='discount'>
-                            <div className='title-discount'>
-                                <h5>thông tin khuyến mãi</h5>
+                        <div className='calendar-group'>
+                            <div className='calender'>
+                                <div className='title-cal'>
+                                    <h5>rạp nguyễn du</h5>
+                                </div>
+                                <div className='type-film'>
+                                    2D - Không Phụ Đề
+                                </div>
+                                <div className='form-group btn-group'>
+                                    <button>10:00</button>
+                                    <button>12:00</button>
+                                    <button>13:45</button>
+                                    <button>15:15</button>
+                                </div>
                             </div>
-                            <div className='slide-discount'>
-                                <Slider {...settings}>
-                                    <div>
-                                        <img src={quang_cao_1} />
-                                    </div>
-                                    <div>
-                                        <img src={quang_cao_2} />
-                                    </div>
-                                    <div>
-                                        <img src={quang_cao_3} />
-                                    </div>
-                                    <div>
-                                        <img src={quang_cao_4} />
-                                    </div>
-                                    {/* <div>
-                                        <img src={quang_cao_2} />
-                                    </div>
-                                    <div>
-                                        <img src={quang_cao_1} />
-                                    </div> */}
-
-
-                                </Slider>
+                        </div>
+                        <div className='calendar-group'>
+                            <div className='calender'>
+                                <div className='title-cal'>
+                                    <h5>rạp nguyễn du</h5>
+                                </div>
+                                <div className='type-film'>
+                                    2D - Không Phụ Đề
+                                </div>
+                                <div className='form-group btn-group'>
+                                    <button>10:00</button>
+                                    <button>12:00</button>
+                                    <button>13:45</button>
+                                    <button>15:15</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='calendar-group'>
+                            <div className='calender'>
+                                <div className='title-cal'>
+                                    <h5>rạp nguyễn du</h5>
+                                </div>
+                                <div className='type-film'>
+                                    2D - Không Phụ Đề
+                                </div>
+                                <div className='form-group btn-group'>
+                                    <button>10:00</button>
+                                    <button>12:00</button>
+                                    <button>13:45</button>
+                                    <button>15:15</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='calendar-group'>
+                            <div className='calender'>
+                                <div className='title-cal'>
+                                    <h5>rạp nguyễn du</h5>
+                                </div>
+                                <div className='type-film'>
+                                    2D - Không Phụ Đề
+                                </div>
+                                <div className='form-group btn-group'>
+                                    <button>10:00</button>
+                                    <button>12:00</button>
+                                    <button>13:45</button>
+                                    <button>15:15</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -233,14 +313,11 @@ function ChiTietPhim() {
                             </div>
                         </div>
                     </div>
-
                 </div>
+
             </div>
-
-
-
             <Footer />
         </>
     )
 }
-export default ChiTietPhim;
+export default BookTicketThrough
