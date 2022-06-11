@@ -3,18 +3,17 @@ import './Header.scss';
 import logo from '../../assets/DKCinema.png';
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../utils/constant';
-import { useDispatch } from "react-redux";
-import { updateLanguage } from "../../redux/userSlice";
-import { useSelector } from "react-redux";
-import { selectLanguage } from "../../redux/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectLanguage, updateLanguage, userState, processLogoutUser } from "../../redux/userSlice";
 import { Link, useHistory } from "react-router-dom";
-
+import avatar from '../../assets/man.png';
 
 
 
 export default function Header() {
 
     const language = useSelector(selectLanguage);
+    let selectUser = useSelector(userState);
     const dispatch = useDispatch();
     let history = useHistory();
 
@@ -29,6 +28,11 @@ export default function Header() {
 
     const returnToHome = () => {
         history.push("/");
+    }
+
+    const handleLogout = async () => {
+        dispatch(processLogoutUser());
+        history.push('/');
     }
 
 
@@ -55,8 +59,39 @@ export default function Header() {
                     </div>
                     <div className='right-content'>
                         <div className='child-content'>
-                            <i className="fas fa-user"></i>
-                            <div className='login-customer'><FormattedMessage id="homeHeader.login" /> / <FormattedMessage id="homeHeader.register" /></div>
+
+                            <div className='login-customer'>
+                                {
+                                    selectUser.isLoggedInUser &&
+                                    <>
+                                        <div className="dropdown dropdown-userinfo">
+                                            <div id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <img className='avatar-user' src={avatar} />
+                                                <span className='user-fullname'>{selectUser.userInfo.fullName}</span>
+                                            </div>
+                                            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a className="dropdown-item">Tài khoản</a>
+                                                <a className="dropdown-item" onClick={handleLogout}>Đăng xuất</a>
+                                            </div>
+                                        </div>
+                                    </>
+                                }
+
+                                {
+                                    !selectUser.isLoggedInUser &&
+                                    <>
+
+                                        <Link to="/login" className='nav-link login-text'>
+                                            <i className="fas fa-user" style={{ marginRight: '5px' }}> </i>
+                                            <FormattedMessage id="homeHeader.login" /> / <FormattedMessage id="homeHeader.register" />
+                                        </Link>
+
+                                    </>
+                                }
+
+
+
+                            </div>
                         </div>
                         <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}><span onClick={() => changeLanguage(LANGUAGES.VI)}>VN</span> </div>
                         <span className='dash-language'>|</span>

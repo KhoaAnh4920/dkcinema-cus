@@ -138,16 +138,18 @@ function ChiTietPhim() {
                                             <div className='info-right'>04/05/2022</div>
                                         </li>
                                     </ul>
-                                </div>
-                            </div>
-                            <div className='row row-btn'>
-                                <div className='blog'>
-                                    <button className='btn-buy'>mua vé</button>
-                                    <li><div className="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
-                                    <button>đánh giá</button>
-                                </div>
 
+                                </div>
                             </div>
+
+                            <div className='row row-btn' style={{ 'paddingLeft': '20px' }}>
+                                <div className='blog'>
+                                    <button className='btn-buy btn'>mua vé</button>
+                                    <li><div className="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
+                                    <button className='btn btn-review'>đánh giá</button>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

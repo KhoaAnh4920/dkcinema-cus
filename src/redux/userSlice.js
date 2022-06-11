@@ -4,7 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 // Khởi tạo state cho slice, có thể kèm giá trị mặc định ban đầu
 const initialState = {
-    isLoggedInUser: 'false',
+    isLoggedInUser: false,
     userInfo: null,
     language: 'vi',
     username: "Guest"  // State username với giá trị mặc định là "Guest"
@@ -25,12 +25,20 @@ export const userSlice = createSlice({
         },
         updateLanguage: (state, action) => {
             state.language = action.payload
+        },
+        userLoginSuccess: (state, action) => {
+            state.userInfo = action.payload;
+            state.isLoggedInUser = true;
+        },
+        processLogoutUser: (state) => {
+            state.userInfo = null;
+            state.isLoggedInUser = false;
         }
     }
 });
 
 // Export action ra để sử dụng cho tiện.
-export const { updateUsername, updateLanguage } = userSlice.actions;
+export const { updateUsername, updateLanguage, userLoginSuccess, processLogoutUser } = userSlice.actions;
 
 // Action là 1 hàm trả về object dạng {type, payload}, chạy thử console.log(updateUsername()) để xem chi tiết
 
@@ -39,6 +47,8 @@ export const { updateUsername, updateLanguage } = userSlice.actions;
 export const selectUser = state => state.user.isLoggedInUser;
 
 export const selectLanguage = state => state.user.language;
+
+export const userState = state => state.user;
 
 // Export reducer để nhúng vào Store
 export default userSlice.reducer;

@@ -17,7 +17,7 @@ import Footer from '../Share/Footer';
 
 
 function BookTicket() {
-    // const language = useSelector(selectLanguage);
+    const language = useSelector(selectLanguage);
     // const dispatch = useDispatch();
 
 
