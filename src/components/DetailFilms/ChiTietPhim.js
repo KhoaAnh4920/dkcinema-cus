@@ -143,19 +143,19 @@ function ChiTietPhim() {
                                             <div className='info-right'>04/05/2022</div>
                                         </li>
                                     </ul>
+
                                 </div>
                             </div>
-                            <div className='row row-btn'>
+
+                            <div className='row row-btn' style={{ 'paddingLeft': '20px' }}>
                                 <div className='blog'>
-                                    <button className='btn-buy' onClick={() => redirectBookTicket()}><a href='#'>mua vé</a></button>
-                                    <li ><div className="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
-                                    <button className='btn-review'><a href='#'>đánh giá</a> </button>
-                                    <div className='rating'>
+                                    <button className='btn-buy btn'>mua vé</button>
+                                    <li><div className="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
+                                    <button className='btn btn-review'>đánh giá</button>
 
-                                    </div>
                                 </div>
-
                             </div>
+
                         </div>
                     </div>
                 </div>

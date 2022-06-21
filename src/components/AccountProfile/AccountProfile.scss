@@ -1,0 +1,64 @@
+.show-infor {
+    .title {
+        margin-top: 50px;
+
+        h5 {
+            text-transform: uppercase;
+        }
+    }
+
+    .row-1st {
+        margin-top: 40px;
+
+        .col-infor {
+            .form-group {
+                label {
+                    text-transform: capitalize;
+                    color         : #000000;
+                    font-weight   : bold;
+                }
+            }
+        }
+    }
+
+    hr {
+        background-color: #000000;
+    }
+
+    .row-2nd {
+        .col-infor {
+            .form-group {
+                label {
+                    text-transform: capitalize;
+                    color         : #000000;
+                    font-weight   : bold;
+                }
+            }
+        }
+    }
+
+    .title-2 {
+        margin-top: 20px;
+
+        h5 {
+            text-transform: uppercase;
+        }
+    }
+
+    .row-add {
+        margin-top: 30px;
+
+        .col-add {
+            label {
+                text-transform: capitalize;
+                color         : #000000;
+                font-weight   : bold;
+            }
+        }
+    }
+
+    .btn-save {
+        display        : flex;
+        justify-content: center;
+    }
+}

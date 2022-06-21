@@ -8,6 +8,7 @@ import FilmsIntroduction from '../components/FilmsIntroduction/FilmsIntroduction
 import Login from '../components/Login/Login';
 import HoTroGiaiDap from '../components/SupportQA/HoTroGiaiDap';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { path } from '../utils/constant';
 import ChiTietPhim from '../components/DetailFilms/ChiTietPhim';
 // import { ConnectedRouter as Router } from 'connected-react-router';
@@ -15,6 +16,9 @@ import BookTicket from '../components/BuyTicket/BookTicket';
 import BuyTicket from '../components/BuyTicket/BuyTicket';
 import Payment from '../components/BuyTicket/Payment';
 import BookTicketThrough from '../components/DetailFilms/BookTicket';
+import Feedback from '../components/SupportQA/FeedBack';
+import ManageAccount from '../components/AccountProfile/AccountProfile';
+import ForgetPassword from '../components/ForgetPassword/ForgetPassword';
 
 
 
@@ -73,14 +77,30 @@ function App() {
           <Route path="/review-phim" exact component={ReviewFilms} />
           <Route path="/gioi-thieu-phim" exact component={FilmsIntroduction} />
           <Route path="/login" exact component={Login} />
-          <Route path="/giai-dap" exact component={HoTroGiaiDap} />
+          <Route path="/ho-tro" exact component={HoTroGiaiDap} />
           <Route path="/chi-tiet-phim" exact component={ChiTietPhim} />
           <Route path="/dat-ve" exact component={BookTicket} />
           <Route path="/lich-chieu" exact component={BuyTicket} />
           <Route path="/thanh-toan" exact component={Payment} />
           <Route path="/dat-ve-qua-phim" exact component={BookTicketThrough} />
+          <Route path="/phan-hoi" exact component={Feedback} />
+          <Route path="/quan-ly-tai-khoan" exact component={ManageAccount} />
+          <Route path="/quen-mat-khau" exact component={ForgetPassword} />
+
         </span>
       </div>
+
+      <ToastContainer
+        position="bottom-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </Routes>
   );
 }

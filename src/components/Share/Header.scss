@@ -331,7 +331,7 @@
 }
 
 .home-header-container {
-    height          : 90px;
+    height          : 60px;
     width           : 100%;
     padding         : 0 80px;
     top             : 0;
@@ -382,7 +382,7 @@
                     align-items    : center;
                     margin         : 0 auto;
                     padding        : 3px;
-                    width          : 100%;
+                    width          : 400px;
                     border-radius  : 30px;
                     background     : #fff;
                     border         : 1px solid #ced0da;
@@ -424,6 +424,37 @@
                     font-weight: 450;
                     font-size  : 12px;
                     margin-left: 10px;
+
+                    .login-text {
+                        color          : #000 !important;
+                        text-decoration: none !important;
+                        padding        : 0 !important;
+                    }
+
+                    .dropdown-userinfo {
+
+                        cursor: pointer;
+
+                        &:hover {
+                            color: orange;
+                        }
+
+                        .dropdown-item {
+
+                            &:hover {
+                                background-color: #fafafa;
+                                color           : orange;
+                            }
+                        }
+
+                        .avatar-user {
+                            width        : 30px;
+                            height       : 30px;
+                            margin-right : 2px;
+                            border-radius: 50%;
+                        }
+                    }
+
 
                 }
 

@@ -1,0 +1,143 @@
+.support-content {
+    padding-top: 40px;
+
+    .row-support {
+
+        .col-left {
+
+            .title-tab {
+                ul {
+                    display: flex;
+
+                    li {
+                        list-style-type: none;
+                        margin-left    : 20px;
+                        margin-right   : 20px;
+
+                        a {
+                            text-decoration: none;
+                            text-transform : uppercase;
+                            color          : #555555;
+                            font-size      : 15pt;
+                            cursor         : pointer;
+
+                            &:hover {
+                                color      : #fcaf17;
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .info {
+                margin-top  : 50px;
+                display     : flex;
+                padding-left: 22px;
+
+                p {
+                    margin-left: 40px;
+                }
+            }
+
+            .form-feedback {
+                border: 1px solid #555555;
+
+                .title {
+                    padding-left    : 20px;
+                    text-transform  : uppercase;
+                    background-color: #000000;
+                    color           : #fff;
+                    height          : 50px;
+                    line-height     : 50px
+                }
+
+                .row-feed {
+                    padding-top: 20px;
+
+                    .col-feed-left {
+                        .form-group {
+                            label {
+                                text-transform: uppercase;
+                            }
+                        }
+                    }
+
+                    .col-feed-right {
+                        .form-group {
+                            label {
+                                text-transform: uppercase;
+                            }
+                        }
+
+                        textarea {
+                            height: 225px;
+                        }
+                    }
+                }
+            }
+
+        }
+
+        .col-right {
+            .title {
+                h5 {
+                    position      : relative;
+                    text-transform: uppercase;
+                    font-size     : 13pt;
+                    color         : #000000;
+                    font-weight   : bold;
+                }
+
+                &:after {
+                    content   : "";
+                    position  : absolute;
+                    display   : block;
+                    left      : 13px;
+                    width     : 30%;
+                    height    : 3px;
+                    margin-top: -5px;
+                    background: #fcaf17;
+                }
+            }
+
+            .col-image {
+                padding-top: 20px;
+
+                .image-pdc {
+                    flex-direction: column;
+
+                    img {
+                        width: 100%;
+                    }
+
+                    .vn {
+                        text-transform: uppercase;
+                        font-weight   : bold;
+                        color         : #000000;
+                    }
+
+                    .eng {
+                        text-transform: uppercase;
+                        color         : #555555;
+
+                    }
+                }
+
+                .link-read-more {
+                    text-align: center;
+
+                    a {
+                        text-decoration: none;
+                        text-transform : uppercase;
+                        color          : #fcaf17;
+                        font-weight    : bold;
+                    }
+                }
+            }
+
+
+        }
+
+    }
+}
