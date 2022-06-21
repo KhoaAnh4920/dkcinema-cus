@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Phim1 from '../../assets/Phim1.jpg';
 import Phim2 from '../../assets/Phim2.png';
@@ -17,7 +17,7 @@ import { useDispatch } from "react-redux";
 import { updateLanguage } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
 import { selectLanguage } from "../../redux/userSlice";
-
+import { getListMovieByStatus } from '../../services/MovieServices';
 import { Image, Button } from 'react-bootstrap';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
@@ -38,9 +38,53 @@ function Home() {
     //     dispatch(updateLanguage(language));
     // }
 
+    const [buttonDefault, setButtonDefault] = useState({
+        isShowButtonDangChieu: true,
+        isShowButtonSapChieu: false,
+    });
+
+    const [allValues, setAllValues] = useState({
+        listMovie: []
+    });
+
+
+
     const redirectListFilms = () => {
         history.push("/phim-dang-chieu");
     }
+
+    const handleClickDefaultButton = e => {
+        // Call api get phim //
+
+        /// 
+
+        if (e.target.name === 'phimDangChieu') {
+            setButtonDefault({
+                isShowButtonDangChieu: true,
+                isShowButtonSapChieu: false,
+            })
+        } else {
+            setButtonDefault({
+                isShowButtonDangChieu: false,
+                isShowButtonSapChieu: true,
+            })
+        }
+    }
+
+    useEffect(() => {
+
+        async function fetchDataMovie() {
+            // You can await here
+            const dataMovie = await getListMovieByStatus(1);
+            console.log("dataMovie: ", dataMovie);
+            if (dataMovie && dataMovie.data) {
+                setAllValues({
+                    listMovie: dataMovie.data
+                })
+            }
+        }
+        fetchDataMovie();
+    }, []);
 
     return (
         <>
@@ -59,10 +103,10 @@ function Home() {
             <div className='home-content-film container-fluid'>
                 <div className='home-button container-fluid'>
                     <div className='row-button'>
-                        <button className='active'>
+                        <button className={buttonDefault.isShowButtonDangChieu ? 'active' : ''} name='phimDangChieu' onClick={handleClickDefaultButton}>
                             Phim đang chiếu
                         </button>
-                        <button>
+                        <button className={buttonDefault.isShowButtonSapChieu ? 'active' : ''} name='phimSapChieu' onClick={handleClickDefaultButton} >
                             Phim sắp chiếu
                         </button>
                     </div>
