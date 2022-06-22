@@ -33,6 +33,9 @@ export default function Header() {
     const redirectAccountProfile = () => {
         history.push("/quan-ly-tai-khoan");
     }
+    const redirectChangePassword = () => {
+        history.push("/doi-mat-khau");
+    }
     const handleLogout = async () => {
         dispatch(processLogoutUser());
         history.push('/');
@@ -74,7 +77,7 @@ export default function Header() {
                                             </div>
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a className="dropdown-item" onClick={redirectAccountProfile}>Tài khoản</a>
-                                                <a className="dropdown-item">Đổi mật khẩu</a>
+                                                <a className="dropdown-item" onClick={redirectChangePassword}>Đổi mật khẩu</a>
                                                 <a className="dropdown-item" onClick={handleLogout}>Đăng xuất</a>
                                             </div>
                                         </div>

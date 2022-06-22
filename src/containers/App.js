@@ -19,6 +19,7 @@ import BookTicketThrough from '../components/DetailFilms/BookTicket';
 import Feedback from '../components/SupportQA/FeedBack';
 import ManageAccount from '../components/AccountProfile/AccountProfile';
 import ForgetPassword from '../components/ForgetPassword/ForgetPassword';
+import ChangePassword from '../components/ChangePassword/ChangePassword';
 
 
 
@@ -86,6 +87,7 @@ function App() {
           <Route path="/phan-hoi" exact component={Feedback} />
           <Route path="/quan-ly-tai-khoan" exact component={ManageAccount} />
           <Route path="/quen-mat-khau" exact component={ForgetPassword} />
+          <Route path="/doi-mat-khau" exact component={ChangePassword} />
 
         </span>
       </div>
