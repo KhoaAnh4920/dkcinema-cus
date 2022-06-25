@@ -7,7 +7,10 @@
         "support": "SUPPORT",
         "login": "Login",
         "register": "Sign up",
-        "search": "Type what you are looking for..."
+        "search": "Type what you are looking for...",
+        "reviewFilm": "REVIEW FILM",
+        "introFilm": "INTRODUCE FILM",
+        "discount": "DISCOUNT"
     },
     "banner": {
         "title1": "NỀN TẢNG Y TẾ",

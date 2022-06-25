@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalVideo from 'react-modal-video'
 //import logo from '../../assets/DKCinema.png';
 import pdc1 from '../../assets/PDC/pdc1.jpg';
@@ -17,7 +17,9 @@ import Plyr from 'plyr-react'
 import 'plyr-react/dist/plyr.css'
 import "react-modal-video/scss/modal-video.scss";
 import { FacebookProvider, Like } from 'react-facebook';
+import { getMovieById, getListMovieByStatus } from '../../services/MovieServices';
 import Slider from "react-slick";
+import { Link, useParams } from 'react-router-dom';
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -27,25 +29,20 @@ import quang_cao_3 from '../../assets/3.jpg';
 import quang_cao_4 from '../../assets/4.jpg';
 import Footer from '../Share/Footer';
 import Header from '../Share/Header';
+import FilmShowing from '../Share/FilmShowing';
 import { useHistory } from "react-router-dom";
+import moment from 'moment';
 function ChiTietPhim() {
     let history = useHistory();
     const redirectBookTicket = () => {
         history.push("/dat-ve-qua-phim");
     }
+
     const [open, setOpen] = useState(false);
     const handleShowVideo = () => {
         setOpen(!open);
     }
-    const trailer = {
-        type: "video",
-        sources: [
-            {
-                src: "ijQGIHy88JM",
-                provider: "youtube"
-            }
-        ]
-    };
+
     var settings = {
         dots: true,
         infinite: true,
@@ -56,23 +53,93 @@ function ChiTietPhim() {
     const language = useSelector(selectLanguage);
     const dispatch = useDispatch();
 
-
+    const [allValues, setAllValues] = useState({
+        transName: '',
+        country: '',
+        language: '',
+        duration: '',
+        description: '',
+        brand: '',
+        cast: '',
+        status: 0,
+        typeMovie: [],
+        typeImage: [],
+        url: '',
+        releaseTime: 0,
+        errors: {},
+        poster: '',
+    });
+    //const urlTrailer = allValues.url;
+    //console.log(urlTrailer);
+    const trailer = {
+        type: "video",
+        sources: [
+            {
+                src: allValues.url,
+                provider: "youtube"
+            }
+        ]
+    };
+    console.log(trailer);
+    const { id } = useParams();
     const changeLanguage = (language) => {
         // fire redux event: actions
 
         console.log(language);
         dispatch(updateLanguage(language));
     }
+    async function fetchMovieById(id) {
+
+        //console.log(id);
+        let dataMovieId = await getMovieById(id);
+        let dateRe = moment(dataMovieId.data.releaseTime).format('DD-MM-YYYY');
+        console.log(dataMovieId);
+        //console.log(dateRe)
+        if (dataMovieId && dataMovieId.data) {
+            setAllValues({
+                poster: dataMovieId.data.ImageOfMovie[0].url,
+                id: id,
+                name: dataMovieId.data.name,
+                transName: dataMovieId.data.transName,
+                country: dataMovieId.data.country,
+                duration: dataMovieId.data.duration,
+                language: dataMovieId.data.language,
+                releaseTime: dateRe,
+                brand: dataMovieId.data.brand,
+                cast: dataMovieId.data.cast,
+                typeMovie: dataMovieId.data.MovieOfType,
+                typeImage: dataMovieId.data.ImageOfMovie,
+                status: dataMovieId.data.status,
+                description: dataMovieId.data.description,
+                url: dataMovieId.data.url
+            })
+        }
+
+    }
+
+    useEffect(() => {
+        fetchMovieById(id);
+    }, []);
     return (
         <>
             <Header />
 
             <div className='detail-film'>
                 <div className='container box'>
+
                     <div className='row row-detail'>
 
                         <div className='col-3 col-left'>
-                            <Image src={imgtrail} className='img-trail' />
+                            {
+                                allValues.typeImage.map((item1, index1) => {
+                                    if (item1.typeImage === 2) {
+                                        return (
+                                            <Image src={item1.url} key={index1} className='img-trail' />
+                                        )
+                                    }
+                                })
+                            }
+
                             <Button variant='link' onClick={handleShowVideo} className='btn-show'>
                                 <FontAwesomeIcon icon={faPlayCircle} className='icon-show' />
                             </Button>
@@ -81,7 +148,7 @@ function ChiTietPhim() {
                                 channel='youtube'
                                 autoplay='0'
                                 isOpen={open}
-                                videoId="ijQGIHy88JM"
+                                videoId={allValues.url}
                                 onClose={() => setOpen(false)}
                             />
                         </div>
@@ -91,7 +158,7 @@ function ChiTietPhim() {
                                     <ul>
                                         <li >
                                             <div className='title-left'>
-                                                aaaaa
+                                                {allValues.name}
                                             </div>
                                             <div className='title-right'>
                                                 aaaaa
@@ -120,27 +187,37 @@ function ChiTietPhim() {
                                     <ul>
                                         <li>
                                             <div className='info-left'>nhà sản xuất</div>
-                                            <div className='info-right'>marvel studios</div>
+                                            <div className='info-right'>{allValues.brand}</div>
                                         </li>
                                         <li>
                                             <div className='info-left'>đạo diễn</div>
-                                            <div className='info-right'>sam raimi</div>
+                                            <div className='info-right'>None</div>
                                         </li>
                                         <li>
                                             <div className='info-left'>thể loại</div>
-                                            <div className='info-right'>hành động, kinh dị, giả tưởng</div>
+                                            <div className='info-right' style={{ display: 'flex' }}>
+                                                {
+                                                    allValues.typeMovie.map((item, index) => {
+                                                        return (
+                                                            <div key={index}>{item.name + ','} &nbsp; </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+
                                         </li>
+                                        <div className='info-right'></div>
                                         <li>
                                             <div className='info-left'>diễn viên</div>
-                                            <div className='info-right'>Benedict Cumberbatch, Elizabeth Olsen, Rachel McAdams, Patrick Stewart, Chiwetel Ejiofor, Benedict Wong</div>
+                                            <div className='info-right'>{allValues.cast}</div>
                                         </li>
                                         <li>
                                             <div className='info-left'>quốc gia</div>
-                                            <div className='info-right'>mỹ</div>
+                                            <div className='info-right'>{allValues.country}</div>
                                         </li>
                                         <li>
                                             <div className='info-left'>ngày khởi chiếu</div>
-                                            <div className='info-right'>04/05/2022</div>
+                                            <div className='info-right'>{allValues.releaseTime}</div>
                                         </li>
                                     </ul>
 
@@ -169,10 +246,7 @@ function ChiTietPhim() {
                         </div>
                         <div className='content'>
                             <p>
-                                With it installed in the code editor you are using, you can type “lorem” and then tab and it will expand into a paragraph of Lorem Ipsum placeholder text. But it can do more! You can control how much you get, place it within HTML structure as it expands, and get different bits of it in repeated elements.
-                            </p>
-                            <p>
-                                With it installed in the code editor you are using, you can type “lorem” and then tab and it will expand into a paragraph of Lorem Ipsum placeholder text. But it can do more! You can control how much you get, place it within HTML structure as it expands, and get different bits of it in repeated elements.
+                                {allValues.description}
                             </p>
                             <div className='trailer'>
                                 <Plyr source={trailer} />
@@ -208,31 +282,7 @@ function ChiTietPhim() {
                             </div>
                         </div>
                     </div>
-                    <div className='col-4 col-right'>
-                        <div className='title'>
-                            <h5>phim đang chiếu</h5>
-                        </div>
-                        <div className='col-image'>
-                            <div className='image-pdc'>
-                                <img src={pdc1} />
-                                <p className='vn'>tên tiếng anh</p>
-                                <p className='eng'>tên tiếng việt</p>
-                            </div>
-                            <div className='image-pdc'>
-                                <img src={pdc1} />
-                                <p className='vn'>tên tiếng anh</p>
-                                <p className='eng'>tên tiếng việt</p>
-                            </div>
-                            <div className='image-pdc'>
-                                <img src={pdc1} />
-                                <p className='vn'>tên tiếng anh</p>
-                                <p className='eng'>tên tiếng việt</p>
-                            </div>
-                            <div className='link-read-more'>
-                                <a href='#'>Xem Thêm</a>
-                            </div>
-                        </div>
-                    </div>
+                    <FilmShowing />
 
                 </div>
             </div>

@@ -44,10 +44,12 @@
 
                                 .title-left {
                                     width: 20%;
+                                    color: #ffffff;
                                 }
 
                                 .title-right {
                                     width: 80%;
+                                    color: #ffffff;
                                 }
                             }
                         }
@@ -66,10 +68,12 @@
 
                                 .seen-left {
                                     width: 20%;
+                                    color: #ffffff;
                                 }
 
                                 .seen-right {
                                     width: 80%;
+                                    color: #ffffff;
                                 }
                             }
                         }
@@ -165,7 +169,7 @@
                         }
 
                         .btn-review {
-                            width        : 100px;
+                            width        : 120px;
                             height       : 40px;
                             border-radius: 5px;
 
@@ -186,17 +190,17 @@
 
                         .btn-buy {
                             background-color: orange;
-                            color: #fff;
-                            text-transform: uppercase;
-                            width: 150px;
+                            color           : #fff;
+                            text-transform  : uppercase;
+                            width           : 150px;
                         }
 
                         .btn-review {
-                            margin-left: 30px;
+                            margin-left     : 30px;
                             background-color: #fff;
-                            color: #000;
-                            text-transform: uppercase;
-                            width: 150px;
+                            color           : #000;
+                            text-transform  : uppercase;
+                            width           : 150px;
                         }
 
 
@@ -315,63 +319,6 @@
 
         }
 
-        .col-right {
-            .title {
-                h5 {
-                    position      : relative;
-                    text-transform: uppercase;
-                    font-size     : 13pt;
-                    color         : #000000;
-                    font-weight   : bold;
-                }
 
-                &:after {
-                    content   : "";
-                    position  : absolute;
-                    display   : block;
-                    left      : 13px;
-                    width     : 30%;
-                    height    : 3px;
-                    background: #fcaf17;
-                }
-            }
-
-            .col-image {
-                padding-top: 20px;
-
-                .image-pdc {
-                    flex-direction: column;
-
-                    img {
-                        width: 100%;
-                    }
-
-                    .vn {
-                        text-transform: uppercase;
-                        font-weight   : bold;
-                        color         : #000000;
-                    }
-
-                    .eng {
-                        text-transform: uppercase;
-                        color         : #555555;
-
-                    }
-                }
-
-                .link-read-more {
-                    text-align: center;
-
-                    a {
-                        text-decoration: none;
-                        text-transform : uppercase;
-                        color          : #fcaf17;
-                        font-weight    : bold;
-                    }
-                }
-            }
-
-
-        }
     }
 }

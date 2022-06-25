@@ -52,10 +52,18 @@ function Home() {
     const redirectListFilms = () => {
         history.push("/phim-dang-chieu");
     }
+    const getDetailMovie = (id) => {
+        //alert(id);
+        history.push(`/chi-tiet-phim/${id}`);
+    }
 
-    const handleClickDefaultButton = e => {
+    const handleClickDefaultButton = async e => {
         // Call api get phim //
-
+        if (buttonDefault.isShowButtonDangChieu) {
+            await fetchDataMovie(0)
+        } else {
+            await fetchDataMovie(1)
+        }
         /// 
 
         if (e.target.name === 'phimDangChieu') {
@@ -71,19 +79,20 @@ function Home() {
         }
     }
 
-    useEffect(() => {
+    async function fetchDataMovie(status) {
+        // You can await here
+        const dataMovie = await getListMovieByStatus(status);
+        console.log("dataMovie: ", dataMovie);
 
-        async function fetchDataMovie() {
-            // You can await here
-            const dataMovie = await getListMovieByStatus(1);
-            console.log("dataMovie: ", dataMovie);
-            if (dataMovie && dataMovie.data) {
-                setAllValues({
-                    listMovie: dataMovie.data
-                })
-            }
+        if (dataMovie && dataMovie.data) {
+            setAllValues({
+                listMovie: dataMovie.data
+            })
         }
-        fetchDataMovie();
+    }
+
+    useEffect(() => {
+        fetchDataMovie(1);
     }, []);
 
     return (
@@ -114,82 +123,38 @@ function Home() {
                 <div className='background'>
                     <div className='row-film'>
                         <div className='row'>
-                            <div className='col-4 col-image'>
-                                <div className='image'>
-                                    <Image src={pdc1} className='image__img' />
-                                    <div className='image__overlay image__overlay--primary'>
-                                        <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
-                                    </div>
+                            {
+                                allValues.listMovie && allValues.listMovie.length > 0 &&
+                                allValues.listMovie.map((item, index) => {
 
-                                </div>
-                                <div className='text'>
-                                    <Link to="/chi-tiet-phim" className='name-films'><p>Đốc Tờ Trang Nè</p> </Link>
+                                    return (
+                                        <div className='col-4 col-image' >
+                                            <div className='image'>
+                                                {
+                                                    item.ImageOfMovie.map((item1, index1) => {
+                                                        if (item1.typeImage === 1) {
+                                                            return (
+                                                                <Image style={{ height: '250px', width: '80%' }} src={item1.url} className='image__img' key={index1} />
+                                                            )
+                                                        }
+                                                    })
+                                                }
 
-                                </div>
+                                                <div className='image__overlay image__overlay--primary'>
+                                                    <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
+                                                </div>
 
-                            </div>
-                            <div className='col-4 col-image'>
-                                <div className='image'>
-                                    <Image src={pdc2} className='image__img' />
-                                    <div className='image__overlay image__overlay--primary'>
-                                        <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
-                                    </div>
-                                </div>
-                                <div className='text'>
-                                    <Link to="/chi-tiet-phim" className='name-films'><p>Đốc Tờ Trang Nè</p> </Link>
-                                </div>
+                                            </div>
+                                            <div className='text-detail'>
+                                                <p onClick={() => { getDetailMovie(item.id) }} >{item.name}</p>
+                                            </div>
 
-                            </div>
-                            <div className='col-4 col-image'>
-                                <div className='image'>
-                                    <Image src={pdc3} className='image__img' />
-                                    <div className='image__overlay image__overlay--primary'>
-                                        <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
-                                    </div>
-                                </div>
-                                <div className='text'>
-                                    <Link to="/chi-tiet-phim" className='name-films'><p>Đốc Tờ Trang Nè</p> </Link>
-                                </div>
-                            </div>
+                                        </div>
+                                    )
+
+                                })
+                            }
                         </div>
-                    </div>
-                    <div className='row-film '>
-                        <div className='row'>
-                            <div className='col-4 col-image'>
-                                <div className='image'>
-                                    <Image src={pdc1} className='image__img' />
-                                    <div className='image__overlay image__overlay--primary'>
-                                        <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
-                                    </div>
-                                </div>
-                                <div className='text'>
-                                    <Link to="/chi-tiet-phim" className='name-films'><p>Đốc Tờ Trang Nè</p> </Link>
-                                </div>
-                            </div>
-                            <div className='col-4 col-image'>
-                                <div className='image'>
-                                    <Image src={pdc2} className='image__img' />
-                                    <div className='image__overlay image__overlay--primary'>
-                                        <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
-                                    </div>
-                                </div>
-                                <div className='text'>
-                                    <Link to="/chi-tiet-phim" className='name-films'><p>Đốc Tờ Trang Nè</p> </Link>
-                                </div>
-                            </div>
-                            <div className='col-4 col-image'>
-                                <div className='image'>
-                                    <Image src={pdc3} className='image__img' />
-                                    <div className='image__overlay image__overlay--primary'>
-                                        <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
-                                    </div>
-                                </div>
-                                <div className='text'>
-                                    <Link to="/chi-tiet-phim" className='name-films'><p>Đốc Tờ Trang Nè</p> </Link>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
 

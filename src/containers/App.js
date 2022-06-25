@@ -20,6 +20,7 @@ import Feedback from '../components/SupportQA/FeedBack';
 import ManageAccount from '../components/AccountProfile/AccountProfile';
 import ForgetPassword from '../components/ForgetPassword/ForgetPassword';
 import ChangePassword from '../components/ChangePassword/ChangePassword';
+import DetailReviewFilm from '../components/ReviewMovie/DetailReviewFilm';
 
 
 
@@ -79,7 +80,7 @@ function App() {
           <Route path="/gioi-thieu-phim" exact component={FilmsIntroduction} />
           <Route path="/login" exact component={Login} />
           <Route path="/ho-tro" exact component={HoTroGiaiDap} />
-          <Route path="/chi-tiet-phim" exact component={ChiTietPhim} />
+          <Route path="/chi-tiet-phim/:id" exact component={ChiTietPhim} />
           <Route path="/dat-ve" exact component={BookTicket} />
           <Route path="/lich-chieu" exact component={BuyTicket} />
           <Route path="/thanh-toan" exact component={Payment} />
@@ -88,7 +89,7 @@ function App() {
           <Route path="/quan-ly-tai-khoan" exact component={ManageAccount} />
           <Route path="/quen-mat-khau" exact component={ForgetPassword} />
           <Route path="/doi-mat-khau" exact component={ChangePassword} />
-
+          <Route path="/chi-tiet-review" exact component={DetailReviewFilm} />
         </span>
       </div>
 

@@ -1,0 +1,42 @@
+.con-de {
+    max-width: 1400px;
+
+    .row-de {
+        margin-top: 50px;
+
+        .col-de-left {
+            padding-right: 50px;
+
+            .row-de-1 {}
+
+            .row-content-de {
+                text-align: justify;
+
+            }
+
+            .row-content-readmore {
+                text-align: justify;
+                overflow  : hidden;
+                max-height: 0;
+            }
+
+            .active-readmore {
+                max-height: fit-content !important;
+            }
+
+            .btn-readmore-de {
+                justify-content: center;
+            }
+
+            .comment-film {
+                .form-cmt {
+                    .area-51 {
+                        width        : 100%;
+                        height       : 100px;
+                        border-radius: 10px;
+                    }
+                }
+            }
+        }
+    }
+}

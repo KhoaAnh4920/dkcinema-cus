@@ -150,67 +150,65 @@
                         align-items: center;
                         cursor     : pointer;
 
-                    }
-
-
-
-                    .image {
-                        position       : relative;
-                        width          : 100%;
-                        justify-content: center;
-                        align-items    : center;
-                        display        : flex;
-
-
-
-                        .image__img {
-                            display: block;
-                            width  : 80%;
-
-                        }
-
-                        .image__overlay {
-                            position       : absolute;
-                            width          : 80%;
-                            height         : 100%;
-                            background     : rgba(0, 0, 0, 0.6);
-                            color          : #ffffff;
-                            font-family    : 'Quicksand', sans-serif;
-                            display        : flex;
-                            flex-direction : column;
-                            align-items    : center;
+                        .image {
+                            position       : relative;
+                            width          : 100%;
                             justify-content: center;
-                            opacity        : 0;
-                            transition     : opacity 0.25s;
+                            align-items    : center;
+                            display        : flex;
 
-                            --blur {
-                                backdrop-filter: blur(5px);
+
+
+                            .image__img {
+                                display: block;
+                                width  : 80%;
+                                height : 250px;
+
                             }
 
-                            >* {
-                                transform : translateY(20px);
-                                transition: transform 0.25s;
+                            .image__overlay {
+                                position       : absolute;
+                                width          : 80%;
+                                height         : 100%;
+                                background     : rgba(0, 0, 0, 0.6);
+                                color          : #ffffff;
+                                font-family    : 'Quicksand', sans-serif;
+                                display        : flex;
+                                flex-direction : column;
+                                align-items    : center;
+                                justify-content: center;
+                                opacity        : 0;
+                                transition     : opacity 0.25s;
+
+                                --blur {
+                                    backdrop-filter: blur(5px);
+                                }
+
+                                >* {
+                                    transform : translateY(20px);
+                                    transition: transform 0.25s;
+                                }
+
                             }
 
-                        }
-
-                        .image__overlay--primary {
-                            backdrop-filter: blur(2px);
-                        }
-                    }
-
-                    .text {
-                        padding: 10px 45px;
-
-                        a {
-                            color          : #fff;
-                            text-decoration: none;
-
-                            &:hover {
-                                color: orange;
+                            .image__overlay--primary {
+                                backdrop-filter: blur(2px);
                             }
                         }
 
+                        .text-detail {
+                            padding                : 10px 45px;
+                            color                  : #ffffff;
+                            // p {
+                            //     background-color: #ffffff;
+                            //     text-decoration : none;
+
+                            //     &:hover {
+                            //         color: orange;
+                            //     }
+                            // }
+
+                        }
                     }
 
                     .image__overlay:hover {
@@ -794,10 +792,11 @@
                     }
                 }
 
-                .text {
+                .text-detail {
                     padding: 10px 45px;
+                    color  : #ffffff;
 
-                    a {
+                    p {
                         color          : #fff;
                         text-decoration: none;
 

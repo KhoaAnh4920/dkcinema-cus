@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../../assets/DKCinema.png';
 import Phim1 from '../../assets/Phim1.jpg';
 import Phim2 from '../../assets/Phim2.png';
@@ -11,6 +11,7 @@ import { updateLanguage } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
 import { selectLanguage } from "../../redux/userSlice";
 import { LANGUAGES } from '../../utils/constant';
+import { getListMovieByStatus } from '../../services/MovieServices';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
 
@@ -28,7 +29,23 @@ function BuyTicket() {
     //     console.log(language);
     //     dispatch(updateLanguage(language));
     // }
+    const [allValues, setAllValues] = useState({
+        listMovie: [],
+    });
+    async function fetchDataMovie(status) {
+        // You can await here
+        const dataMovie = await getListMovieByStatus(status);
+        console.log("dataMovie: ", dataMovie);
 
+        if (dataMovie && dataMovie.data) {
+            setAllValues({
+                listMovie: dataMovie.data
+            })
+        }
+    }
+    useEffect(() => {
+        fetchDataMovie(1);
+    }, [])
     return (
         <>
             <Header />
@@ -44,48 +61,28 @@ function BuyTicket() {
                                             <h4 className="panel-title">Chọn phim</h4>
                                         </div>
                                         <ul className='list-group'>
-                                            <li className='movie-item'>
-                                                <div className='showtimes-row'>
-                                                    <img src="https://cdn.galaxycine.vn/media/2022/4/27/1350x900---copy_1651029903245.jpg" className="error" data-was-processed="true" />
-                                                    <i className="icon-c13"></i>
-                                                    <div className="title-movie"><p className="upper-text ng-binding">Doctor Strange In The Multiverse Of Madness</p><p className="vn upper-text ng-binding">Phù Thủy Tối Thượng Trong Đa Vũ Trụ Hỗn Loạn</p></div>
-                                                </div>
-                                            </li>
-                                            <li className='movie-item'>
-                                                <div className='showtimes-row'>
-                                                    <img src="https://cdn.galaxycine.vn/media/2022/4/27/1350x900---copy_1651029903245.jpg" className="error" data-was-processed="true" />
-                                                    <i className="icon-c13"></i>
-                                                    <div className="title-movie"><p className="upper-text ng-binding">Doctor Strange In The Multiverse Of Madness</p><p className="vn upper-text ng-binding">Phù Thủy Tối Thượng Trong Đa Vũ Trụ Hỗn Loạn</p></div>
-                                                </div>
-                                            </li>
-                                            <li className='movie-item'>
-                                                <div className='showtimes-row'>
-                                                    <img src="https://cdn.galaxycine.vn/media/2022/4/27/1350x900---copy_1651029903245.jpg" className="error" data-was-processed="true" />
-                                                    <i className="icon-c13"></i>
-                                                    <div className="title-movie"><p className="upper-text ng-binding">Doctor Strange In The Multiverse Of Madness</p><p className="vn upper-text ng-binding">Phù Thủy Tối Thượng Trong Đa Vũ Trụ Hỗn Loạn</p></div>
-                                                </div>
-                                            </li>
-                                            <li className='movie-item'>
-                                                <div className='showtimes-row'>
-                                                    <img src="https://cdn.galaxycine.vn/media/2022/4/27/1350x900---copy_1651029903245.jpg" className="error" data-was-processed="true" />
-                                                    <i className="icon-c13"></i>
-                                                    <div className="title-movie"><p className="upper-text ng-binding">Doctor Strange In The Multiverse Of Madness</p><p className="vn upper-text ng-binding">Phù Thủy Tối Thượng Trong Đa Vũ Trụ Hỗn Loạn</p></div>
-                                                </div>
-                                            </li>
-                                            <li className='movie-item'>
-                                                <div className='showtimes-row'>
-                                                    <img src="https://cdn.galaxycine.vn/media/2022/4/27/1350x900---copy_1651029903245.jpg" className="error" data-was-processed="true" />
-                                                    <i className="icon-c13"></i>
-                                                    <div className="title-movie"><p className="upper-text ng-binding">Doctor Strange In The Multiverse Of Madness</p><p className="vn upper-text ng-binding">Phù Thủy Tối Thượng Trong Đa Vũ Trụ Hỗn Loạn</p></div>
-                                                </div>
-                                            </li>
-                                            <li className='movie-item'>
-                                                <div className='showtimes-row'>
-                                                    <img src="https://cdn.galaxycine.vn/media/2022/4/27/1350x900---copy_1651029903245.jpg" className="error" data-was-processed="true" />
-                                                    <i className="icon-c13"></i>
-                                                    <div className="title-movie"><p className="upper-text ng-binding">Doctor Strange In The Multiverse Of Madness</p><p className="vn upper-text ng-binding">Phù Thủy Tối Thượng Trong Đa Vũ Trụ Hỗn Loạn</p></div>
-                                                </div>
-                                            </li>
+                                            {
+                                                allValues.listMovie && allValues.listMovie.length > 0 &&
+                                                allValues.listMovie.map((item, index) => {
+                                                    return (
+                                                        <li className='movie-item'>
+                                                            <div className='showtimes-row'>
+                                                                {
+                                                                    item.ImageOfMovie.map((item1, index1) => {
+                                                                        if (item1.typeImage === 1) {
+                                                                            return (
+                                                                                <img src={item1.url} key={index1} className="error" data-was-processed="true" />
+                                                                            )
+                                                                        }
+                                                                    })
+                                                                }
+                                                                <i className="icon-c13"></i>
+                                                                <div className="title-movie"><p className="upper-text ng-binding">{item.name}</p><p className="vn upper-text ng-binding">{item.transName}</p></div>
+                                                            </div>
+                                                        </li>
+                                                    )
+                                                })
+                                            }
                                         </ul>
                                     </div>
                                 </div>

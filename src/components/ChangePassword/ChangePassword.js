@@ -29,13 +29,6 @@ function ChangePassword() {
                                     placeholder="" name='phone'
                                     id='exampleInputEmail' />
                             </div>
-                            <div className='text-warning form-group col-12'>
-                                <div className='col-3'>&nbsp;</div>
-                                <div className='col-9'>
-                                    mã xác nhận đã được gửi qua email của bạn
-                                </div>
-
-                            </div>
                             <div className="form-group col-12">
                                 <div className='col-3'></div>
                                 <button className='col-9 btn-change'>đổi mật khẩu</button>

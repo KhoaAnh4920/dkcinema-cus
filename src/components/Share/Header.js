@@ -124,10 +124,10 @@ export default function Header() {
                                 <Link to="/lich-chieu" className='nav-link'><FormattedMessage id="homeHeader.buyTicket" /></Link>
                             </li>
                             <li className="nav-item ">
-                                <Link to="/" className='nav-link'><FormattedMessage id="homeHeader.movie" /></Link>
+                                <Link to="/phim-dang-chieu" className='nav-link'><FormattedMessage id="homeHeader.movie" /></Link>
                             </li>
                             <li className="nav-item ">
-                                <Link to="/" className='nav-link'><FormattedMessage id="homeHeader.news" /></Link>
+                                <Link to="#" className='nav-link'><FormattedMessage id="homeHeader.news" /></Link>
                                 <div className="drop-down-menu">
                                     <ul className="sub-navbar-nav">
                                         <li className="sub-nav-item">
@@ -135,6 +135,9 @@ export default function Header() {
                                         </li>
                                         <li className="sub-nav-item">
                                             <Link to="/" className='sub-nav-link'><FormattedMessage id="homeHeader.introFilm" /></Link>
+                                        </li>
+                                        <li className="sub-nav-item">
+                                            <Link to="/" className='sub-nav-link'><FormattedMessage id="homeHeader.discount" /></Link>
                                         </li>
                                     </ul>
                                 </div>
