@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from '../../assets/DKCinema.png';
 import './BookTicket.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
@@ -12,6 +12,7 @@ import Table from 'react-bootstrap/Table';
 import $ from "jquery";
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
+import { getAllCombo } from '../../services/ComboService';
 
 
 
@@ -35,7 +36,21 @@ function BookTicket() {
             input[0][isNegative ? 'stepDown' : 'stepUp']()
         }
     }
-
+    const [allCombo, setAllCombo] = useState({
+        listCombo: [],
+    })
+    async function fetchDataCombo() {
+        const dataCombos = await getAllCombo();
+        console.log("data Combo", dataCombos);
+        if (dataCombos && dataCombos.dataCombo) {
+            setAllCombo({
+                listCombo: dataCombos.dataCombo
+            })
+        }
+    }
+    useEffect(() => {
+        fetchDataCombo();
+    }, []);
     return (
         <>
             <Header />
@@ -77,7 +92,7 @@ function BookTicket() {
                                             <td>90.000</td>
                                             <td>90.000</td>
                                         </tr>
-                                        <tr>
+                                        {/* <tr>
                                             <td>Vé 2D-Thành viên</td>
                                             <td>
                                                 <div class="input-group inline-group">
@@ -116,7 +131,7 @@ function BookTicket() {
                                             </td>
                                             <td>200.000</td>
                                             <td>0</td>
-                                        </tr>
+                                        </tr> */}
                                         <tr>
                                             <td>Thành Tiền</td>
                                             <td></td>
@@ -138,27 +153,35 @@ function BookTicket() {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Combo Family 1: 1 bắp + 3 nước + 1 snack</td>
-                                            <td>
-                                                <div class="input-group inline-group">
-                                                    <div class="input-group-prepend">
-                                                        <button class="btn btn-outline-secondary btn-minus" onClick={(e) => test(e)}>
-                                                            <i class="fa fa-minus"></i>
-                                                        </button>
-                                                    </div>
-                                                    <input class="form-control quantity" min="0" name="quantity" value="1" type="number" />
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-secondary btn-plus" onClick={(e) => test(e)}>
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>90.000</td>
-                                            <td>90.000</td>
-                                        </tr>
-                                        <tr>
+                                        {
+                                            allCombo.listCombo && allCombo.listCombo.length > 0
+                                            && allCombo.listCombo.map((item, index) => {
+                                                return (
+                                                    <tr key={index}>
+                                                        <td>{item.name}</td>
+                                                        <td>
+                                                            <div class="input-group inline-group">
+                                                                <div class="input-group-prepend">
+                                                                    <button class="btn btn-outline-secondary btn-minus" onClick={(e) => test(e)}>
+                                                                        <i class="fa fa-minus"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <input class="form-control quantity" min="0" name="quantity" value="1" type="number" />
+                                                                <div class="input-group-append">
+                                                                    <button class="btn btn-outline-secondary btn-plus" onClick={(e) => test(e)}>
+                                                                        <i class="fa fa-plus"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td>{item.price}</td>
+                                                        <td>{item.price}</td>
+                                                    </tr>
+                                                )
+                                            })
+                                        }
+
+                                        {/* <tr>
                                             <td>Combo Family 2: 2 bắp + 4 nước + 2 snack</td>
                                             <td>
                                                 <div class="input-group inline-group">
@@ -197,7 +220,7 @@ function BookTicket() {
                                             </td>
                                             <td>200.000</td>
                                             <td>0</td>
-                                        </tr>
+                                        </tr> */}
                                         <tr>
                                             <td>Thành Tiền</td>
                                             <td></td>
