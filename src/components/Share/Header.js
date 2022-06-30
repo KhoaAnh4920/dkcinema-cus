@@ -134,10 +134,10 @@ export default function Header() {
                                             <Link to="/review-phim" className='sub-nav-link'><FormattedMessage id="homeHeader.reviewFilm" /></Link>
                                         </li>
                                         <li className="sub-nav-item">
-                                            <Link to="/" className='sub-nav-link'><FormattedMessage id="homeHeader.introFilm" /></Link>
+                                            <Link to="/gioi-thieu-phim" className='sub-nav-link'><FormattedMessage id="homeHeader.introFilm" /></Link>
                                         </li>
                                         <li className="sub-nav-item">
-                                            <Link to="/" className='sub-nav-link'><FormattedMessage id="homeHeader.discount" /></Link>
+                                            <Link to="/khuyen-mai" className='sub-nav-link'><FormattedMessage id="homeHeader.discount" /></Link>
                                         </li>
                                     </ul>
                                 </div>

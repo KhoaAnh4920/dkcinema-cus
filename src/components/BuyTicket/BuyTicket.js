@@ -12,8 +12,13 @@ import { useSelector } from "react-redux";
 import { selectLanguage } from "../../redux/userSlice";
 import { LANGUAGES } from '../../utils/constant';
 import { getListMovieByStatus } from '../../services/MovieServices';
+import { getListTheater } from '../../services/MovieTheaterServices';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
+import { getListScheduleByFilm } from '../../services/ScheduleService';
+import moment from 'moment';
+import { useHistory, useParams } from "react-router-dom";
+
 
 
 
@@ -29,22 +34,60 @@ function BuyTicket() {
     //     console.log(language);
     //     dispatch(updateLanguage(language));
     // }
+    let history = useHistory();
+    // const redirectSelectSeat = () => {
+    //     history.push('/');
+    // }
+    const [showTheater, setShowTheater] = useState(false);
+    const handleOnclick = () => {
+        setShowTheater(true);
+    }
     const [allValues, setAllValues] = useState({
         listMovie: [],
+        dataID: '',
     });
+    const [allValuesTheater, setAllValuesTheater] = useState({
+        listTheater: [],
+    });
+    const [allSchedule, setAllSchedule] = useState({
+        listSchedule: [],
+    })
+    const { idFilm, idTheater } = useParams();
+
+
     async function fetchDataMovie(status) {
         // You can await here
         const dataMovie = await getListMovieByStatus(status);
-        console.log("dataMovie: ", dataMovie);
+        //console.log("dataMovie: ", dataMovie);
 
         if (dataMovie && dataMovie.data) {
             setAllValues({
-                listMovie: dataMovie.data
+                listMovie: dataMovie.data,
+                dataID: dataMovie.data.id
             })
         }
     }
+
+    async function fetchDataTheater() {
+        const dataTheater = await getListTheater();
+        //console.log("data theater", dataTheater);
+        if (dataTheater && dataTheater.movie) {
+            setAllValuesTheater({
+                listTheater: dataTheater.movie
+            })
+        }
+    }
+    async function fetchDataSchedule(idFilm, idTheater) {
+        const dataSchedule = await getListScheduleByFilm(idFilm, idTheater);
+        console.log("Data Schedule", dataSchedule);
+        // const day = moment().format("DD-MM-YYYY");
+        // console.log(day);
+    }
+
     useEffect(() => {
         fetchDataMovie(1);
+        fetchDataTheater();
+        fetchDataSchedule(5, 1);
     }, [])
     return (
         <>
@@ -65,7 +108,7 @@ function BuyTicket() {
                                                 allValues.listMovie && allValues.listMovie.length > 0 &&
                                                 allValues.listMovie.map((item, index) => {
                                                     return (
-                                                        <li className='movie-item'>
+                                                        <li className='movie-item' key={index} onClick={() => { handleOnclick(item.id) }}>
                                                             <div className='showtimes-row'>
                                                                 {
                                                                     item.ImageOfMovie.map((item1, index1) => {
@@ -92,23 +135,23 @@ function BuyTicket() {
                                         <div className="panel-heading">
                                             <h4 className="panel-title">Chọn rạp</h4>
                                         </div>
-                                        <ul className='list-group'>
-                                            <li className='movie-item'>
-                                                <div className='showtimes-row'>
-                                                    <div className="title-movie"><p className="upper-text ng-binding">Rạp phim 1</p></div>
-                                                </div>
-                                            </li>
-                                            <li className='movie-item'>
-                                                <div className='showtimes-row'>
-                                                    <div className="title-movie"><p className="upper-text ng-binding">Rạp phim 2</p></div>
-                                                </div>
-                                            </li>
-                                            <li className='movie-item'>
-                                                <div className='showtimes-row'>
-                                                    <div className="title-movie"><p className="upper-text ng-binding">Rạp phim 3</p></div>
-                                                </div>
-                                            </li>
-                                        </ul>
+                                        {
+                                            showTheater && <ul className='list-group' >
+                                                {
+                                                    allValuesTheater.listTheater && allValuesTheater.listTheater.length > 0
+                                                    && allValuesTheater.listTheater.map((item, index) => {
+                                                        return (
+                                                            <li className='movie-item'>
+                                                                <div className='showtimes-row'>
+                                                                    <div className="title-movie"><p className="upper-text ng-binding">{item.tenRap}</p></div>
+                                                                </div>
+                                                            </li>
+                                                        )
+                                                    })
+                                                }
+                                            </ul>
+                                        }
+
                                     </div>
                                 </div>
 

@@ -38,8 +38,7 @@ function Rating() {
                             }}
                         />
                     )
-                })}
-                <p>có {curValue} sao</p>
+                })}&nbsp;{curValue}/10
             </div>
         </>
     );

@@ -21,6 +21,9 @@ import ManageAccount from '../components/AccountProfile/AccountProfile';
 import ForgetPassword from '../components/ForgetPassword/ForgetPassword';
 import ChangePassword from '../components/ChangePassword/ChangePassword';
 import DetailReviewFilm from '../components/ReviewMovie/DetailReviewFilm';
+import DetailFilmIntro from '../components/FilmsIntroduction/DetailFilmIntro';
+import DiscountList from '../components/Discount/DiscountList';
+import DetailDiscount from '../components/Discount/DetailDiscount';
 
 
 
@@ -90,6 +93,9 @@ function App() {
           <Route path="/quen-mat-khau" exact component={ForgetPassword} />
           <Route path="/doi-mat-khau" exact component={ChangePassword} />
           <Route path="/chi-tiet-review" exact component={DetailReviewFilm} />
+          <Route path="/chi-tiet-intro" exact component={DetailFilmIntro} />
+          <Route path="/khuyen-mai" exact component={DiscountList} />
+          <Route path="/chi-tiet-khuyen-mai" exact component={DetailDiscount} />
         </span>
       </div>
 

@@ -1,0 +1,34 @@
+.con-intro-de {
+    max-width: 1400px;
+
+    .row-intro-de {
+        margin-top: 40px;
+
+        .col-de-intro-left {
+            .title-intro-de {
+                text-transform: uppercase;
+                font-weight   : 700;
+            }
+
+            .fb-like {
+                span {
+                    iframe {
+                        width: 160px !important;
+
+                    }
+                }
+            }
+
+            .content-intro-de {
+                p {
+                    text-align: justify;
+                    font-size : 13pt;
+                }
+
+                .img-intro-de {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
