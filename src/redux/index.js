@@ -2,6 +2,7 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./userSlice";
+import bookingReducer from "./BookingSlice";
 
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
@@ -13,6 +14,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
 const reducers = combineReducers({
     user: userReducer,
+    booking: bookingReducer
 });
 
 // whitelist

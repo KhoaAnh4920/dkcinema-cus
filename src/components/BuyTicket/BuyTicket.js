@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../../assets/DKCinema.png';
-import Phim1 from '../../assets/Phim1.jpg';
-import Phim2 from '../../assets/Phim2.png';
+// import logo from '../../assets/DKCinema.png';
+// import Phim1 from '../../assets/Phim1.jpg';
+// import Phim2 from '../../assets/Phim2.png';
 import './BuyTicket.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
@@ -11,6 +11,7 @@ import { updateLanguage } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
 import { selectLanguage } from "../../redux/userSlice";
 import { LANGUAGES } from '../../utils/constant';
+import { updateDataBooking } from "../../redux/BookingSlice";
 import { getListMovieByStatus } from '../../services/MovieServices';
 import { getListTheater } from '../../services/MovieTheaterServices';
 import Header from '../Share/Header';
@@ -22,10 +23,9 @@ import { useHistory, useParams } from "react-router-dom";
 
 
 
-
 function BuyTicket() {
     // const language = useSelector(selectLanguage);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
 
     // const changeLanguage = (language) => {
@@ -38,21 +38,27 @@ function BuyTicket() {
     // const redirectSelectSeat = () => {
     //     history.push('/');
     // }
-    const [showTheater, setShowTheater] = useState(false);
-    const handleOnclick = () => {
-        setShowTheater(true);
-    }
+    // const [isShowTheaer, setisShowTheaer] = useState(false);
+
     const [allValues, setAllValues] = useState({
+        isShowTheaer: false,
         listMovie: [],
         dataID: '',
-    });
-    const [allValuesTheater, setAllValuesTheater] = useState({
         listTheater: [],
-    });
-    const [allSchedule, setAllSchedule] = useState({
         listSchedule: [],
-    })
-    const { idFilm, idTheater } = useParams();
+        listSchedule2: [
+            {
+                premiereDate: '',
+                data: []
+            }
+        ],
+        movieId: null,
+        theaterId: null,
+        scheduleId: null
+    });
+
+
+
 
 
     async function fetchDataMovie(status) {
@@ -61,20 +67,24 @@ function BuyTicket() {
         //console.log("dataMovie: ", dataMovie);
 
         if (dataMovie && dataMovie.data) {
-            setAllValues({
+            setAllValues((prevState) => ({
+                ...prevState,
                 listMovie: dataMovie.data,
                 dataID: dataMovie.data.id
-            })
+            }))
+
         }
     }
 
     async function fetchDataTheater() {
         const dataTheater = await getListTheater();
-        //console.log("data theater", dataTheater);
+        console.log("data theater", dataTheater);
+
         if (dataTheater && dataTheater.movie) {
-            setAllValuesTheater({
+            setAllValues((prevState) => ({
+                ...prevState,
                 listTheater: dataTheater.movie
-            })
+            }))
         }
     }
     async function fetchDataSchedule(idFilm, idTheater) {
@@ -87,8 +97,65 @@ function BuyTicket() {
     useEffect(() => {
         fetchDataMovie(1);
         fetchDataTheater();
-        fetchDataSchedule(5, 1);
+        // fetchDataSchedule(5, 1);
     }, [])
+
+
+    const handleClickFilms = (id) => {
+        console.log(id);
+        setAllValues((prevState) => ({
+            ...prevState,
+            movieId: id,
+            isShowTheaer: true
+        }))
+    }
+
+    const groupBy = (arr, prop) => {
+        const map = new Map(Array.from(arr, obj => [obj[prop], []]));
+        arr.forEach(obj => map.get(obj[prop]).push(obj));
+        return Array.from(map.values());
+    }
+
+
+    const handleClickTheater = async (theaterId) => {
+        // call api fetch schedule //
+        if (allValues.movieId && theaterId) {
+            const dataSchedule = await getListScheduleByFilm(allValues.movieId, theaterId);
+            console.log("Data Schedule", dataSchedule);
+
+            if (dataSchedule && dataSchedule.data) {
+                // Lọc các ngày chiếu trong danh sách //
+
+                let listSchedule = groupBy(dataSchedule.data, "premiereDate");
+
+                setAllValues((prevState) => ({
+                    ...prevState,
+                    theaterId: theaterId,
+                    listSchedule: listSchedule.reverse()
+                }))
+            }
+        }
+
+
+        console.log("Check state: ", allValues)
+    }
+
+    const handleClickSchedule = (scheduleId) => {
+        if (scheduleId) {
+            dispatch(updateDataBooking({
+                movieId: allValues.movieId,
+                showTimeId: scheduleId,
+                theaterId: allValues.theaterId
+            }));
+
+            history.push('/dat-ve');
+        }
+        console.log("ScheduleId: ", scheduleId);
+
+    }
+
+
+
     return (
         <>
             <Header />
@@ -108,7 +175,7 @@ function BuyTicket() {
                                                 allValues.listMovie && allValues.listMovie.length > 0 &&
                                                 allValues.listMovie.map((item, index) => {
                                                     return (
-                                                        <li className='movie-item' key={index} onClick={() => { handleOnclick(item.id) }}>
+                                                        <li className='movie-item' key={index} onClick={() => handleClickFilms(item.id)}>
                                                             <div className='showtimes-row'>
                                                                 {
                                                                     item.ImageOfMovie.map((item1, index1) => {
@@ -136,12 +203,12 @@ function BuyTicket() {
                                             <h4 className="panel-title">Chọn rạp</h4>
                                         </div>
                                         {
-                                            showTheater && <ul className='list-group' >
+                                            allValues.isShowTheaer && <ul className='list-group' >
                                                 {
-                                                    allValuesTheater.listTheater && allValuesTheater.listTheater.length > 0
-                                                    && allValuesTheater.listTheater.map((item, index) => {
+                                                    allValues.listTheater && allValues.listTheater.length > 0
+                                                    && allValues.listTheater.map((item, index) => {
                                                         return (
-                                                            <li className='movie-item'>
+                                                            <li className='movie-item' key={index} onClick={() => handleClickTheater(item.id)}>
                                                                 <div className='showtimes-row'>
                                                                     <div className="title-movie"><p className="upper-text ng-binding">{item.tenRap}</p></div>
                                                                 </div>
@@ -149,6 +216,16 @@ function BuyTicket() {
                                                         )
                                                     })
                                                 }
+                                            </ul>
+                                        }
+                                        {
+                                            allValues.isShowTheaer === false &&
+                                            <ul className='list-group' >
+                                                <li className='movie-item' >
+                                                    <div className='showtimes-row'>
+                                                        <div className="title-movie"></div>
+                                                    </div>
+                                                </li>
                                             </ul>
                                         }
 
@@ -160,56 +237,53 @@ function BuyTicket() {
                                         <div className="panel-heading">
                                             <h4 className="panel-title">Chọn suất</h4>
                                         </div>
-                                        <ul className='list-group'>
-                                            <li className='scheudle-item'>
-                                                <div className='showtimes-row'>
-                                                    <div className='ngay-chieu'>
-                                                        <h6>Thứ 7, 07/05/2022</h6>
-                                                    </div>
-                                                    <div className='book-schedule'>
-                                                        <div className='dinh-dang'>2D-Phụ đề</div>
-                                                        <div className='schedule-movies'>
-                                                            <div className='time-content-btns'>
-                                                                <button className='btn-vie'>9:45</button>
-                                                                <button className='btn-vie'>9:45</button>
-                                                                <button className='btn-vie'>9:45</button>
-                                                                <button className='btn-vie'>9:45</button>
+                                        {
+                                            allValues.listSchedule && allValues.listSchedule.map((item, index) => {
+                                                let formatDate = moment(item[0].premiereDate).format("DD/MM/YYYY")
+                                                let now = new Date(item[0].premiereDate).toLocaleDateString('vi-VN', { weekday: "long" });
+                                                formatDate = now + ', ' + formatDate
+                                                return (
+                                                    <ul className='list-group' key={index}>
+                                                        <li className='scheudle-item'>
+                                                            <div className='showtimes-row'>
+                                                                <div className='ngay-chieu'>
+                                                                    <h6> {formatDate}</h6>
+                                                                </div>
+                                                                <div className='book-schedule'>
+                                                                    <div className='dinh-dang'>2D-Phụ đề</div>
+                                                                    <div className='schedule-movies'>
+                                                                        <div className='time-content-btns'>
+                                                                            {item.slice(0).reverse().map(schedule => {
+                                                                                return (
+                                                                                    <button className='btn-vie' key={schedule.id} onClick={() => handleClickSchedule(schedule.id)}>{moment(schedule.startTime).format('HH:mm')}</button>
+                                                                                )
+                                                                            })}
+
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+
+
                                                             </div>
-                                                        </div>
+                                                        </li>
 
+                                                    </ul>
+                                                )
+
+                                            })
+                                        }
+                                        {
+                                            allValues.listSchedule.length === 0 &&
+                                            <ul className='list-group' >
+                                                <li className='movie-item' >
+                                                    <div className='showtimes-row'>
+                                                        <div className="title-movie"></div>
                                                     </div>
+                                                </li>
+                                            </ul>
+                                        }
 
-
-                                                </div>
-                                            </li>
-
-                                            <li className='scheudle-item'>
-                                                <div className='showtimes-row'>
-                                                    <div className='ngay-chieu'>
-                                                        <h6>Chủ nhật, 08/05/2022</h6>
-                                                    </div>
-                                                    <div className='book-schedule'>
-                                                        <div className='dinh-dang'>2D-Phụ đề</div>
-                                                        <div className='schedule-movies'>
-                                                            <div className='time-content-btns'>
-                                                                <button className='btn-vie'>9:45</button>
-                                                                <button className='btn-vie'>9:45</button>
-                                                                <button className='btn-vie'>9:45</button>
-                                                                <button className='btn-vie'>9:45</button>
-                                                                <button className='btn-vie'>9:45</button>
-                                                                <button className='btn-vie'>9:45</button>
-                                                                <button className='btn-vie'>9:45</button>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-
-                                                </div>
-                                            </li>
-
-
-                                        </ul>
                                     </div>
                                 </div>
                             </div>

@@ -13,12 +13,12 @@ import $ from "jquery";
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
 import { getAllCombo } from '../../services/ComboService';
-
+import { dataBookingRedux } from "../../redux/BookingSlice";
 
 
 
 function BookTicket() {
-    const language = useSelector(selectLanguage);
+    const bookingRedux = useSelector(dataBookingRedux);
     // const dispatch = useDispatch();
 
 
@@ -28,6 +28,10 @@ function BookTicket() {
     //     console.log(language);
     //     dispatch(updateLanguage(language));
     // }
+
+    useEffect(() => {
+        console.log("Check data in redux: ", bookingRedux);
+    }, [bookingRedux]);
 
     const test = (e) => {
         const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
