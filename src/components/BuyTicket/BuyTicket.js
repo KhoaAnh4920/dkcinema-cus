@@ -103,11 +103,24 @@ function BuyTicket() {
 
     const handleClickFilms = (id) => {
         console.log(id);
-        setAllValues((prevState) => ({
-            ...prevState,
-            movieId: id,
-            isShowTheaer: true
-        }))
+
+        if (allValues.listSchedule.length > 0) {
+            setAllValues((prevState) => ({
+                ...prevState,
+                movieId: id,
+                theaterId: null,
+                // isShowTheaer: !allValues.isShowTheaer,
+                listSchedule: []
+            }))
+        } else {
+            setAllValues((prevState) => ({
+                ...prevState,
+                movieId: id,
+                isShowTheaer: true
+            }))
+        }
+
+
     }
 
     const groupBy = (arr, prop) => {
@@ -120,6 +133,10 @@ function BuyTicket() {
     const handleClickTheater = async (theaterId) => {
         // call api fetch schedule //
         if (allValues.movieId && theaterId) {
+            setAllValues((prevState) => ({
+                ...prevState,
+                theaterId: theaterId,
+            }))
             const dataSchedule = await getListScheduleByFilm(allValues.movieId, theaterId);
             console.log("Data Schedule", dataSchedule);
 
@@ -155,7 +172,6 @@ function BuyTicket() {
     }
 
 
-
     return (
         <>
             <Header />
@@ -175,21 +191,47 @@ function BuyTicket() {
                                                 allValues.listMovie && allValues.listMovie.length > 0 &&
                                                 allValues.listMovie.map((item, index) => {
                                                     return (
-                                                        <li className='movie-item' key={index} onClick={() => handleClickFilms(item.id)}>
-                                                            <div className='showtimes-row'>
-                                                                {
-                                                                    item.ImageOfMovie.map((item1, index1) => {
-                                                                        if (item1.typeImage === 1) {
-                                                                            return (
-                                                                                <img src={item1.url} key={index1} className="error" data-was-processed="true" />
-                                                                            )
+                                                        <>
+                                                            {
+                                                                (item.id === allValues.movieId) &&
+                                                                <li className='movie-item active' key={index} onClick={() => handleClickFilms(item.id)}>
+                                                                    <div className='showtimes-row'>
+                                                                        {
+                                                                            item.ImageOfMovie.map((item1, index1) => {
+                                                                                if (item1.typeImage === 1) {
+                                                                                    return (
+                                                                                        <img src={item1.url} key={index1} className="error" data-was-processed="true" />
+                                                                                    )
+                                                                                }
+                                                                            })
                                                                         }
-                                                                    })
-                                                                }
-                                                                <i className="icon-c13"></i>
-                                                                <div className="title-movie"><p className="upper-text ng-binding">{item.name}</p><p className="vn upper-text ng-binding">{item.transName}</p></div>
-                                                            </div>
-                                                        </li>
+                                                                        <i className="icon-c13"></i>
+                                                                        <div className="title-movie"><p className="upper-text ng-binding">{item.name}</p><p className="vn upper-text ng-binding">{item.transName}</p></div>
+                                                                    </div>
+                                                                </li>
+                                                            }
+                                                            {
+                                                                (item.id !== allValues.movieId) &&
+                                                                <li className='movie-item' key={index} onClick={() => handleClickFilms(item.id)}>
+                                                                    <div className='showtimes-row'>
+                                                                        {
+                                                                            item.ImageOfMovie.map((item1, index1) => {
+                                                                                if (item1.typeImage === 1) {
+                                                                                    return (
+                                                                                        <img src={item1.url} key={index1} className="error" data-was-processed="true" />
+                                                                                    )
+                                                                                }
+                                                                            })
+                                                                        }
+                                                                        <i className="icon-c13"></i>
+                                                                        <div className="title-movie"><p className="upper-text ng-binding">{item.name}</p><p className="vn upper-text ng-binding">{item.transName}</p></div>
+                                                                    </div>
+                                                                </li>
+
+
+                                                            }
+                                                        </>
+
                                                     )
                                                 })
                                             }
@@ -208,11 +250,27 @@ function BuyTicket() {
                                                     allValues.listTheater && allValues.listTheater.length > 0
                                                     && allValues.listTheater.map((item, index) => {
                                                         return (
-                                                            <li className='movie-item' key={index} onClick={() => handleClickTheater(item.id)}>
-                                                                <div className='showtimes-row'>
-                                                                    <div className="title-movie"><p className="upper-text ng-binding">{item.tenRap}</p></div>
-                                                                </div>
-                                                            </li>
+                                                            <>
+                                                                {item.id === allValues.theaterId &&
+                                                                    <li className='movie-item active' key={index} onClick={() => handleClickTheater(item.id)}>
+                                                                        <div className='showtimes-row'>
+                                                                            <div className="title-movie"><p className="upper-text ng-binding">{item.tenRap}</p></div>
+                                                                        </div>
+                                                                    </li>
+
+                                                                }
+
+                                                                {item.id !== allValues.theaterId &&
+                                                                    <li className='movie-item' key={index} onClick={() => handleClickTheater(item.id)}>
+                                                                        <div className='showtimes-row'>
+                                                                            <div className="title-movie"><p className="upper-text ng-binding">{item.tenRap}</p></div>
+                                                                        </div>
+                                                                    </li>
+
+                                                                }
+
+                                                            </>
+
                                                         )
                                                     })
                                                 }
