@@ -52,6 +52,9 @@ function BookTicket() {
             })
         }
     }
+    const handleShowFilm = async () => {
+
+    }
     useEffect(() => {
         fetchDataCombo();
     }, []);
