@@ -52,7 +52,7 @@ function BookTicket() {
             })
         }
     }
-    const handleShowFilm = async () => {
+    const handleShowFilm = async (id) => {
 
     }
     useEffect(() => {

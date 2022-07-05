@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Header.scss';
 import logo from '../../assets/DKCinema.png';
 import { FormattedMessage } from 'react-intl';
@@ -6,6 +6,8 @@ import { LANGUAGES } from '../../utils/constant';
 import { useDispatch, useSelector } from "react-redux";
 import { selectLanguage, updateLanguage, userState, processLogoutUser } from "../../redux/userSlice";
 import { Link, useHistory } from "react-router-dom";
+import SearchBar from '../Share/SearchBar';
+import PhimData from '../../assets/Json/Data.json';
 import avatar from '../../assets/man.png';
 
 
@@ -40,6 +42,7 @@ export default function Header() {
         dispatch(processLogoutUser());
         history.push('/');
     }
+    //search    
 
 
     return (
@@ -52,17 +55,12 @@ export default function Header() {
 
                     </div>
                     <div className='center-content'>
-                        <div className='child-content'>
-                            <div className='search'>
-                                <FormattedMessage id="homeHeader.search" defaultMessage="search">
-                                    {placeholder =>
-                                        <input type='text' placeholder={placeholder} />
-                                    }
-                                </FormattedMessage>
-                                <i className="fas fa-search"></i>
-                            </div>
-                        </div>
+                        <SearchBar
+                            placeholder={"Entering...."}
+                            data={PhimData}
+                        />
                     </div>
+
                     <div className='right-content'>
                         <div className='child-content'>
 

@@ -1,0 +1,48 @@
+.con-agree {
+    max-width: 1400px;
+
+    .row-agree {
+        margin-top: 40px;
+
+        .col-agree-left {
+            padding-right: 40px;
+
+            .list {
+                margin-top : -20px;
+                margin-left: -55px;
+
+                ol {
+                    display        : flex;
+                    list-style-type: none;
+
+                    li {
+                        .link {
+                            color      : black;
+                            font-size  : 12pt;
+                            font-weight: 300;
+                        }
+                    }
+                }
+            }
+
+            .title-agree {
+                text-transform: uppercase;
+            }
+
+            .content-agree {
+                p {
+                    text-align: justify;
+                    font-size : 12pt;
+                }
+
+                ol {
+                    li {
+                        font-size     : 14pt;
+                        text-transform: uppercase;
+                        font-weight   : 600;
+                    }
+                }
+            }
+        }
+    }
+}

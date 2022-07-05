@@ -1,0 +1,47 @@
+.con-pri {
+    max-width: 1400px;
+
+    .row-pri {
+        margin-top: 40px;
+
+        .col-pri-left {
+            .list {
+                margin-top : -15px;
+                margin-left: -55px;
+
+                ol {
+                    display        : flex;
+                    list-style-type: none;
+
+                    li {
+                        .link-about {
+                            color      : black;
+                            font-size  : 12pt;
+                            font-weight: 300;
+                        }
+                    }
+                }
+            }
+
+            .title-pri {
+                text-transform: uppercase;
+                font-weight   : 500;
+            }
+
+            .content-pri {
+                p {
+                    text-align: justify;
+                    font-size : 12pt;
+                }
+
+                ol {
+                    li {
+                        text-transform: uppercase;
+                        font-weight   : 600;
+                        font-size     : 14pt;
+                    }
+                }
+            }
+        }
+    }
+}

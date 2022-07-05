@@ -1,0 +1,45 @@
+.con-about {
+    max-width: 1400px;
+
+    .row-about {
+        margin-top: 40px;
+
+        .col-about-left {
+            padding-right: 40px;
+
+            .list {
+                margin-top : -10px;
+                margin-left: -55px;
+
+                ol {
+                    display        : flex;
+                    list-style-type: none;
+
+                    li {
+                        .link-about {
+                            color      : black;
+                            font-size  : 12pt;
+                            font-weight: 300;
+                        }
+                    }
+                }
+            }
+
+            h3 {
+                text-transform: uppercase;
+            }
+
+            .content-about {
+                p {
+                    font-size : 12pt;
+                    text-align: justify;
+
+                    .link-lich-chieu {
+                        color      : coral;
+                        font-weight: 700;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+.con-op {
+    max-width: 1400px;
+
+    .row-op {
+        margin-top: 40px;
+
+        .col-op-left {
+            padding-right: 40px;
+
+            .list {
+                margin-top : -20px;
+                margin-left: -55px;
+
+                ol {
+                    display        : flex;
+                    list-style-type: none;
+
+                    li {
+                        .link-about {
+                            color      : black;
+                            font-size  : 12pt;
+                            font-weight: 300;
+                        }
+                    }
+                }
+            }
+
+            .title-op {
+                text-transform: uppercase;
+            }
+
+            .content-op {
+                p {
+                    text-align: justify;
+                    font-size : 12pt;
+                }
+
+                ol {
+                    .out-item {
+                        text-transform: uppercase;
+                        font-weight   : 600;
+                        font-size     : 14pt;
+                    }
+
+                    ul {
+                        .in-item {
+                            list-style-type: circle;
+                            font-size      : 12pt;
+                            text-align     : justify;
+                        }
+
+                        margin-bottom: 10px;
+                    }
+                }
+            }
+        }
+    }
+}

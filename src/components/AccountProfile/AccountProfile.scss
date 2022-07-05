@@ -1,64 +1,92 @@
-.show-infor {
-    .title {
-        margin-top: 50px;
+.con-info-u {
+    max-width: 1400px;
 
-        h5 {
-            text-transform: uppercase;
-        }
-    }
+    .row-info-u {
+        margin-top   : 40px;
+        margin-bottom: 40px;
 
-    .row-1st {
-        margin-top: 40px;
-
-        .col-infor {
-            .form-group {
-                label {
-                    text-transform: capitalize;
-                    color         : #000000;
-                    font-weight   : bold;
+        .col-u-left {
+            .row-info {
+                .form-group {
+                    label {
+                        text-transform: capitalize;
+                        font-size     : 13pt;
+                        font-weight   : 500;
+                    }
                 }
+
             }
         }
-    }
 
-    hr {
-        background-color: #000000;
-    }
-
-    .row-2nd {
-        .col-infor {
-            .form-group {
-                label {
-                    text-transform: capitalize;
-                    color         : #000000;
-                    font-weight   : bold;
-                }
+        .col-u-right {
+            .btn-save {
+                justify-content: center;
             }
         }
-    }
-
-    .title-2 {
-        margin-top: 20px;
-
-        h5 {
-            text-transform: uppercase;
-        }
-    }
-
-    .row-add {
-        margin-top: 30px;
-
-        .col-add {
-            label {
-                text-transform: capitalize;
-                color         : #000000;
-                font-weight   : bold;
-            }
-        }
-    }
-
-    .btn-save {
-        display        : flex;
-        justify-content: center;
     }
 }
+
+// .show-infor {
+//     .title {
+//         margin-top: 50px;
+
+//         h5 {
+//             text-transform: uppercase;
+//         }
+//     }
+
+//     .row-1st {
+//         margin-top: 40px;
+
+//         .col-infor {
+//             .form-group {
+//                 label {
+//                     text-transform: capitalize;
+//                     color         : #000000;
+//                     font-weight   : bold;
+//                 }
+//             }
+//         }
+//     }
+
+//     hr {
+//         background-color: #000000;
+//     }
+
+//     .row-2nd {
+//         .col-infor {
+//             .form-group {
+//                 label {
+//                     text-transform: capitalize;
+//                     color         : #000000;
+//                     font-weight   : bold;
+//                 }
+//             }
+//         }
+//     }
+
+//     .title-2 {
+//         margin-top: 20px;
+
+//         h5 {
+//             text-transform: uppercase;
+//         }
+//     }
+
+//     .row-add {
+//         margin-top: 30px;
+
+//         .col-add {
+//             label {
+//                 text-transform: capitalize;
+//                 color         : #000000;
+//                 font-weight   : bold;
+//             }
+//         }
+//     }
+
+//     .btn-save {
+//         display        : flex;
+//         justify-content: center;
+//     }
+// }

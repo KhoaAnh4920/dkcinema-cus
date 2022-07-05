@@ -24,6 +24,10 @@ import DetailReviewFilm from '../components/ReviewMovie/DetailReviewFilm';
 import DetailFilmIntro from '../components/FilmsIntroduction/DetailFilmIntro';
 import DiscountList from '../components/Discount/DiscountList';
 import DetailDiscount from '../components/Discount/DetailDiscount';
+import AboutUs from '../components/AboutUs/AboutUs';
+import OperatingReluration from '../components/OperatingReluration/OperatingReluration';
+import Agreement from '../components/Agreement/Agreement';
+import PrivacyPolicy from '../components/PrivacyPolicy/PrivacyPolicy';
 
 
 
@@ -96,6 +100,10 @@ function App() {
           <Route path="/chi-tiet-intro" exact component={DetailFilmIntro} />
           <Route path="/khuyen-mai" exact component={DiscountList} />
           <Route path="/chi-tiet-khuyen-mai" exact component={DetailDiscount} />
+          <Route path="/ve-chung-toi" exact component={AboutUs} />
+          <Route path="/thoa-thuan" exact component={Agreement} />
+          <Route path="/quy-che-hoat-dong" exact component={OperatingReluration} />
+          <Route path="/chinh-sach" exact component={PrivacyPolicy} />
         </span>
       </div>
 

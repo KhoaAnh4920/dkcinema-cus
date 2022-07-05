@@ -1,0 +1,76 @@
+.center-contents {
+    position: relative;
+
+    .searchInput {
+        display: flex;
+
+
+        input {
+            background-color: white;
+            border          : 1;
+            border-radius   : 10px;
+            font-size       : 18px;
+            padding         : 15px;
+            height          : 30px;
+            width           : 300px;
+
+            &:focus {
+                outline: none;
+            }
+        }
+
+        .iconSearch {
+            height            : 30px;
+            line-height       : 30px;
+            width             : 50px;
+            //background-color: white;
+            display           : grid;
+            place-items       : center;
+
+            .clearBtn {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .result {
+        margin-top            : 10px;
+        width                 : 300px;
+        height                : 300px;
+        background-color      : rgb(255, 255, 255);
+        box-shadow            : rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        overflow              : scroll;
+        //overflow        : hidden;
+        display               : inline-block;
+        position              : absolute;
+        //overflow-y        : auto;
+        //top                 : 40px;
+        top                   : 0;
+
+
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+
+        .dataItem {
+            width      : 100%;
+            height     : 50px;
+            display    : flex;
+            align-items: center;
+            color      : black;
+
+            p {
+                margin-left: 10px;
+            }
+        }
+
+        a {
+            text-decoration: none;
+
+            &:hover {
+                background-color: aliceblue;
+            }
+        }
+    }
+}

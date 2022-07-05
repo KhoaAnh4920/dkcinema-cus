@@ -373,39 +373,39 @@
             align-items    : center;
 
             .child-content {
-                display: flex;
+                //display: flex;
 
                 .search {
 
-                    display        : flex;
-                    justify-content: center;
-                    align-items    : center;
-                    margin         : 0 auto;
-                    padding        : 3px;
-                    width          : 400px;
-                    border-radius  : 30px;
-                    background     : #fff;
-                    border         : 1px solid #ced0da;
+                    // display        : flex;
+                    // justify-content: center;
+                    // align-items    : center;
+                    // margin         : 0 auto;
+                    // padding        : 3px;
+                    // width          : 400px;
+                    // border-radius  : 30px;
+                    // background     : #fff;
+                    // border         : 1px solid #ced0da;
 
-                    i {
-                        margin: 0 10px;
+                    // i {
+                    //     margin: 0 10px;
 
-                    }
+                    // }
 
-                    input {
-                        background : transparent;
-                        border     : none;
-                        width      : 100%;
-                        outline    : none;
-                        text-indent: 10px;
+                    // input {
+                    //     background : transparent;
+                    //     border     : none;
+                    //     width      : 100%;
+                    //     outline    : none;
+                    //     text-indent: 10px;
 
 
-                    }
+                    // }
 
-                    ::-webkit-input-placeholder {
-                        /* Edge */
-                        color: #9a9393;
-                    }
+                    // ::-webkit-input-placeholder {
+                    //     /* Edge */
+                    //     color: #9a9393;
+                    // }
                 }
             }
         }
