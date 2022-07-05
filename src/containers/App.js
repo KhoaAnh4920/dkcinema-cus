@@ -24,6 +24,8 @@ import DetailReviewFilm from '../components/ReviewMovie/DetailReviewFilm';
 import DetailFilmIntro from '../components/FilmsIntroduction/DetailFilmIntro';
 import DiscountList from '../components/Discount/DiscountList';
 import DetailDiscount from '../components/Discount/DetailDiscount';
+import BookSeet from '../components/BuyTicket/BookSeet';
+import TestCoundDown from '../components/BuyTicket/TestCoundDown';
 
 
 
@@ -86,6 +88,7 @@ function App() {
           <Route path="/chi-tiet-phim/:id" exact component={ChiTietPhim} />
           <Route path="/dat-ve" exact component={BookTicket} />
           <Route path="/lich-chieu" exact component={BuyTicket} />
+          <Route path="/dat-ghe" exact component={BookSeet} />
           <Route path="/thanh-toan" exact component={Payment} />
           <Route path="/dat-ve-qua-phim" exact component={BookTicketThrough} />
           <Route path="/phan-hoi" exact component={Feedback} />
@@ -96,6 +99,8 @@ function App() {
           <Route path="/chi-tiet-intro" exact component={DetailFilmIntro} />
           <Route path="/khuyen-mai" exact component={DiscountList} />
           <Route path="/chi-tiet-khuyen-mai" exact component={DetailDiscount} />
+          <Route path="/test-countdown" exact component={TestCoundDown} />
+
         </span>
       </div>
 

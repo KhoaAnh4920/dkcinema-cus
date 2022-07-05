@@ -23,12 +23,16 @@ import Header from '../Share/Header';
 import Footer from '../Share/Footer';
 import { Link } from 'react-router-dom';
 import { useHistory } from "react-router-dom";
+import { getValidateSignature } from "../../services/BookingServices";
+import { toast } from 'react-toastify';
+import { updateDataBooking } from "../../redux/BookingSlice";
+
 
 
 function Home() {
     let history = useHistory();
     // const language = useSelector(selectLanguage);
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
 
     // const changeLanguage = (language) => {
@@ -91,8 +95,92 @@ function Home() {
         }
     }
 
+    async function handleSignature(rawSignature, signature) {
+        // You can await here
+
+        const signatureRes = await getValidateSignature(rawSignature);
+
+        console.log(signatureRes);
+
+        if (signatureRes === signature) {
+            toast.success("Thanh toán thành công");
+            dispatch(updateDataBooking(null));
+            // Clear booking redux //
+
+        }
+        else
+            toast.error("Thông tin không hợp lệ")
+    }
+
     useEffect(() => {
         fetchDataMovie(1);
+
+        // Check thanh toán //
+        let url = window.location.href;
+        if (url.includes('?')) {
+            console.log('Parameterised URL');
+            const resultCode = new URLSearchParams(window.location.search).get('resultCode');
+            const message = new URLSearchParams(window.location.search).get('message');
+
+
+            if (resultCode != 0) {
+                toast.error(message);
+                return;
+            }
+            // partnerCode=MOMO&orderId=MOMO1656834097867&requestId=MOMO1656834097867&amount=220000&orderInfo=pay with MoMo&orderType=momo_wallet&transId=2696246745&resultCode=0&message=Successful.&payType=qr&responseTime=1656834220502&
+            //extraData=23&signature=60940af08d81bb9f6697f524267f666df839c3afc7436758347636627ba210c8
+            const partnerCode = new URLSearchParams(window.location.search).get('partnerCode');
+            const orderId = new URLSearchParams(window.location.search).get('orderId');
+            const amount = new URLSearchParams(window.location.search).get('amount');
+            const extraData = new URLSearchParams(window.location.search).get('extraData');
+
+            const orderInfo = new URLSearchParams(window.location.search).get('orderInfo');
+            const orderType = new URLSearchParams(window.location.search).get('orderType');
+            const payType = new URLSearchParams(window.location.search).get('payType');
+            const requestId = new URLSearchParams(window.location.search).get('requestId');
+            const responseTime = new URLSearchParams(window.location.search).get('responseTime');
+
+            const transId = new URLSearchParams(window.location.search).get('transId');
+            const signature = new URLSearchParams(window.location.search).get('signature');
+
+            var accessKey = "F8BBA842ECF85";
+
+            var rawSignature =
+                "accessKey=" +
+                accessKey +
+                "&amount=" +
+                amount +
+                "&extraData=" +
+                extraData +
+                "&message=" +
+                message +
+                "&orderId=" +
+                orderId +
+                "&orderInfo=" +
+                orderInfo +
+                "&orderType=" +
+                orderType +
+                "&partnerCode=" +
+                partnerCode +
+                "&payType=" +
+                payType +
+                "&requestId=" +
+                requestId +
+                "&responseTime=" +
+                responseTime +
+                "&resultCode=" +
+                resultCode +
+                "&transId=" +
+                transId;
+
+
+            if (rawSignature) {
+                handleSignature(rawSignature, signature);
+            }
+
+
+        }
+
     }, []);
 
     return (

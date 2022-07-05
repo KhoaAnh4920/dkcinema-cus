@@ -19,14 +19,15 @@ import Footer from '../Share/Footer';
 import { getListScheduleByFilm } from '../../services/ScheduleService';
 import moment from 'moment';
 import { useHistory, useParams } from "react-router-dom";
-
+import { userState } from "../../redux/userSlice";
+import { toast } from 'react-toastify';
 
 
 
 function BuyTicket() {
     // const language = useSelector(selectLanguage);
     const dispatch = useDispatch();
-
+    let selectUser = useSelector(userState);
 
     // const changeLanguage = (language) => {
     //     // fire redux event: actions
@@ -42,6 +43,7 @@ function BuyTicket() {
 
     const [allValues, setAllValues] = useState({
         isShowTheaer: false,
+        isLoginUser: false,
         listMovie: [],
         dataID: '',
         listTheater: [],
@@ -54,7 +56,8 @@ function BuyTicket() {
         ],
         movieId: null,
         theaterId: null,
-        scheduleId: null
+        scheduleId: null,
+        cusId: null
     });
 
 
@@ -87,18 +90,32 @@ function BuyTicket() {
             }))
         }
     }
-    async function fetchDataSchedule(idFilm, idTheater) {
-        const dataSchedule = await getListScheduleByFilm(idFilm, idTheater);
-        console.log("Data Schedule", dataSchedule);
-        // const day = moment().format("DD-MM-YYYY");
-        // console.log(day);
-    }
+
 
     useEffect(() => {
         fetchDataMovie(1);
         fetchDataTheater();
         // fetchDataSchedule(5, 1);
     }, [])
+
+    useEffect(() => {
+
+        if (!selectUser.isLoggedInUser) {
+            setAllValues((prevState) => ({
+                ...prevState,
+                isLoginUser: selectUser.isLoggedInUser,
+            }))
+        } else {
+            setAllValues((prevState) => ({
+                ...prevState,
+                isLoginUser: selectUser.isLoggedInUser,
+                cusId: selectUser.userInfo.id
+            }))
+        }
+
+
+
+    }, [selectUser]);
 
 
     const handleClickFilms = (id) => {
@@ -143,7 +160,69 @@ function BuyTicket() {
             if (dataSchedule && dataSchedule.data) {
                 // Lọc các ngày chiếu trong danh sách //
 
-                let listSchedule = groupBy(dataSchedule.data, "premiereDate");
+                let testSchedule = dataSchedule.data;
+
+                let timeNow = moment();
+                let res = testSchedule.map((item, index) => {
+                    // if ngay hien tai < ngay cong chieu
+                    // status sap chieu 
+                    // if ngay hien tai > ngay cong chieu 
+                    // status da chieu
+                    // else
+                    // time hien tai is between start va end => dang chieu
+                    // time hien tai < start => sap chieu
+                    // else => da chieu
+
+
+                    var duration = moment.duration(timeNow.diff(moment(item.premiereDate)));
+
+                    // console.log("Check duation: ", duration);
+                    // console.log("Check day: ", duration.asDays() / 10);
+
+                    // console.log("Check day: ", Math.trunc(duration.asDays()));
+                    // console.log("Check asHours: ", Math.trunc(duration.asHours()));
+                    // console.log("Check asMinutes: ", Math.trunc(duration.asMinutes()));
+
+                    if (Math.trunc(duration.asDays()) < 0 || Math.trunc(duration.asHours()) < 0 || Math.trunc(duration.asMinutes()) < 0) {
+                        item.status = 0
+                    } else if (Math.trunc(duration.asDays()) > 0) {
+                        item.status = 2
+                    }
+                    else {
+
+                        // time hien tai is between start va end => dang chieu
+                        // time hien tai < start => sap chieu
+                        // else => da chieu
+
+                        let h = moment(timeNow).format("HH");
+                        let m = moment(timeNow).format("mm");
+                        let h1 = moment(item.startTime).format("HH");
+                        let m1 = moment(item.startTime).format("mm");
+                        let h2 = moment(item.endTime).format("HH");
+                        let m2 = moment(item.endTime).format("mm");
+
+                        if ((h1 < h || h1 == h && m1 <= m) && (h < h2 || h == h2 && m <= m2)) {
+                            console.log("Dang chieu")
+                            item.status = 1
+                        }
+                        else if (h < h1) {
+                            console.log("Sap chieu");
+                            item.status = 0
+                        } else {
+                            item.status = 2
+                            console.log("Da chieu")
+                        }
+
+                    }
+                    return item;
+
+                })
+
+
+
+                let finalSchedule = res.filter(item => item.status === 0);
+
+                let listSchedule = groupBy(finalSchedule, "premiereDate");
 
                 setAllValues((prevState) => ({
                     ...prevState,
@@ -158,8 +237,16 @@ function BuyTicket() {
     }
 
     const handleClickSchedule = (scheduleId) => {
+        console.log(allValues.isLoginUser)
+        if (!allValues.isLoginUser) {
+            toast.error("Vui lòng đăng nhập để đặt vé");
+            history.push('/login')
+            return;
+        }
+
         if (scheduleId) {
             dispatch(updateDataBooking({
+                cusId: allValues.cusId,
                 movieId: allValues.movieId,
                 showTimeId: scheduleId,
                 theaterId: allValues.theaterId
