@@ -28,6 +28,8 @@ import AboutUs from '../components/AboutUs/AboutUs';
 import OperatingReluration from '../components/OperatingReluration/OperatingReluration';
 import Agreement from '../components/Agreement/Agreement';
 import PrivacyPolicy from '../components/PrivacyPolicy/PrivacyPolicy';
+import BookSeet from '../components/BuyTicket/BookSeet';
+import TestCoundDown from '../components/BuyTicket/TestCoundDown';
 
 
 
@@ -90,6 +92,7 @@ function App() {
           <Route path="/chi-tiet-phim/:id" exact component={ChiTietPhim} />
           <Route path="/dat-ve" exact component={BookTicket} />
           <Route path="/lich-chieu" exact component={BuyTicket} />
+          <Route path="/dat-ghe" exact component={BookSeet} />
           <Route path="/thanh-toan" exact component={Payment} />
           <Route path="/dat-ve-qua-phim" exact component={BookTicketThrough} />
           <Route path="/phan-hoi" exact component={Feedback} />
@@ -104,6 +107,8 @@ function App() {
           <Route path="/thoa-thuan" exact component={Agreement} />
           <Route path="/quy-che-hoat-dong" exact component={OperatingReluration} />
           <Route path="/chinh-sach" exact component={PrivacyPolicy} />
+          <Route path="/test-countdown" exact component={TestCoundDown} />
+
         </span>
       </div>
 

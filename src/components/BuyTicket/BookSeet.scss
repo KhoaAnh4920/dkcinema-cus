@@ -1,0 +1,245 @@
+.bookingSeetController {
+    height: 800px;
+    width: 100%;
+    padding: 0 80px;
+    //background-color: red;
+
+    .room-main {
+        position: relative;
+        padding: 10px 5px 5px 5px;
+        background-color: orange;
+        max-height: 700px;
+
+        .title-select-seet {
+            text-transform: uppercase;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        .room-seet {
+            background-color: #fafafa;
+            height: 520px;
+            max-height: 700px;
+
+
+
+            .row_chair {
+                display: flex;
+                flex-direction: row;
+                position: absolute;
+                /* height: 100%; */
+                bottom: 125px;
+                // top: 100px;
+                left: 0;
+                right: 0;
+
+                .chair {
+                    margin: 0 auto;
+                    display: flex;
+                    flex-direction: column-reverse;
+                    column-gap: 20px;
+                    justify-content: center;
+                    align-items: center;
+                    // row-gap: 20px;
+
+                    .one_row {
+                        display: flex;
+                        flex-direction: row;
+                        column-gap: 20px;
+
+                        .name-column {
+                            background-color: transparent;
+                        }
+                    }
+
+                    .seet-item {
+
+                        height: fit-content;
+                        width: 20px;
+                        background-color: #e9e9e9;
+                        text-align: center;
+                        margin: 0;
+                        padding: 0;
+
+                        &:hover {
+                            cursor: pointer;
+                            background-color: #88ee78;
+                        }
+
+                        &.active {
+                            background-color: #ffd174;
+                            border: none;
+                        }
+
+                        &.sold {
+                            background-color: red;
+                            border: none;
+                        }
+
+                        &.selected {
+                            background-color: #88ee78;
+                        }
+                    }
+                }
+            }
+
+            .sreen-room {
+                position: absolute;
+                /* height: 100%; */
+                bottom: 10px;
+                left: 0;
+                right: 0;
+
+                p {
+                    text-align: center;
+                }
+
+                .line {
+
+                    text-align: center;
+
+                    &::after {
+                        display: block;
+                        width: 300px;
+                        height: 2px;
+                        margin-top: 8px;
+                        content: '';
+                        background-color: #999999;
+                        margin: 0 auto;
+                    }
+                }
+
+                .infoSeet {
+                    width: 100%;
+                    height: 50px;
+                    padding-top: 5px;
+                    // background-color: rgb(168, 168, 168);
+
+                    .name-seet {
+                        font-size: 10px;
+                        margin-top: 10px;
+                    }
+
+                    .content-seet {
+                        display: flex;
+                        gap: 50px;
+                        width: 100%;
+                        /* text-align: center; */
+                        /* align-items: center; */
+                        justify-content: center;
+
+                        .seet-default {
+                            display: flex;
+                            gap: 10px;
+
+                            .color-default {
+
+                                height: 15px;
+                                width: 15px;
+                                background-color: #88ee78;
+                                text-align: center;
+                                margin-top: 10px;
+                                padding: 0;
+                            }
+
+                        }
+
+                        .seet-vip {
+                            display: flex;
+                            gap: 10px;
+
+                            .color-vip {
+
+                                height: 15px;
+                                width: 15px;
+                                background-color: #ffd174;
+                                text-align: center;
+                                margin-top: 10px;
+                                padding: 0;
+                            }
+
+                        }
+
+                        .seet-sold {
+                            display: flex;
+                            gap: 10px;
+
+                            .color-sold {
+
+                                height: 15px;
+                                width: 15px;
+                                background-color: rgb(255, 0, 0);
+                                text-align: center;
+                                margin-top: 10px;
+                                padding: 0;
+                            }
+
+
+
+                        }
+
+                        .seet-available {
+                            display: flex;
+                            gap: 10px;
+
+                            .color-available {
+
+                                height: 15px;
+                                width: 15px;
+                                background-color: #e9e9e9;
+                                text-align: center;
+                                margin-top: 10px;
+                                padding: 0;
+                            }
+
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    .ticket-header {
+        width: 100%;
+        background-color: #fafafa;
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+
+    .ticket-detail {
+        .ticket-title {
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 20px;
+            text-transform: uppercase;
+            color: #43464b;
+            font-weight: bold;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .submit-container {
+            padding-top: 20px;
+            display: flex;
+            height: 70px;
+
+            .button-book-submit {
+                width: 100%;
+
+                .btn-book {
+                    background-color: #FCAF17;
+                    padding: 10px;
+                    width: 100%;
+                    height: 48px;
+                    font-weight: 700;
+                    color: #fff;
+                    text-transform: uppercase;
+                }
+            }
+        }
+    }
+}

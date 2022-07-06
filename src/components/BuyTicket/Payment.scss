@@ -33,6 +33,8 @@
             height: 100%;
             padding-top: 10px;
 
+
+
             .form-group {
                 display: flex;
                 padding-top: 30px;
@@ -59,7 +61,7 @@
                     transform: scale(1.3);
                 }
 
-                .select-gender {
+                .select-payment {
                     padding: 0;
                 }
 
@@ -81,15 +83,17 @@
 
     .ticket-header {
         width: 100%;
-        background-color: #f1f1f1;
+        background-color: #fafafa;
         padding: 10px;
         margin-bottom: 15px;
     }
 
     .ticket-detail {
         .ticket-title {
+            margin-top: 15px;
             font-size: 14px;
             line-height: 20px;
+            text-transform: uppercase;
             color: #43464b;
             font-weight: bold;
             text-overflow: ellipsis;

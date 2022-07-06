@@ -1,0 +1,517 @@
+import React, { useState, useEffect } from 'react';
+import './BookSeet.scss';
+import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import { FormattedMessage } from 'react-intl';
+import { useDispatch } from "react-redux";
+import { updateLanguage } from "../../redux/userSlice";
+import { useSelector } from "react-redux";
+import { selectLanguage } from "../../redux/userSlice";
+import { LANGUAGES } from '../../utils/constant';
+import Header from '../Share/Header';
+import Footer from '../Share/Footer';
+import { getAllCombo } from '../../services/ComboService';
+import { dataBookingRedux } from "../../redux/BookingSlice";
+import { updateDataBooking } from "../../redux/BookingSlice";
+import { getScheduleById } from "../../services/ScheduleService";
+import { getSeetWasBooking } from "../../services/BookingServices";
+import moment from 'moment';
+import { getEditRoom } from "../../services/RoomService";
+import { toast } from 'react-toastify';
+import { useHistory, useParams } from "react-router-dom";
+
+
+
+function BookSeet() {
+    const bookingRedux = useSelector(dataBookingRedux);
+    const dispatch = useDispatch();
+    const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
+    let history = useHistory();
+
+    const [allValues, setAllValues] = useState({
+        name: '',
+        errors: {},
+        listAlpha: [],
+        listSeet: [],
+        seetCopy: [],
+        isShowLoading: false,
+        numberOfColumn: '',
+        numberOfRow: '',
+        numberSeet: '',
+        selectSeet: [],
+        countSeetStandard: 0,
+        countSeetVip: 0,
+        nameSeet: ''
+    });
+    const [allCombo, setAllCombo] = useState({
+        listCombo: [],
+        nameCombo: ''
+    })
+    const [dataSchedule, setDataSchedule] = useState([])
+
+
+    // const dispatch = useDispatch();
+
+
+    // const changeLanguage = (language) => {
+    //     // fire redux event: actions
+
+    //     console.log(language);
+    //     dispatch(updateLanguage(language));
+    // }
+
+
+    // async function fetchDataScheduleById(scheduleId) {
+    //     const dataSchedule = await getScheduleById(scheduleId);
+    //     console.log("dataSchedule", dataSchedule);
+    //     if (dataSchedule && dataSchedule.data) {
+    //         let schedule = dataSchedule.data;
+    //         let formatDate = moment(schedule.premiereDate).format("DD/MM/YYYY")
+    //         let now = new Date(schedule.premiereDate).toLocaleDateString('vi-VN', { weekday: "long" });
+    //         formatDate = now + ', ' + formatDate
+    //         schedule.formatDate = formatDate;
+
+
+    //         setDataSchedule(dataSchedule.data)
+    //     }
+    // }
+
+
+    async function fetchDataScheduleById(scheduleId, bookingCombo) {
+        const dataSchedule = await getScheduleById(scheduleId);
+        const seetWasBooking = await getSeetWasBooking(scheduleId);
+        console.log("seetWasBooking", seetWasBooking);
+
+        let seetBook = [];
+        if (seetWasBooking && seetWasBooking.data && seetWasBooking.data.length > 0) {
+            seetWasBooking.data.map(item => {
+                seetBook.push(item.TicketSeet.id);
+            })
+        }
+        console.log('seetBook: ', seetBook);
+
+        if (dataSchedule && dataSchedule.data) {
+            let schedule = dataSchedule.data;
+            // Fetch room //
+
+
+            let dataRoom = await fetchDataRoom(schedule.RoomShowTime.id, seetBook);
+
+            console.log('dataRoom: ', dataRoom)
+
+            let formatDate = moment(schedule.premiereDate).format("DD/MM/YYYY")
+            let now = new Date(schedule.premiereDate).toLocaleDateString('vi-VN', { weekday: "long" });
+            formatDate = now + ', ' + formatDate
+            schedule.formatDate = formatDate;
+
+
+            setDataSchedule(dataSchedule.data);
+            let nameCombo = '';
+            if (bookingCombo.length > 0) {
+                bookingCombo.map(item => {
+                    nameCombo += item.name + ', ';
+                })
+                nameCombo = nameCombo.replace(/,\s*$/, "");
+            }
+
+            setAllCombo((prevState) => ({
+                ...prevState,
+                nameCombo: nameCombo,
+            }))
+        }
+    }
+
+
+    async function fetchDataRoom(id, seetBook) {
+        // You can await here
+
+        const dataRoom = await getEditRoom(id);
+        console.log("Check data room: ", dataRoom);
+
+        console.log("Check data room length: ", dataRoom.data.RoomSeet.length);
+
+        if (dataRoom && dataRoom.data && dataRoom.data.RoomSeet && dataRoom.data.RoomSeet.length > 0) {
+            let result = [];
+
+            // tìm posOfColumn max 
+
+            let maxPosColoumn = Math.max(...dataRoom.data.RoomSeet.map(o => +o.posOfColumn))
+
+            console.log("Check maxPosColoumn: ", maxPosColoumn);
+
+
+            for (let i = 0; i <= maxPosColoumn; i++) {
+                let objSeet = {};
+                let posOfRow = [];
+                objSeet.posOfColumn = i;
+                dataRoom.data.RoomSeet.map((item, index) => {
+                    if (i === +item.posOfColumn) {
+                        let obj = {};
+                        obj.pos = +item.posOfRow;
+
+                        obj.id = item.id;
+
+                        // Check Ghế đã đặt hay chưa //
+                        if (seetBook.some(id => id === item.id)) {
+                            obj.typeId = -1
+                        }
+                        else
+                            obj.typeId = item.typeId;
+
+                        posOfRow.push(obj);
+                    }
+                    else return;
+                })
+                objSeet.posOfRow = posOfRow;
+                objSeet.posOfRow.sort((a, b) => (a.pos > b.pos) ? 1 : ((b.pos > a.pos) ? -1 : 0))
+                result.push(objSeet);
+            }
+
+            // let listAlpha = buildDataInputSelect(dataRoom.data.numberOfColumn);
+
+            // let selectedColumn = listAlpha[maxPosColoumn + 1];
+
+
+            setAllValues((prevState) => ({
+                ...prevState,
+                name: dataRoom.data.name,
+                errors: {},
+                // listAlpha: listAlpha,
+                listSeet: result,
+                isShowLoading: false,
+                numberOfColumn: dataRoom.data.numberOfColumn,
+                numberOfRow: dataRoom.data.numberOfRow,
+                numberSeet: '',
+                // selectedColumn: selectedColumn
+            }));
+
+            console.log(allValues);
+        }
+    }
+
+
+    useEffect(() => {
+        console.log("Check data in redux: ", bookingRedux);
+        let movieId = bookingRedux.dataBooking.movieId;
+        let scheduleId = bookingRedux.dataBooking.showTimeId;
+
+        let totalPriceBooking = document.getElementById('totalPriceBooking');
+
+
+        totalPriceBooking.innerHTML = new Intl.NumberFormat('vi-VN').format(bookingRedux.dataBooking.totalPrice) + ' VNĐ';
+
+        fetchDataScheduleById(scheduleId, bookingRedux.dataBooking.combo);
+        // fetchDataRoom();
+        // fetch data schedule //
+
+
+
+    }, [bookingRedux]);
+
+
+
+
+
+
+
+
+
+
+    // async function fetchDataCombo() {
+    //     const dataCombos = await getAllCombo();
+    //     console.log("data Combo", dataCombos);
+    //     if (dataCombos && dataCombos.dataCombo) {
+    //         setAllCombo({
+    //             listCombo: dataCombos.dataCombo
+    //         })
+    //     }
+    // }
+    useEffect(() => {
+        // fetchDataCombo();
+    }, []);
+
+
+
+
+    // const handleBookTicket = () => {
+    //     // Get combo //
+    //     let quantity = document.getElementsByClassName("quantityCombo");
+    //     let items = [];
+    //     let sum = 0;
+    //     for (let a = 0; a < quantity.length; a++) {
+    //         let obj = {};
+    //         if (+quantity[a].value !== 0) {
+
+
+    //             obj.comboId = +quantity[a].id;
+    //             obj.amount = +quantity[a].value;
+
+    //             allCombo.listCombo.map(item => {
+    //                 if (item.id === obj.comboId) {
+    //                     sum += (obj.amount * item.price);
+    //                 }
+    //             })
+
+    //             items.push(obj);
+    //         }
+    //     }
+
+
+
+    //     // Get ticket //
+    //     let quantityTicket = document.getElementsByClassName("quantityTicket")[0];
+
+    //     sum += 90000 * +quantityTicket.value
+
+
+    //     // save redux //
+    //     let newBookingRedux = { ...bookingRedux.dataBooking, 'combo': items, quantityTicket: +quantityTicket.value, totalPrice: sum }
+
+    //     dispatch(updateDataBooking(newBookingRedux));
+
+    //     console.log('newBookingRedux: ', newBookingRedux);
+
+
+    // }
+
+
+    const handleClickSeet = (item1, item2) => {
+        let res = allValues.selectSeet;
+        console.log('item1: ', item1);
+        console.log('item2: ', item2);
+
+        // let nameSeet = allValues.nameSeet;
+
+
+
+
+        // Get name seet //
+
+
+        if (item2.id >= 0) {
+
+            if (res.some(id => id === item2.id)) {
+                if (item2.typeId === 1)
+                    allValues.countSeetStandard--
+                else
+                    allValues.countSeetVip--
+                res = res.filter(function (item) {
+                    return item !== item2.id
+                })
+            }
+            else {
+                if (item2.typeId === 1) {
+                    // Check bao nhieu ghe thuong da co trong mang //
+                    let amoutStandard = bookingRedux.dataBooking.itemsTicket.filter(item => item.typeId == item2.typeId);
+                    console.log(amoutStandard);
+                    if (amoutStandard && amoutStandard[0] && allValues.countSeetStandard < amoutStandard[0].amount) {
+                        console.log("Cho dat")
+
+
+                        allValues.countSeetStandard++;
+                        res.push(item2.id);
+                    } else {
+                        toast.error("Fail")
+                    }
+
+                }
+                if (item2.typeId === 2) {
+                    let amoutVip = bookingRedux.dataBooking.itemsTicket.filter(item => item.typeId == item2.typeId);
+                    console.log(amoutVip);
+                    if (amoutVip && amoutVip[0] && allValues.countSeetVip < amoutVip[0].amount) {
+
+                        console.log("Cho dat")
+                        allValues.countSeetVip++;
+                        res.push(item2.id);
+
+                    } else {
+                        toast.error("Fail")
+                    }
+                }
+
+            }
+
+        }
+
+        console.log('res: ', res);
+
+        let nameSeet = '';
+        allValues.listSeet && allValues.listSeet.map(item => {
+            item.posOfRow.map(row => {
+                if (res.some(id => id === row.id)) {
+
+                    nameSeet += alphabet[+item.posOfColumn];
+                    nameSeet = nameSeet + (+row.pos + 1) + ', ';
+                }
+            })
+        })
+
+        nameSeet = nameSeet.replace(/,\s*$/, "");
+
+        console.log('nameSeet: ', nameSeet);
+
+
+
+
+        setAllValues((prevState) => ({
+            ...prevState,
+            selectSeet: res,
+            nameSeet: nameSeet
+        }));
+    }
+
+
+    const handleBookingSeet = () => {
+        console.log(allValues);
+        let amoutVip = bookingRedux.dataBooking.itemsTicket.filter(item => item.typeId == 2);
+        let amoutStandard = bookingRedux.dataBooking.itemsTicket.filter(item => item.typeId == 1);
+
+
+
+        if (allValues.countSeetStandard != amoutStandard[0].amount || allValues.countSeetVip != amoutVip[0].amount) {
+            toast.error('Vui lòng chọn đủ số lượng ghế');
+            return;
+        }
+
+
+        let resSeet = []
+        if (allValues.selectSeet.length > 0) {
+            allValues.selectSeet.map(item => {
+                let obj = {};
+                obj.seetId = item;
+                resSeet.push(obj);
+            })
+        }
+        console.log(resSeet);
+        //     // save redux //
+        let newBookingRedux = { ...bookingRedux.dataBooking, seets: resSeet, nameSeet: allValues.nameSeet }
+
+        dispatch(updateDataBooking(newBookingRedux));
+
+        history.push('/thanh-toan');
+    }
+
+
+
+
+    return (
+        <>
+            <Header />
+            <br />
+
+            <div className='bookingSeetController'>
+                <div className='row'>
+                    <div className='room-main col-8'>
+                        <p className='title-select-seet'>Chọn ghế: {allValues.nameSeet}</p>
+                        <div className='room-seet'>
+                            { /* EXAMPLE MAP INTERGRATE*/}
+
+                            <div className='row_chair col-lg-12'>
+                                <div className='chair'>
+                                    {allValues.listSeet && allValues.listSeet.length > 0 &&
+                                        allValues.listSeet.map((item, index) => {
+                                            return (
+                                                <div className='one_row' key={index}>
+                                                    <p className='name-column'>{alphabet[item.posOfColumn]}</p>
+                                                    {
+                                                        item.posOfRow.map((item2, index2) => {
+                                                            if (allValues.selectSeet.some(id => id === item2.id)) {
+                                                                return (<p className='seet-item selected' key={index2} onClick={() => handleClickSeet(item, item2)}>{item2.pos + 1}</p>)
+                                                            }
+                                                            else if (item2.typeId === 2)
+                                                                return (<p className='seet-item active' key={index2} onClick={() => handleClickSeet(item, item2)}>{item2.pos + 1}</p>);
+                                                            else if (item2.typeId === -1)
+                                                                return (<p className='seet-item sold' key={index2}>{item2.pos + 1}</p>);
+                                                            else
+                                                                return (<p className='seet-item' key={index2} onClick={() => handleClickSeet(item, item2)}>{item2.pos + 1}</p>);
+                                                        })
+                                                    }
+                                                    <p className='name-column'>{alphabet[item.posOfColumn]}</p>
+                                                </div>
+                                            )
+                                        })
+
+                                    }
+
+
+                                </div>
+
+                            </div>
+                            <div className='sreen-room'>
+                                <div className='text'>
+                                    <p>Màn hình</p>
+                                    <p className='line'></p>
+                                </div>
+                                <div className='infoSeet'>
+                                    <div className='content-seet'>
+                                        <div className='seet-default'>
+                                            <p className='color-default'></p>
+                                            <p className='name-seet'>Ghế đang chọn</p>
+                                        </div>
+                                        <div className='seet-sold'>
+                                            <p className='color-sold'></p>
+                                            <p className='name-seet'>Ghế đã bán</p>
+                                        </div>
+                                        <div className='seet-available'>
+                                            <p className='color-available'></p>
+                                            <p className='name-seet'>Ghế có thể chọn</p>
+                                        </div>
+
+                                        <div className='seet-vip'>
+                                            <p className='color-vip'></p>
+                                            <p className='name-seet'>Ghế Vip</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='col-4'>
+                        <div className='ticket-header'>
+                            <div style={{ textAlign: 'center' }} className="col-12">
+                                {dataSchedule && dataSchedule.ShowtimeMovie && dataSchedule.ShowtimeMovie.ImageOfMovie.length > 0 && dataSchedule.ShowtimeMovie.ImageOfMovie.map((item, index) => {
+                                    if (item.typeImage === 1) {
+                                        return (
+                                            <img src={item.url} style={{ width: '300px' }} />
+                                        )
+                                    }
+                                })}
+
+                            </div>
+                            <div className='col-12'>
+                                <div className="ticket-detail">
+                                    <h2 className="ticket-title upper-text">{(dataSchedule && dataSchedule.ShowtimeMovie) ? dataSchedule.ShowtimeMovie.name : ''}</h2>
+                                    <h2 className="ticket-title vn upper-text">{(dataSchedule && dataSchedule.ShowtimeMovie) ? dataSchedule.ShowtimeMovie.transName : ''}</h2>
+                                    {/* <div className="ticket-icon">
+                                        <span><i className="icon-c13" />
+                                            <span className="notice">(*) Phim chỉ dành cho khán giả từ 13 tuổi trở lên</span></span>
+                                    </div> */}
+                                    <div className="ticket-info"><p><b>Rạp: &nbsp;</b>
+                                        {(dataSchedule && dataSchedule.RoomShowTime && dataSchedule.RoomShowTime.MovieTheaterRoom) ? dataSchedule.RoomShowTime.MovieTheaterRoom.tenRap : ''}&nbsp; | {(dataSchedule && dataSchedule.RoomShowTime) ? dataSchedule.RoomShowTime.name : ''}&nbsp;
+                                    </p>{/*p*/}{/*  b #{i18n("Ngày")}: &nbsp*/}{/*  | #{sessionInfo.dayOfWeekLabel}, #{sessionInfo.showDate}*/}<p>
+                                            <b>Suất chiếu: &nbsp;</b>{(dataSchedule && dataSchedule.startTime) ? moment(dataSchedule.startTime).format("HH:mm") : ''}&nbsp; | {dataSchedule && dataSchedule.formatDate}</p><p className="ng-binding"><b>Combo: &nbsp;</b> <span id='listCombo'>{allCombo.nameCombo}</span> </p><p className="ng-binding"><b>Ghế: &nbsp;</b>{allValues.nameSeet}</p></div>
+                                    <div className="ticket-price-total">
+                                        <hr />
+                                        <p style={{ 'display': 'inline', 'fontSize': '16px', 'fontWeight': 'bold' }}>TỔNG: </p>
+                                        <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '16px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>90.000 VNĐ</span>
+
+                                    </div>
+                                    <div className='submit-container'>
+                                        <div className='button-book-submit'>
+                                            <button className='btn btn-book' onClick={() => handleBookingSeet()} >Tiếp tục</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <Footer />
+
+
+        </>
+    );
+}
+
+export default BookSeet;

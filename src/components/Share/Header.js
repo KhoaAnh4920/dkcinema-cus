@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Header.scss';
 import logo from '../../assets/DKCinema.png';
 import { FormattedMessage } from 'react-intl';
 import { LANGUAGES } from '../../utils/constant';
 import { useDispatch, useSelector } from "react-redux";
 import { selectLanguage, updateLanguage, userState, processLogoutUser } from "../../redux/userSlice";
+import { updateDataBooking } from "../../redux/BookingSlice";
 import { Link, useHistory } from "react-router-dom";
 import SearchBar from '../Share/SearchBar';
 import PhimData from '../../assets/Json/Data.json';
@@ -20,6 +21,10 @@ export default function Header() {
     let history = useHistory();
 
 
+    const [userInfo, setUserInfo] = useState({
+        avatar: '',
+        fullName: ''
+    })
 
     const changeLanguage = (language) => {
         // fire redux event: actions
@@ -40,9 +45,22 @@ export default function Header() {
     }
     const handleLogout = async () => {
         dispatch(processLogoutUser());
+        dispatch(updateDataBooking(null));
         history.push('/');
     }
     //search    
+
+
+
+    useEffect(() => {
+
+        setUserInfo({
+            avatar: (selectUser.userInfo) ? selectUser.userInfo.avatar : '',
+            fullName: (selectUser.userInfo) ? selectUser.userInfo.fullName : ''
+        });
+
+
+    }, [selectUser]);
 
 
     return (
