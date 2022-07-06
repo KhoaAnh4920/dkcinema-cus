@@ -167,11 +167,11 @@ function Payment() {
         if (parseInt(min * sec)) {
             var fiveMinutes = (parseInt(min * 60) + sec);
         } else {
-            var fiveMinutes = 60 * 5;
+            var fiveMinutes = 60 * 15;
         }
         // var fiveMinutes = 60 * 5;
         let display = document.querySelector('#time');
-        startTimer(10, display);
+        startTimer(fiveMinutes, display);
 
 
     }, []);
@@ -186,7 +186,9 @@ function Payment() {
     }
 
     const changeHandler = e => {
+
         setAllValues({ ...allValues, [e.target.name]: e.target.value })
+        // console.log(allValues);
     }
 
     const handlePayment = async () => {
@@ -294,11 +296,12 @@ function Payment() {
                                 </div>
                                 <div className="form-group col-12">
                                     <label htmlFor="exampleInputEmail1" className='col-3'>Họ và tên</label>
-                                    <input type="email" className="form-control col-9"
+                                    <input type="text" className="form-control"
                                         placeholder="Nhập họ và tên"
-                                        value={userInfo.fullName}
-                                        name='name'
-                                        onChange={(e) => changeHandler(e)}
+                                        name="name"
+                                        id="name"
+                                        value={allValues.name}
+                                        onChange={changeHandler}
                                     />
 
                                 </div>
@@ -306,9 +309,10 @@ function Payment() {
                                     <label htmlFor="exampleInputEmail1" className='col-3'>Email</label>
                                     <input type="email" className="form-control col-9"
                                         placeholder="Nhập email"
-                                        value={userInfo.email}
+                                        value={allValues.email}
                                         name='email'
-                                        onChange={(e) => changeHandler(e)}
+                                        id="email"
+                                        onChange={changeHandler}
                                     />
 
                                 </div>
@@ -316,9 +320,10 @@ function Payment() {
                                     <label htmlFor="exampleInputEmail1" className='col-3'>Số điện thoại</label>
                                     <input type="text" className="form-control col-9"
                                         placeholder="Nhập số điện thoại"
-                                        value={userInfo.phone}
+                                        value={allValues.phoneNumber}
                                         name='phoneNumber'
-                                        onChange={(e) => changeHandler(e)}
+                                        id="phoneNumber"
+                                        onChange={changeHandler}
                                     />
 
                                 </div>

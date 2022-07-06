@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
 import FilmShowing from '../Share/FilmShowing';
 import Ratings from '../Share/Rating';
-import { Rating } from 'react-simple-star-rating'
+import { Rating } from 'react-simple-star-rating';
+import { getNewsById } from '../../services/NewsServices';
+import { Link, useParams } from 'react-router-dom';
 
 //import css
 import "./DetailReviewFilm.scss";
@@ -21,6 +23,21 @@ function DetailReviewFilm() {
         setHovering(false);
     }
     const [rating, setRating] = useState(0);
+
+    //chi tiet review
+    const [allValuesDetail, setAllValuesDetail] = useState({
+        title: '',
+        noiDung: '',
+        thumbnail: '',
+    });
+    const { id } = useParams();
+    async function fetchDetailById(id) {
+        let dataDetail = await getNewsById(id);
+        console.log("chi tiet", dataDetail);
+    }
+    useEffect(() => {
+        fetchDetailById(id);
+    }, [])
     return (
         <div>
             <Header />

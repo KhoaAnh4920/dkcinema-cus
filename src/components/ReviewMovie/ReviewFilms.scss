@@ -7,74 +7,83 @@
         .col-left {
             .list-films {
                 .blog {
-                    display: flex;
+                    margin-bottom: 30px;
+                    display      : flex;
 
                     .movie-thumb {
                         .img-review {
-                            width     : 100%;
+                            width     : 350px;
                             display   : block;
                             object-fit: contain;
                         }
                     }
 
-                    .row-fc {
-                        margin-top : 20px;
-                        margin-left: 20px;
+                    .content-title {
+                        margin-left   : 20px;
+                        flex-direction: column;
 
                         h5 {
-                            font-size     : 18px;
-                            text-transform: capitalize;
-                            max-width     : 100%;
-
                             .link {
-                                color: #43464b;
+                                color: #000000;
+
 
                                 &:hover {
-                                    color: #FCAF17;
+                                    color: #fcaf17;
                                 }
                             }
                         }
 
-                        .list-fc {
-                            list-style-type: none;
-                            display        : flex;
 
-                            .fb-like {
-                                span {
-                                    margin-right: 40px;
-                                    margin-top  : 5px;
+                        .summary {
+                            width: 100%;
+                        }
 
-                                    iframe {
-                                        width: 160px !important;
+                        .row-fc {
+                            margin-top: 20px;
 
+                            .list-fc {
+                                list-style-type: none;
+                                display        : flex;
+
+                                .fb-like {
+                                    span {
+                                        //margin-right: 40px;
+                                        margin-top: 5px;
+
+                                        iframe {
+                                            width: 160px !important;
+
+                                        }
                                     }
                                 }
-                            }
 
-                            li {
-                                margin     : 0px 20px 0px 30px;
-                                line-height: 40px;
-                            }
+                                li {
+                                    margin     : 0px 20px 0px 10px;
+                                    line-height: 40px;
+                                }
 
-                            .rating-movie.rating-home {
-                                background-size: 20px;
-                                height         : 30px;
-                                padding-left   : 24px;
-                                margin-left    : 10px;
-                            }
+                                .rating-movie.rating-home {
+                                    background-size: 20px;
+                                    height         : 30px;
+                                    padding-left   : 24px;
+                                    margin-left    : 10px;
+                                }
 
-                            .rating-movie {
-                                font-size          : 20px;
-                                height             : 40px;
-                                background         : url(../../assets/ic_star_yellow.png) no-repeat;
-                                background-size    : 30px;
-                                padding-left       : 30px;
-                                background-position: left center;
-                                display            : table-cell;
-                                vertical-align     : middle;
+                                .rating-movie {
+                                    font-size          : 20px;
+                                    height             : 40px;
+                                    background         : url(../../assets/ic_star_yellow.png) no-repeat;
+                                    background-size    : 30px;
+                                    padding-left       : 30px;
+                                    background-position: left center;
+                                    display            : table-cell;
+                                    vertical-align     : middle;
+                                }
                             }
                         }
                     }
+
+
                 }
             }
         }

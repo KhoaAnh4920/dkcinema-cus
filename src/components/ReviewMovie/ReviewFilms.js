@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from '../../assets/DKCinema.png';
 import doctor_review from '../../assets/doctor_review.jpg';
 import './ReviewFilms.scss';
@@ -16,15 +16,16 @@ import { Link, useHistory } from "react-router-dom";
 import Footer from '../Share/Footer';
 import Header from '../Share/Header';
 import FilmShowing from '../Share/FilmShowing';
+import { getNewsByType } from '../../services/NewsServices';
 
 
 
 
 function ReviewFilms() {
     let history = useHistory();
-    const redirectReview = () => {
-        history.push("/review-phim");
-    }
+    // const redirectReview = () => {
+    //     history.push("/review-phim");
+    // }
     // const language = useSelector(selectLanguage);
     // const dispatch = useDispatch();
 
@@ -35,7 +36,24 @@ function ReviewFilms() {
     //     console.log(language);
     //     dispatch(updateLanguage(language));
     // }
-
+    const [allNews, setAllNews] = useState({
+        listReviews: [],
+    })
+    const getDetailReview = (id) => {
+        history.push(`/chi-tiet-review/${id}`);
+    }
+    async function fecthNewsReview(type) {
+        const dataReviews = await getNewsByType(type);
+        console.log("Data news", dataReviews);
+        if (dataReviews && dataReviews.data) {
+            setAllNews({
+                listReviews: dataReviews.data
+            })
+        }
+    }
+    useEffect(() => {
+        fecthNewsReview(1);
+    }, []);
     return (
         <>
             <Header />
@@ -44,28 +62,65 @@ function ReviewFilms() {
                 <div className='row row-review'>
                     <div className='col-8 col-left'>
                         <div className='list-films'>
-                            <div className='blog'>
+                            {
+                                allNews.listReviews && allNews.listReviews.length > 0 &&
+                                allNews.listReviews.map((item, index) => {
+                                    return (
+                                        <div className='blog' key={index}>
+                                            <div className='movie-thumb'>
+                                                <img src={item.thumbnail} className="img-review" data-was-processed="true" />
+                                            </div>
+                                            <div className='content-title'>
+                                                <h5>
+                                                    <Link onClick={() => getDetailReview(item.id)} className='link'> {item.title}</Link>
+                                                </h5>
+                                                <div className='summary'>
+                                                    {item.tomTat}
+                                                </div>
+                                                <div className='row row-fc'>
+                                                    <ul className='list-fc'>
+                                                        <li><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
+                                                        <li>
+                                                            <div class="rating-movie rating-home">
+                                                                <span class="rating-value">
+                                                                    <strong class="review-home ng-binding" style={{ fontSize: '12pt' }}>{item.rating}/10</strong>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                        <li><button className='btn btn-warning btn-review'>Đánh giá</button></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+                            {/* <div className='blog'>
                                 <div className='movie-thumb'>
                                     <img src={doctor_review} className="img-review" data-was-processed="true" />
                                 </div>
-                                <div className='row row-fc'>
+                                <div className='content-title' style={{ flexDirection: 'column' }}>
                                     <h5>
                                         <Link to='/chi-tiet-review' className='link'> [Review] Doctor Strange 2: Strange Đối Đầu Kẻ Ác Mạnh Nhất MCU?</Link>
                                     </h5>
-                                    <ul className='list-fc'>
-                                        <li><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
-                                        <li><div class="rating-movie rating-home"><span class="rating-value"><strong class="review-home ng-binding">9.5</strong><span>/10</span><span class="ng-binding">&nbsp;(806)</span></span></div></li>
-                                        <li><button className='btn btn-warning btn-review'>Đánh giá</button></li>
-                                        {/* <li className='text-re'>
-                                            kkkkk
-                                        </li> */}
-
-                                    </ul>
-
-
+                                    <div className='summary'>
+                                        kkkk
+                                    </div>
+                                    <div className='row row-fc'>
+                                        <ul className='list-fc'>
+                                            <li><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
+                                            <li>
+                                                <div class="rating-movie rating-home">
+                                                    <span class="rating-value">
+                                                        <strong class="review-home ng-binding" style={{ fontSize: '12pt' }}>9.5/10</strong>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                            <li><button className='btn btn-warning btn-review'>Đánh giá</button></li>
+                                        </ul>
+                                    </div>
                                 </div>
-
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                     <FilmShowing />
