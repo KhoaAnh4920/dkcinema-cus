@@ -31,6 +31,8 @@ import PrivacyPolicy from '../components/PrivacyPolicy/PrivacyPolicy';
 import BookSeet from '../components/BuyTicket/BookSeet';
 import TestCoundDown from '../components/BuyTicket/TestCoundDown';
 
+import ListTheater from '../components/ListTheater/ListTheater';
+
 
 
 
@@ -108,6 +110,7 @@ function App() {
           <Route path="/quy-che-hoat-dong" exact component={OperatingReluration} />
           <Route path="/chinh-sach" exact component={PrivacyPolicy} />
           <Route path="/test-countdown" exact component={TestCoundDown} />
+          <Route path="/danh-sach-rap" exact component={ListTheater} />
 
         </span>
       </div>

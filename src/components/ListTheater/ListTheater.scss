@@ -1,0 +1,173 @@
+.con-theater {
+    max-width: 1400px;
+
+    .row-bread {
+        .list-bread {
+            ol {
+                display        : flex;
+                list-style-type: none;
+            }
+        }
+
+    }
+
+    .row-slider {
+        //padding-top: 10px;
+        display: flex;
+
+        .slick-slider {
+            //padding-top: 30px;
+            width : 90%;
+            margin: 0 auto;
+
+            .slick-arrow {
+                background-color: rgb(80, 80, 221);
+                border-radius   : 10px;
+            }
+
+            .slick-list {
+                text-align: center;
+
+                .slick-track {
+                    img {
+                        margin: auto;
+                        width : 90%;
+                        height: 200px;
+                    }
+
+                }
+            }
+        }
+
+        .slick-dots {
+            //bottom: -45px;
+
+            li button {
+                //margin-top: 10px;
+                display: none;
+
+                &::before {
+                    color    : #fff;
+                    font-size: 10px;
+                }
+            }
+        }
+    }
+
+    .row-film {
+        margin-top    : 30px;
+        //padding-left: 100px;
+        margin-left   : 80px;
+
+        .col-film-left {
+            .row-title-1 {
+                margin-bottom: 30px;
+
+                h5 {
+                    position      : relative;
+                    text-transform: uppercase;
+                    font-size     : 13pt;
+                    color         : #000000;
+                    font-weight   : bold;
+                }
+
+                &:after {
+                    content   : "";
+                    position  : absolute;
+                    display   : block;
+                    margin-top: 21px;
+                    width     : 15%;
+                    height    : 3px;
+                    background: #fcaf17;
+                }
+            }
+
+            .row-input {
+                margin-left: -25px;
+
+                .date-input {
+                    .form-coltrol {
+                        height    : 55px;
+                        text-align: center;
+                    }
+                }
+
+                .select-input {
+                    .form-coltrol {
+                        height: 55px;
+                    }
+                }
+            }
+
+            .row-theater-cal {
+                .__image-theater {
+                    width: 20%;
+
+                    img {
+                        width: 100%;
+                    }
+                }
+
+                .infor-film {
+                    margin-left: 20px;
+
+                    .title {
+                        margin-left: 10px;
+                        font-size  : 13pt;
+                        font-weight: bold;
+                    }
+
+                    .date-time {
+                        .date {
+                            margin-left: 10px;
+                            font-size  : 13pt;
+                        }
+
+                        .time {
+                            margin-left: 50px;
+                            font-size  : 13pt;
+                        }
+                    }
+
+                    .schedule {
+                        button {
+                            margin          : 10px;
+                            border          : 1px solid #000000;
+                            width           : 60px;
+                            height          : 40px;
+                            border-radius   : 10px;
+                            background-color: #ffffff;
+
+                            &:hover {
+                                background-color: #fcaf17;
+                                color           : #ffffff;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .col-film-right {
+            .row-title-2 {
+                h5 {
+                    position      : relative;
+                    text-transform: uppercase;
+                    font-size     : 13pt;
+                    color         : #000000;
+                    font-weight   : bold;
+                }
+
+                &:after {
+                    content   : "";
+                    position  : absolute;
+                    display   : block;
+                    margin-top: 21px;
+                    width     : 25%;
+                    height    : 3px;
+                    background: #fcaf17;
+                }
+            }
+        }
+    }
+}

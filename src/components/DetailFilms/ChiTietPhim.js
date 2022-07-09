@@ -114,8 +114,8 @@ function ChiTietPhim() {
                 url: dataMovieId.data.url
             })
         }
-
     }
+
 
     useEffect(() => {
         fetchMovieById(id);
