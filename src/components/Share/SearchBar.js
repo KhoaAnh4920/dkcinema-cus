@@ -39,7 +39,8 @@ function SearchBar({ placeholder, data }) {
                             filterData.length === 0 ? (
                                 <FaSearch />
                             ) : (
-                                <FaPlus className='clearBtn' onClick={clearCmm} />
+                                //<FaPlus className='clearBtn' onClick={clearCmm} />
+                                <FaSearch />
                             )}
                     </div>
                 </div>

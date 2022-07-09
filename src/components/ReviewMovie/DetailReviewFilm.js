@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Children, useEffect, useState } from 'react';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
 import FilmShowing from '../Share/FilmShowing';
@@ -11,7 +11,7 @@ import { Link, useParams } from 'react-router-dom';
 import "./DetailReviewFilm.scss";
 
 function DetailReviewFilm() {
-    const [show, setShow] = useState(false);
+    const [show, setShow] = useState(true);
     const handleClickShow = () => {
         setShow(!show);
     }
@@ -30,14 +30,35 @@ function DetailReviewFilm() {
         noiDung: '',
         thumbnail: '',
     });
+    //const detail = "Những năm gần đây, điện ảnh Việt ngày càng có nhiều sự tiến bộ khi chứng kiến nhiều tác phẩm chất lượng ra đời. Với đa dạng đề tài từ hành động, hài, tình cảm…, các nhà làm phim đã chứng tỏ được tay nghề thông qua nhiều tựa phim đạt được thành công tại phòng vé. Ngoài việc phát triển ý tưởng từ kịch bản gốc, phim remake cũng là một hướng đi mới mẻ của ngành phim ảnh trong nước. Từ có nhiều cái tên được Việt hóa từ nội dung nước ngoài, nhưng vẫn được sự đón nhận của đông đảo người xem. Dịp lễ 30/4 sắp đến, Nghề Siêu Dễ sẽ là lựa chọn hoàn hảo cho những ai muốn có giờ phút thư giãn vui vẻ bên gia đình, bạn bè và người yêu. Dựa trên phiên bản Extreme Job của Hàn Quốc, nhà sản xuất Thu Trang cùng đạo diễn Võ Thanh Hòa đã thảo luận, thay đổi vài chi tiết để cho ra thành phẩm Nghề Siêu Dễ mang đậm bản sắc Việt.";
+    //const change = detail.toString();
+    const detail = allValuesDetail.noiDung;
+    const content = { detail };
+    //console.log(content);
+    const image = "https://www.galaxycine.vn/media/2022/6/23/1135-1_1655988278572.jpg";
     const { id } = useParams();
     async function fetchDetailById(id) {
         let dataDetail = await getNewsById(id);
         console.log("chi tiet", dataDetail);
+        if (dataDetail && dataDetail.data) {
+            setAllValuesDetail({
+                title: dataDetail.data.title,
+                noiDung: dataDetail.data.noiDung,
+                thumbnail: dataDetail.data.thumbnail
+            })
+        }
     }
     useEffect(() => {
         fetchDetailById(id);
     }, [])
+
+
+    const renderHTML = (p) => (<span dangerouslySetInnerHTML={{ __html: p.HTML }}></span>)
+
+    const createMarkup = () => {
+        return { __html: allValuesDetail.noiDung };
+    }
+
     return (
         <div>
             <Header />
@@ -46,7 +67,7 @@ function DetailReviewFilm() {
                     <div className='col-8 col-de-left'>
                         <div className='row row-de-1'>
                             <p>
-                                REVIEW <span>|</span> Nghề Siêu Dễ: Hài hước và không kém phần ý nghĩa
+                                {allValuesDetail.title}
                             </p>
                         </div>
                         <hr />
@@ -58,31 +79,20 @@ function DetailReviewFilm() {
                                 hovering && <Ratings />
                             }
                         </div>
-                        <div className='row row-content-de'>
-                            <p>
-                                Những năm gần đây, điện ảnh Việt ngày càng có nhiều sự tiến bộ khi chứng kiến nhiều tác phẩm chất lượng ra đời. Với đa dạng đề tài từ hành động, hài, tình cảm…, các nhà làm phim đã chứng tỏ được tay nghề thông qua nhiều tựa phim đạt được thành công tại phòng vé.
+                        <div className='row row-content-de editor' dangerouslySetInnerHTML={createMarkup()}>
 
-                                Ngoài việc phát triển ý tưởng từ kịch bản gốc, phim remake cũng là một hướng đi mới mẻ của ngành phim ảnh trong nước. Từ có nhiều cái tên được Việt hóa từ nội dung nước ngoài, nhưng vẫn được sự đón nhận của đông đảo người xem.
-
-                                Dịp lễ 30/4 sắp đến, Nghề Siêu Dễ sẽ là lựa chọn hoàn hảo cho những ai muốn có giờ phút thư giãn vui vẻ bên gia đình, bạn bè và người yêu.
-
-                                Dựa trên phiên bản Extreme Job của Hàn Quốc, nhà sản xuất Thu Trang cùng đạo diễn Võ Thanh Hòa đã thảo luận, thay đổi vài chi tiết để cho ra thành phẩm Nghề Siêu Dễ mang đậm bản sắc Việt.
-                            </p>
-                            <img className='col-12 img__de' src="https://www.galaxycine.vn/media/2022/6/23/1135-1_1655988278572.jpg" />
+                            {/* {
+                                show ? allValuesDetail.noiDung.slice(0, 400) : allValuesDetail.noiDung
+                            } */}
                         </div>
-                        <div className={`row row-content-readmore ${show === true ? 'active-readmore' : ''}`}>
-                            <p >
-                                Những năm gần đây, điện ảnh Việt ngày càng có nhiều sự tiến bộ khi chứng kiến nhiều tác phẩm chất lượng ra đời. Với đa dạng đề tài từ hành động, hài, tình cảm…, các nhà làm phim đã chứng tỏ được tay nghề thông qua nhiều tựa phim đạt được thành công tại phòng vé.
-
-                                Ngoài việc phát triển ý tưởng từ kịch bản gốc, phim remake cũng là một hướng đi mới mẻ của ngành phim ảnh trong nước. Từ có nhiều cái tên được Việt hóa từ nội dung nước ngoài, nhưng vẫn được sự đón nhận của đông đảo người xem.
-
-                                Dịp lễ 30/4 sắp đến, Nghề Siêu Dễ sẽ là lựa chọn hoàn hảo cho những ai muốn có giờ phút thư giãn vui vẻ bên gia đình, bạn bè và người yêu.
-
-                                Dựa trên phiên bản Extreme Job của Hàn Quốc, nhà sản xuất Thu Trang cùng đạo diễn Võ Thanh Hòa đã thảo luận, thay đổi vài chi tiết để cho ra thành phẩm Nghề Siêu Dễ mang đậm bản sắc Việt.
-                            </p>
-                        </div>
-                        <div className='row btn-readmore-de'>
-                            <button onClick={() => handleClickShow()}>{show ? "Show Less" : "Show More"}</button>
+                        <div>
+                            {/* {
+                                content.detail && content.detail.length > 400 && (
+                                    <button onClick={handleClickShow}>
+                                        {show ? "Xem Them" : "An di"}
+                                    </button>
+                                )
+                            } */}
                         </div>
                         <div className='comment-film'>
                             <div className='title-cmt'>

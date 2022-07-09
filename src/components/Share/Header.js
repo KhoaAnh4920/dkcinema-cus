@@ -143,6 +143,9 @@ export default function Header() {
                                 <Link to="/phim-dang-chieu" className='nav-link'><FormattedMessage id="homeHeader.movie" /></Link>
                             </li>
                             <li className="nav-item ">
+                                <Link to="/danh-sach-rap" className='nav-link'><FormattedMessage id="homeHeader.theater" /></Link>
+                            </li>
+                            <li className="nav-item ">
                                 <Link to="#" className='nav-link'><FormattedMessage id="homeHeader.news" /></Link>
                                 <div className="drop-down-menu">
                                     <ul className="sub-navbar-nav">

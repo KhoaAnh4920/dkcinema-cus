@@ -7,11 +7,12 @@
         .col-intro-left {
             .list-films {
                 .blog {
-                    display: flex;
+                    margin-bottom: 40px;
+                    display      : flex;
 
                     .movie-thumb {
                         .img-review {
-                            width     : 100%;
+                            width     : 300px;
                             display   : block;
                             object-fit: contain;
                         }
