@@ -196,10 +196,26 @@ function Home() {
 
     }, []);
 
+
+    const handleClickFilms = (item) => {
+        history.push(`/dat-ve-qua-phim/${item.id}`)
+    }
+
+
+
+
     return (
         <>
             <Header />
-            <Carousel showThumbs={false} >
+            <Carousel
+                autoPlay={true}
+                infiniteLoop={true}
+                showArrows={true}
+                showThumbs={false}
+                showStatus={false}
+                swipeable={true}
+                emulateTouch={true}
+            >
                 {
                     allBanner.listBanner && allBanner.listBanner.length > 0 &&
                     allBanner.listBanner.map((item, index) => {
@@ -211,6 +227,7 @@ function Home() {
                     })
                 }
             </Carousel>
+
 
             <div className='home-content-film container-fluid'>
                 <div className='home-button container-fluid'>
@@ -231,8 +248,8 @@ function Home() {
                                 allValues.listMovie.map((item, index) => {
 
                                     return (
-                                        <div className='col-4 col-image' >
-                                            <div className='image'>
+                                        <div className='col-4 col-image' key={index} >
+                                            <div className='image' onClick={() => handleClickFilms(item)}>
                                                 {
                                                     item.ImageOfMovie.map((item1, index1) => {
                                                         if (item1.typeImage === 1) {

@@ -3,9 +3,7 @@ import './BookSeet.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from "react-redux";
-import { updateLanguage } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
-import { selectLanguage } from "../../redux/userSlice";
 import { LANGUAGES } from '../../utils/constant';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
@@ -18,7 +16,9 @@ import moment from 'moment';
 import { getEditRoom } from "../../services/RoomService";
 import { toast } from 'react-toastify';
 import { useHistory, useParams } from "react-router-dom";
-
+import { selectLanguage, updateLanguage, userState } from "../../redux/userSlice";
+import { handleCreateBookingTicket } from "../../services/BookingServices";
+import Swal from 'sweetalert2';
 
 
 function BookSeet() {
@@ -26,6 +26,9 @@ function BookSeet() {
     const dispatch = useDispatch();
     const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
     let history = useHistory();
+    let selectUser = useSelector(userState);
+
+
 
     const [allValues, setAllValues] = useState({
         name: '',
@@ -229,6 +232,21 @@ function BookSeet() {
         // fetchDataCombo();
     }, []);
 
+    useEffect(() => {
+
+        console.log('setUserInfo: ', selectUser.userInfo);
+
+
+        setAllValues((prevState) => ({
+            ...prevState,
+            cusId: (selectUser.userInfo) ? selectUser.userInfo.id : '',
+            // name: (selectUser.userInfo) ? selectUser.userInfo.fullName : '',
+            // email: (selectUser.userInfo) ? selectUser.userInfo.email : '',
+            // phoneNumber: (selectUser.userInfo) ? selectUser.userInfo.phone : '',
+        }));
+
+    }, [selectUser]);
+
 
 
 
@@ -360,11 +378,13 @@ function BookSeet() {
     }
 
 
-    const handleBookingSeet = () => {
+    const handleBookingSeet = async () => {
         console.log(allValues);
-        let amoutVip = bookingRedux.dataBooking.itemsTicket.filter(item => item.typeId == 2);
-        let amoutStandard = bookingRedux.dataBooking.itemsTicket.filter(item => item.typeId == 1);
 
+        let bookData = bookingRedux.dataBooking;
+        let amoutVip = bookData.itemsTicket.filter(item => item.typeId == 2);
+        let amoutStandard = bookData.itemsTicket.filter(item => item.typeId == 1);
+        let dataCombo = bookData.combo;
 
 
         if (allValues.countSeetStandard != amoutStandard[0].amount || allValues.countSeetVip != amoutVip[0].amount) {
@@ -381,13 +401,56 @@ function BookSeet() {
                 resSeet.push(obj);
             })
         }
-        console.log(resSeet);
-        //     // save redux //
-        let newBookingRedux = { ...bookingRedux.dataBooking, seets: resSeet, nameSeet: allValues.nameSeet }
 
-        dispatch(updateDataBooking(newBookingRedux));
 
-        history.push('/thanh-toan');
+        let result = [];
+
+        if (dataCombo.length > 0) {
+            dataCombo.map(item => {
+                let obj = {};
+                obj.comboId = item.comboId;
+                obj.quanlity = item.amount;
+                result.push(obj);
+            })
+
+        }
+
+        console.log('resSeet: ', resSeet);
+        console.log('result: ', result);
+
+        // call api save booking //
+        let dataBooking = await handleCreateBookingTicket({
+            cusId: allValues.cusId,
+            movieId: bookData.movieId,
+            showTimeId: bookData.showTimeId,
+            paymentId: null,
+            voucherCode: null,
+            price: bookData.totalPrice,
+            name: null,
+            email: null,
+            phoneNumber: null,
+            seets: resSeet,
+            combo: result
+        });
+
+        console.log('dataBooking: ', dataBooking);
+
+        if (dataBooking && dataBooking.errCode === 0) {
+            // save redux //
+            let newBookingRedux = { ...bookingRedux.dataBooking, bookingId: dataBooking.result };
+            dispatch(updateDataBooking(newBookingRedux));
+            history.push('/thanh-toan');
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Lỗi đặt ghế',
+                text: 'Ghế đang trong trạng thái chờ thanh toán',
+            })
+        }
+
+
+
+
     }
 
 
@@ -497,6 +560,7 @@ function BookSeet() {
                                     </div>
                                     <div className='submit-container'>
                                         <div className='button-book-submit'>
+                                            <button className='btn btn-backToPage' onClick={history.goBack} >Quay lại</button>
                                             <button className='btn btn-book' onClick={() => handleBookingSeet()} >Tiếp tục</button>
                                         </div>
                                     </div>

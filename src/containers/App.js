@@ -94,7 +94,7 @@ function App() {
           <Route path="/lich-chieu" exact component={BuyTicket} />
           <Route path="/dat-ghe" exact component={BookSeet} />
           <Route path="/thanh-toan" exact component={Payment} />
-          <Route path="/dat-ve-qua-phim" exact component={BookTicketThrough} />
+          <Route path="/dat-ve-qua-phim/:id" exact component={BookTicketThrough} />
           <Route path="/phan-hoi" exact component={Feedback} />
           <Route path="/quan-ly-tai-khoan" exact component={ManageAccount} />
           <Route path="/quen-mat-khau" exact component={ForgetPassword} />

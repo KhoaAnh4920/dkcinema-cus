@@ -10,8 +10,14 @@ const signUpNewUser = (data) => {
     return axios.post('/signUp-customer', data)
 }
 
+const getUserByExternalId = (externalId) => {
+    return axios.get(`/customer/${externalId}`)
+}
+
+
 
 export {
     hanedleLoginUser,
-    signUpNewUser
+    signUpNewUser,
+    getUserByExternalId
 };

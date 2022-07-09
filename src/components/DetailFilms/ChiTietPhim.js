@@ -48,8 +48,9 @@ function ChiTietPhim() {
         infinite: true,
         speed: 500,
         slidesToShow: 3,
-        slidesToScroll: 1,
+        slidesToScroll: 3,
     };
+
     const language = useSelector(selectLanguage);
     const dispatch = useDispatch();
 
@@ -88,6 +89,14 @@ function ChiTietPhim() {
         console.log(language);
         dispatch(updateLanguage(language));
     }
+
+    const youtube_parser = (url) => {
+        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        var match = url.match(regExp);
+        return (match && match[7].length == 11) ? match[7] : false;
+    }
+
+
     async function fetchMovieById(id) {
 
         //console.log(id);
@@ -96,6 +105,8 @@ function ChiTietPhim() {
         console.log(dataMovieId);
         //console.log(dateRe)
         if (dataMovieId && dataMovieId.data) {
+            let newUrl = youtube_parser(dataMovieId.data.url);
+
             setAllValues({
                 poster: dataMovieId.data.ImageOfMovie[0].url,
                 id: id,
@@ -111,7 +122,7 @@ function ChiTietPhim() {
                 typeImage: dataMovieId.data.ImageOfMovie,
                 status: dataMovieId.data.status,
                 description: dataMovieId.data.description,
-                url: dataMovieId.data.url
+                url: newUrl
             })
         }
 

@@ -206,7 +206,7 @@ function BookTicket() {
         console.log("data Combo", dataCombos);
         if (dataCombos && dataCombos.dataCombo) {
             setAllCombo({
-                listCombo: dataCombos.dataCombo
+                listCombo: dataCombos.dataCombo.slice(0, 4)
             })
         }
     }
