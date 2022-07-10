@@ -10,14 +10,18 @@ import { Button } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { CommonUtils } from '../../utils';
 import Swal from 'sweetalert2';
-import { getUserByExternalId } from '../../services/UserService';
+import { getUserByExternalId, updateUserService } from '../../services/UserService';
 import { selectLanguage, updateLanguage, userState, processLogoutUser } from "../../redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { testFunction } from './useLocationForm';
+import { userLoginSuccess } from '../../redux/userSlice';
+import { toast } from 'react-toastify';
+
 
 
 
 function AccountProfile() {
+    const dispatch = useDispatch();
     let selectUser = useSelector(userState);
     const fileUploader = useRef(null);
     const [tabDefault, setTabDefault] = useState({
@@ -28,7 +32,7 @@ function AccountProfile() {
         phone: '',
         userName: '',
         email: '',
-        userName: '',
+        fullName: '',
         address: '',
         listGender: [],
         listRoles: [],
@@ -150,14 +154,15 @@ function AccountProfile() {
     useEffect(() => {
 
 
-        let listGender = buildDataInputSelect([], 'GENDERS');
-
-        setAllValues((prevState) => ({
-            ...prevState,
-            listGender: listGender,
-        }));
-
     }, []);
+
+    const setDefaultValue = (inputData, value) => {
+        let result = inputData.filter(item => item.value === value);
+        if (result) {
+            return result;
+        }
+    }
+
 
     const handleSetTab = (data) => {
 
@@ -179,15 +184,29 @@ function AccountProfile() {
     useEffect(() => {
         async function fetchEditUser() {
             const res = await getUserByExternalId(selectUser.userInfo.externalid);
+            let listGender = buildDataInputSelect([], 'GENDERS');
+
+
+            // setAllValues((prevState) => ({
+            //     ...prevState,
+            //     listGender: listGender,
+            // }));
             let dataUser = {}
             if (res && res.data) {
                 dataUser = res.data
             }
-            const location = await testFunctionParent(dataUser.cityCode, dataUser.districtCode, dataUser.wardCode);
+
+            console.log('dataUser: ', dataUser)
+
+            let selectedGender = setDefaultValue(listGender, (dataUser.gender) ? 1 : 0);
+
+            let location = '';
+            if (dataUser.cityCode && dataUser.districtCode && dataUser.wardCode)
+                location = await testFunctionParent(dataUser.cityCode, dataUser.districtCode, dataUser.wardCode);
 
             setAllValues((prevState) => ({
                 ...prevState,
-                avatar: dataUser.avatar,
+                id: dataUser.id,
                 fullName: dataUser.fullName,
                 location: location,
                 phone: dataUser.phone,
@@ -196,9 +215,12 @@ function AccountProfile() {
                 imagePreviewUrl: dataUser.avatar,
                 address: dataUser.address,
                 birthday: dataUser.birthday,
+                listGender: listGender,
+                selectedGender
             }));
-        }
 
+            console.log(allValues);
+        }
         async function testFunctionParent(cityCode, districtCode, wardCode) {
             const location = await testFunction(cityCode, districtCode, wardCode);
 
@@ -207,13 +229,94 @@ function AccountProfile() {
             return null;
 
         }
-
-
         fetchEditUser();
 
     }, [selectUser]);
 
 
+
+    useEffect(() => {
+
+
+        if (allValues.location && allValues.location.cityOptions) {
+
+            state.cityOptions = allValues.location.cityOptions;
+            state.districtOptions = allValues.location.districtOptions;
+            state.wardOptions = allValues.location.wardOptions;
+            state.selectedCity = allValues.location.selectedCity;
+            state.selectedDistrict = allValues.location.selectedDistrict;
+            state.selectedWard = allValues.location.selectedWard;
+
+            setAllValues((prevState) => ({
+                ...prevState
+            }));
+        }
+    }, [allValues.location])
+
+
+    const handleChangeSelect = async (selectedOption, name) => {
+        let stateName = name.name; // Lấy tên của select - selectedOption: lấy giá trị đc chọn trên select //
+        let stateCopy = { ...allValues };
+        stateCopy[stateName] = selectedOption;
+
+        setAllValues({ ...stateCopy })
+    }
+
+    const hanldeUpdateProfile = async () => {
+        let allValuesInput = { ...allValues, selectedCity, selectedDistrict, selectedWard };
+
+        setAllValues({
+            ...allValues,
+            isShowLoading: true
+        })
+        console.log('allValuesInput: ', allValuesInput)
+
+        let formatedDate = new Date(allValues.birthday).getTime(); // convert timestamp //
+
+        let res = await updateUserService({
+            fullName: allValues.fullName,
+            birthday: formatedDate,
+            phone: allValues.phone,
+            gender: allValues.selectedGender.value,
+            address: allValues.address,
+            avatar: allValues.avatar,
+            fileName: allValues.fileName,
+            cityCode: selectedCity.value,
+            districtCode: selectedDistrict.value,
+            wardCode: selectedWard.value,
+            externalid: selectUser.userInfo.externalid,
+            roleId: 4,
+        })
+
+        if (res && res.errCode == 0) {
+            // history.push("/users-management")
+            toast.success("Cập nhật thành công");
+            dispatch(userLoginSuccess({
+                email: allValues.email,
+                roleId: 4,
+                fullName: allValues.fullName,
+                avatar: allValues.imagePreviewUrl,
+                externalid: selectUser.userInfo.externalid,
+                phone: allValues.phone,
+                isActive: true,
+                id: allValues.id,
+                accessToken: selectUser.userInfo.accessToken,
+
+            }));
+        } else {
+            // history.push("/users-management")
+            toast.error("Cập nhật thất bại");
+        }
+
+        setAllValues({
+            ...allValues,
+            isShowLoading: false
+        })
+    }
+
+    const changeHandler = e => {
+        setAllValues({ ...allValues, [e.target.name]: e.target.value })
+    }
 
 
 
@@ -232,47 +335,6 @@ function AccountProfile() {
                         </li>
 
                     </ul>
-                    {/* <div className="tab-content">
-            <div className="tab-pane active" id="tab_default_1">
-              <p>
-                I'm in Tab 1.
-              </p>
-              <p>
-                Duis autem eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat.
-              </p>
-              <p>
-                <a className="btn btn-success" href="http://j.mp/metronictheme" target="_blank">
-                  Learn more...
-                </a>
-              </p>
-            </div>
-            <div className="tab-pane" id="tab_default_2">
-              <p>
-                Howdy, I'm in Tab 2.
-              </p>
-              <p>
-                Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat. Ut wisi enim ad minim veniam, quis nostrud exerci tation.
-              </p>
-              <p>
-                <a className="btn btn-warning" href="http://j.mp/metronictheme" target="_blank">
-                  Click for more features...
-                </a>
-              </p>
-            </div>
-            <div className="tab-pane" id="tab_default_3">
-              <p>
-                Howdy, I'm in Tab 3.
-              </p>
-              <p>
-                Duis autem vel eum iriure dolor in hendrerit in vulputate. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat
-              </p>
-              <p>
-                <a className="btn btn-info" href="http://j.mp/metronictheme" target="_blank">
-                  Learn more...
-                </a>
-              </p>
-            </div>
-          </div> */}
                 </div>
             </div>
 
@@ -294,8 +356,8 @@ function AccountProfile() {
                         <button className="btn btn-update-avatar" onClick={handleOpenUploadFile}><i className='fas fa-pencil-alt'></i></button>
                         <div className='name-user'>
                             <div className='text'>
-                                <span className='fullname'>Khoa Anh</span>
-                                <span className='address-user'>Cao Lỗ, Quận 8</span>
+                                <span className='fullname'>{allValues.fullName}</span>
+                                <span className='address-user'>{allValues.address}</span>
                             </div>
 
                         </div>
@@ -308,19 +370,19 @@ function AccountProfile() {
                         <div className='input-flex' style={{ marginTop: '0px' }}>
                             <div className='input-content'>
                                 <label htmlFor="exampleInputEmail1">Email</label>
-                                <input type="text" className="form-control input-small" name='email' placeholder="Email" />
+                                <input type="email" className="form-control input-small" onChange={changeHandler} value={allValues.email} disabled name='email' placeholder="Email" />
                             </div>
 
                             <div className='input-content'>
-                                <label htmlFor="exampleInputEmail1">Fullname</label>
-                                <input type="text" className="form-control input-small" name='email' placeholder="Họ tên" />
+                                <label htmlFor="exampleInputEmail1">Họ tên</label>
+                                <input type="text" className="form-control input-small" onChange={changeHandler} value={allValues.fullName} name='fullName' placeholder="Họ tên" />
                             </div>
 
                         </div>
                         <div className='input-flex'>
                             <div className='input-content'>
                                 <label htmlFor="exampleInputEmail1">Số điện thoại</label>
-                                <input type="text" className="form-control input-small" name='email' placeholder="Số điện thoại" />
+                                <input type="text" className="form-control input-small" name='phone' onChange={changeHandler} value={allValues.phone} placeholder="Số điện thoại" />
                             </div>
 
                             <div className='input-content'>
@@ -328,8 +390,8 @@ function AccountProfile() {
 
                                 <Select
                                     className='gender-select'
-                                    // value={allValues.selectedGender}
-                                    // onChange={handleChangeSelect}
+                                    value={allValues.selectedGender}
+                                    onChange={handleChangeSelect}
                                     options={allValues.listGender}
                                     placeholder='Chọn...'
                                     name='selectedGender'
@@ -360,7 +422,7 @@ function AccountProfile() {
                                     options={cityOptions}
                                     onChange={(option) => onCitySelect(option)}
                                     placeholder="City"
-                                    defaultValue={selectedCity}
+                                    defaultValue={state.selectedCity}
                                     styles={customStyles}
                                 />
                             </div>
@@ -398,10 +460,10 @@ function AccountProfile() {
                         </div>
                         <div className='input-content' style={{ marginTop: '30px' }}>
                             <label htmlFor="exampleInputEmail1">Địa chỉ</label>
-                            <input type="text" className="form-control input-small" name='email' placeholder="Địa chỉ" />
+                            <input type="text" className="form-control input-small" value={allValues.address} onChange={changeHandler} name='address' placeholder="Địa chỉ" />
                         </div>
                         <div className='submit-container'>
-                            <Button variant="primary" {...allValues.isShowLoading && 'disabled'} className="btn-update-profile" >
+                            <Button variant="primary" {...allValues.isShowLoading && 'disabled'} className="btn-update-profile" onClick={hanldeUpdateProfile} >
                                 {allValues.isShowLoading &&
                                     <>
                                         <Spinner

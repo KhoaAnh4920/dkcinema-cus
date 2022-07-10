@@ -88,7 +88,7 @@ export default function Header() {
                                     <>
                                         <div className="dropdown dropdown-userinfo">
                                             <div id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <img className='avatar-user' src={avatar} />
+                                                <img className='avatar-user' src={selectUser.userInfo.avatar ? selectUser.userInfo.avatar : avatar} />
                                                 <span className='user-fullname'>{selectUser.userInfo.fullName}</span>
                                             </div>
                                             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">

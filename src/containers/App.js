@@ -99,7 +99,7 @@ function App() {
           <Route path="/dat-ve-qua-phim/:id" exact component={BookTicketThrough} />
           <Route path="/phan-hoi" exact component={Feedback} />
           <Route path="/quan-ly-tai-khoan" exact component={ManageAccount} />
-          <Route path="/quen-mat-khau" exact component={ForgetPassword} />
+          <Route path="/reset-password" exact component={ForgetPassword} />
           <Route path="/doi-mat-khau" exact component={ChangePassword} />
           <Route path="/chi-tiet-review/:id" exact component={DetailReviewFilm} />
           <Route path="/chi-tiet-intro" exact component={DetailFilmIntro} />

@@ -1,12 +1,22 @@
-.captcha {
-    div {
-        display: flex;
-    }
-}
+.capcha-main {
 
-input {
-    width        : 100%;
-    height       : calc(1.5em + .75rem + 7px);
-    border-radius: 5px;
-    border       : 1px solid #d1d3e2;
+    margin-top: 20px;
+
+
+    .captcha {
+        div {
+            display: flex;
+        }
+    }
+
+    input {
+        width: 100%;
+        height: calc(1.5em + .75rem + 7px);
+        border-radius: 5px;
+        border: 1px solid #d1d3e2;
+    }
+
+    .input-capcha {
+        height: 32px;
+    }
 }
