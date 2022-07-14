@@ -25,6 +25,9 @@ import { toast } from 'react-toastify';
 import { updateDataBooking } from "../../redux/BookingSlice";
 import LoadingOverlay from 'react-loading-overlay'
 import ClipLoader from 'react-spinners/ClipLoader'
+import { getNewsByType } from '../../services/NewsServices';
+
+
 
 
 
@@ -53,6 +56,9 @@ function Home() {
     const [allBanner, setAllBanner] = useState({
         listBanner: []
     })
+    const [allReviewMovie, setAllReviewMovie] = useState([])
+    const [allInComingMovie, setInComingMovie] = useState([])
+    const [allPromotionPost, setPromotionPost] = useState([])
 
     const [isShowLoading, setIsShowLoading] = useState(true)
 
@@ -67,9 +73,7 @@ function Home() {
     }
 
     const handleClickDefaultButton = async e => {
-        // setIsShowLoading(true);
-        // document.body.style.overflow = "hidden";
-        // document.body.style.height = "100%";
+
 
         // Call api get phim //
         if (buttonDefault.isShowButtonDangChieu) {
@@ -90,15 +94,12 @@ function Home() {
                 isShowButtonSapChieu: true,
             })
         }
-        // setIsShowLoading(false);
-        // document.body.style.overflow = "auto";
-        // document.body.style.height = "auto";
+
     }
 
     async function fetchDataMovie(status) {
         // You can await here
         const dataMovie = await getListMovieByStatus(status);
-        console.log("dataMovie: ", dataMovie);
 
         if (dataMovie && dataMovie.data) {
             setAllValues({
@@ -123,11 +124,25 @@ function Home() {
     }
     async function fetchDataBanner() {
         const dataBanner = await getAllBanner();
-        console.log("dataBanner", dataBanner);
         if (dataBanner && dataBanner.data) {
             setAllBanner({
                 listBanner: dataBanner.data
             })
+        }
+    }
+
+    async function fetchDataPost(type) {
+        const dataPost = await getNewsByType(type);
+        // console.log("dataPost", dataPost);
+
+        if (dataPost && dataPost.data) {
+            if (type === 1) {
+                setAllReviewMovie(dataPost.data)
+            } else if (type === 2) {
+                setInComingMovie(dataPost.data)
+            } else {
+                setPromotionPost(dataPost.data)
+            }
         }
     }
 
@@ -148,6 +163,10 @@ function Home() {
 
         fetchDataMovie(1);
         fetchDataBanner();
+        fetchDataPost(1);
+        fetchDataPost(2);
+        fetchDataPost(3);
+
         // Check thanh toán //
         let url = window.location.href;
         if (url.includes('?')) {
@@ -343,33 +362,25 @@ function Home() {
 
                     </h1>
                     <div className='row-img-discount'>
-                        <div className='img-discount'>
-                            <Image src={km1} className='img' />
-                            <div className='image__overlay image__overlay--primary'>
-                                <Button size='md' variant='warning' className='btn__show'>Chi tiết</Button>
-                            </div>
-                        </div>
-                        <div className='img-discount'>
-                            <Image src={km2} className='img' />
-                            <div className='image__overlay image__overlay--primary'>
-                                <Button size='md' variant='warning' className='btn__show'>Chi tiết</Button>
-                            </div>
-                        </div>
-                        <div className='img-discount'>
-                            <Image src={km3} className='img' />
-                            <div className='image__overlay image__overlay--primary'>
-                                <Button size='md' variant='warning' className='btn__show'>Chi tiết</Button>
-                            </div>
-                        </div>
-                        <div className='img-discount'>
-                            <Image src={km4} className='img' />
-                            <div className='image__overlay image__overlay--primary'>
-                                <Button size='md' variant='warning' className='btn__show'>Chi tiết</Button>
-                            </div>
-                        </div>
+                        {allPromotionPost && allPromotionPost.length > 0 &&
+                            allPromotionPost.map((item, index) => {
+                                if (index < 5) {
+                                    return (
+                                        <div className='img-discount'>
+                                            <Image src={item.thumbnail} className='img' />
+                                            <div className='image__overlay image__overlay--primary'>
+                                                <Button size='md' variant='warning' className='btn__show'>Chi tiết</Button>
+                                            </div>
+                                        </div>
+                                    )
+                                }
+                            })
+
+                        }
+
                     </div>
                     <div className='text-read-more'>
-                        <p><a href='#'>Xem Thêm</a></p>
+                        <p><Link to={`/khuyen-mai`}>Xem Thêm</Link></p>
                     </div>
 
                 </div>
@@ -377,29 +388,45 @@ function Home() {
                     <div className='row row-news'>
                         <div className='col-6 col-left'>
                             <h1 className='text-review'> review phim</h1>
-                            <div className='content'>
-                                <div className='content-image'>
-                                    <Image src={pdc1} className='image' />
-                                </div>
-                                <h5><a href="/binh-luan-phim/review-doctor-strange-2-strange-doi-dau-ke-ac-manh-nhat-mcu">[Review] Doctor Strange 2: Strange Đối Đầu Kẻ Ác Mạnh Nhất MCU?</a></h5>
-                                <li><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
-                                <li><div class="rating-movie rating-home"><span class="rating-value"><strong class="review-home ng-binding">9.5</strong><span>/10</span><span class="ng-binding">&nbsp;(806)</span></span></div></li>
-                                <li><button className='btn btn-warning btn-review'>Đánh giá</button></li>
-                                <p>AAAA</p>
-                            </div>
+                            {allReviewMovie && allReviewMovie.map((item, index) => {
+                                if (index < 4) {
+                                    return (
+                                        <div className='content' key={index}>
+                                            <div className='content-image'>
+                                                <Image src={item.thumbnail} className='image' />
+                                            </div>
+
+                                            <h5><Link to={`/chi-tiet-review/${item.id}`}>{item.title}</Link></h5>
+                                            {/* <li><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li> */}
+                                            <li><div class="rating-movie rating-home"><span class="rating-value"><strong class="review-home ng-binding">{item.rating}</strong><span>/10</span><span class="ng-binding">&nbsp;(806)</span></span></div></li>
+
+                                            <p className='summary' >{item.tomTat}</p>
+                                        </div>
+                                    )
+
+                                }
+                            })}
+
                         </div>
                         <div className='col-6 col-right'>
                             <h1 className='text-intro'>giới thiệu phim sắp chiếu</h1>
-                            <div className='content'>
-                                <div className='content-image'>
-                                    <Image src={pdc1} className='image' />
-                                </div>
-                                <h5><a href="/binh-luan-phim/review-doctor-strange-2-strange-doi-dau-ke-ac-manh-nhat-mcu">[Review] Doctor Strange 2: Strange Đối Đầu Kẻ Ác Mạnh Nhất MCU?</a></h5>
-                                <li><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
-                                <li><div class="rating-movie rating-home"><span class="rating-value"><strong class="review-home ng-binding">9.5</strong><span>/10</span><span class="ng-binding">&nbsp;(806)</span></span></div></li>
-                                <li><button className='btn btn-warning btn-review'>Đánh giá</button></li>
-                                <p>AAAA</p>
-                            </div>
+                            {allInComingMovie && allInComingMovie.map((item, index) => {
+                                if (index < 4) {
+                                    return (
+                                        <div className='content' key={index} >
+                                            <div className='content-image'>
+                                                <Image src={item.thumbnail} className='image' />
+                                            </div>
+                                            <h5><h5><Link to={`/chi-tiet-review/${item.id}`}>{item.title}</Link></h5></h5>
+                                            {/* <li><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li> */}
+                                            <li><div class="rating-movie rating-home"><span class="rating-value"><strong class="review-home ng-binding">{item.rating}</strong><span>/10</span><span class="ng-binding">&nbsp;(806)</span></span></div></li>
+
+                                            <p className='summary' >{item.tomTat}</p>
+                                        </div>
+                                    )
+                                }
+                            })}
+
                         </div>
                     </div>
                 </div>

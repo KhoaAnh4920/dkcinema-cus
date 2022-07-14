@@ -63,6 +63,32 @@ export default function Header() {
     }, [selectUser]);
 
 
+    const parseJwt = (token) => {
+        const decode = JSON.parse(atob(token.split('.')[1]));
+        // console.log('decode.exp: ', decode.exp);
+        // console.log('new Date().getTime(): ', new Date().getTime());
+
+        if (decode.exp * 1000 < new Date().getTime()) {
+            dispatch(processLogoutUser());
+            dispatch(updateDataBooking(null));
+            console.log('Time Expired');
+        }
+    };
+
+
+    useEffect(() => {
+
+        const data = JSON.parse(localStorage.getItem("persist:user"));
+
+        const dataLocal = JSON.parse(data.user)
+
+        if (dataLocal && dataLocal.userInfo && dataLocal.userInfo.accessToken) {
+            parseJwt(dataLocal.userInfo.accessToken)
+        }
+
+    }, [])
+
+
     return (
         <>
             <div className='home-header-container'>
@@ -74,8 +100,9 @@ export default function Header() {
                     </div>
                     <div className='center-content'>
                         <SearchBar
-                            placeholder={"Entering...."}
+                            placeholder={"Tìm tên phim...."}
                             data={PhimData}
+
                         />
                     </div>
 
@@ -111,8 +138,6 @@ export default function Header() {
 
                                     </>
                                 }
-
-
 
                             </div>
                         </div>

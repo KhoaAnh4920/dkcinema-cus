@@ -1,4 +1,5 @@
 import logo from '../logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.scss';
 import { BrowserRouter as Routes, Route, Link, Switch } from "react-router-dom";
 import Home from '../components/HomePage/Home';
@@ -32,52 +33,24 @@ import BookSeet from '../components/BuyTicket/BookSeet';
 import TestCoundDown from '../components/BuyTicket/TestCoundDown';
 
 import ListTheater from '../components/ListTheater/ListTheater';
+import MyMapComponent from '../components/ListTheater/MyMapComponent';
+import SearchPage from '../components/Search/SearchPage';
+import ErrorTicket from '../components/ErrorTicket/ErrorTicket';
+
+
 
 
 
 
 function App() {
+
+
+
+
+
+
   return (
-    // <Routes>
-    //   <Route path={path.HOME} exact element={<Home />} />
 
-    // </Routes>
-    // <ToastContainer
-    //   position="bottom-right"
-    //   autoClose={5000}
-    //   hideProgressBar={false}
-    //   newestOnTop={false}
-    //   closeOnClick
-    //   rtl={false}
-    //   pauseOnFocusLoss
-    //   draggable
-    //   pauseOnHover
-    // />
-
-    // <Router >
-    //   <div className="main-container">
-
-    //     {/* {this.props.isLoggedIn && <Header />} */}
-
-    //     <span className="content-container">
-    //       <Switch>
-    //         <Route path={path.HOME} exact component={(Home)} />
-    //       </Switch>
-    //     </span>
-    //   </div>
-
-    //   <ToastContainer
-    //     position="bottom-right"
-    //     autoClose={5000}
-    //     hideProgressBar={false}
-    //     newestOnTop={false}
-    //     closeOnClick
-    //     rtl={false}
-    //     pauseOnFocusLoss
-    //     draggable
-    //     pauseOnHover
-    //   />
-    // </Router>
 
     <Routes>
       {/* <Route path="/" exact component={Home} /> */}
@@ -104,16 +77,20 @@ function App() {
           <Route path="/chi-tiet-review/:id" exact component={DetailReviewFilm} />
           <Route path="/chi-tiet-intro" exact component={DetailFilmIntro} />
           <Route path="/khuyen-mai" exact component={DiscountList} />
-          <Route path="/chi-tiet-khuyen-mai" exact component={DetailDiscount} />
+          <Route path="/chi-tiet-khuyen-mai/:id" exact component={DetailDiscount} />
           <Route path="/ve-chung-toi" exact component={AboutUs} />
           <Route path="/thoa-thuan" exact component={Agreement} />
           <Route path="/quy-che-hoat-dong" exact component={OperatingReluration} />
           <Route path="/chinh-sach" exact component={PrivacyPolicy} />
           <Route path="/test-countdown" exact component={TestCoundDown} />
           <Route path="/danh-sach-rap" exact component={ListTheater} />
-
+          <Route path="/test-map" exact component={MyMapComponent} />
+          <Route path="/tim-kiem" component={SearchPage} />
+          <Route path="/loi-ve" component={ErrorTicket} />
         </span>
+
       </div>
+
 
 
       <ToastContainer
@@ -128,6 +105,7 @@ function App() {
         pauseOnHover
       />
     </Routes>
+
   );
 }
 

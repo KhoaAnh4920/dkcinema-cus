@@ -5,13 +5,14 @@ const colors = {
     orange: "#FFBA5A",
     grey: "#a9a9a9"
 };
-function Rating() {
+function Rating(props) {
 
     const [curValue, setCurValue] = useState(0);
     const [hoverValue, setHoverValue] = useState(undefined);
-    const stars = Array(10).fill(0);
+    const stars = Array(5).fill(0);
 
     const handleClick = value => {
+        props.checkClick(value)
         setCurValue(value);
     }
     const handleMouseOver = newHoverValue => {
@@ -27,18 +28,19 @@ function Rating() {
                     return (
                         <FaStar
                             key={index}
-                            size={24}
+                            size={15}
                             onClick={() => handleClick(index + 1)}
                             onMouseOver={() => handleMouseOver(index + 1)}
                             onMouseLeave={handleMouseLeave}
                             color={(hoverValue || curValue) > index ? colors.orange : colors.grey}
                             style={{
-                                marginRight: 10,
+
+                                marginRight: 5,
                                 cursor: "pointer"
                             }}
                         />
                     )
-                })}&nbsp;{curValue}/10
+                })}&nbsp;<span style={{ marginTop: '3px' }}>{curValue}/5</span>
             </div>
         </>
     );

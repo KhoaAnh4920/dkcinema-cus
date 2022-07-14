@@ -36,6 +36,7 @@ import { Link } from "react-router-dom";
 import { userState } from "../../redux/userSlice";
 import { updateDataBooking } from "../../redux/BookingSlice";
 import { toast } from 'react-toastify';
+import InCommingFilms from '../Share/InCommingFilms';
 
 
 
@@ -261,6 +262,11 @@ function BookTicketThrough() {
 
     }, [selectUser]);
 
+    useEffect(() => {
+        let dateToday = new Date();
+        fetchAllSchedule(id, dateToday.getTime(), null)
+    }, [id]);
+
 
 
     const customStyles = {
@@ -314,7 +320,7 @@ function BookTicketThrough() {
     return (
         <>
             <Header />
-            <div className='detail-film'>
+            <div className='book-ticket-film'>
                 <div className='container box'>
                     <div className='row row-detail'>
 
@@ -485,7 +491,10 @@ function BookTicketThrough() {
 
 
                     </div>
-                    <div className='col-4 col-right'>
+                    <InCommingFilms
+                        dataMovieUpcoming={allValues.dataMovieUpcoming}
+                    />
+                    {/* <div className='col-4 col-right'>
                         <div className='title'>
                             <h5>phim đang chiếu</h5>
                         </div>
@@ -493,20 +502,6 @@ function BookTicketThrough() {
                             {
                                 allValues.dataMovieUpcoming && allValues.dataMovieUpcoming.length > 0 && allValues.dataMovieUpcoming.map((item, index) => {
                                     return (
-                                        // <div className='image-pdc' key={index} onClick={() => handleClickDetailFilms(item)}>
-                                        //     {
-                                        //         item.ImageOfMovie.map((item1, index1) => {
-                                        //             if (item1.typeImage === 1) {
-                                        //                 return (
-                                        //                     <img src={item1.url} key={index1} />
-                                        //                 )
-                                        //             }
-
-                                        //         })
-                                        //     }
-                                        //     <p className='vn'>{item.name}</p>
-                                        //     <p className='eng'>{item.transName}</p>
-                                        // </div>
                                         <>
                                             <div className='image' onClick={() => handleClickFilms(item)}>
                                                 {
@@ -537,11 +532,11 @@ function BookTicketThrough() {
                             }
 
                             <div className='link-read-more'>
-                                {/* <a href='#'>Xem Thêm</a> */}
+                  
                                 <Link to="/phim-dang-chieu">Xem thêm</Link>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
             </div>

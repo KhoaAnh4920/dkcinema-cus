@@ -14,8 +14,14 @@ const getAllMovie = () => {
     return axios.get(`/movie`)
 }
 
+const getSearchMovie = (kw) => {
+    return axios.get('/search-movie', { params: { kw: kw } })
+}
+
+
 export {
     getListMovieByStatus,
     getMovieById,
-    getAllMovie
+    getAllMovie,
+    getSearchMovie
 };

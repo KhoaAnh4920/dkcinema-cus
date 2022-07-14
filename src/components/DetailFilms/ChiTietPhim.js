@@ -32,6 +32,18 @@ import Header from '../Share/Header';
 import FilmShowing from '../Share/FilmShowing';
 import { useHistory } from "react-router-dom";
 import moment from 'moment';
+import Ratings from '../Share/Rating';
+import { toast } from 'react-toastify';
+import InCommingFilms from '../Share/InCommingFilms';
+import { getNewsByType } from '../../services/NewsServices';
+
+
+
+
+
+
+
+
 function ChiTietPhim() {
     let history = useHistory();
     const redirectBookTicket = () => {
@@ -41,6 +53,13 @@ function ChiTietPhim() {
     const [open, setOpen] = useState(false);
     const handleShowVideo = () => {
         setOpen(!open);
+    }
+    const [hovering, setHovering] = useState(false);
+    const handleMouseOver = () => {
+        setHovering(true);
+    }
+    const handleMouseLeave = () => {
+        setHovering(false);
     }
 
     var settings = {
@@ -70,6 +89,7 @@ function ChiTietPhim() {
         errors: {},
         poster: '',
     });
+    const [allPromotionPost, setPromotionPost] = useState([])
     //const urlTrailer = allValues.url;
     //console.log(urlTrailer);
     const trailer = {
@@ -101,11 +121,30 @@ function ChiTietPhim() {
 
         //console.log(id);
         let dataMovieId = await getMovieById(id);
+        let dataMovieUpcoming = await getListMovieByStatus(1, 1, 6);
+
+
+        if (dataMovieUpcoming && dataMovieUpcoming.data && dataMovieUpcoming.data.length > 0) {
+            dataMovieUpcoming = dataMovieUpcoming.data.filter(item => item.id !== +id)
+            dataMovieUpcoming = dataMovieUpcoming.slice(0, 3)
+        } else
+            dataMovieUpcoming = []
+
+
         let dateRe = moment(dataMovieId.data.releaseTime).format('DD-MM-YYYY');
         console.log(dataMovieId);
         //console.log(dateRe)
         if (dataMovieId && dataMovieId.data) {
             let newUrl = youtube_parser(dataMovieId.data.url);
+
+            dataMovieId.data.type = '';
+            dataMovieId.data.MovieOfType.map(item => {
+                dataMovieId.data.type += item.name + ', ';
+            })
+
+            dataMovieId.data.type = dataMovieId.data.type.replace(/,\s*$/, "");
+
+            console.log('dataMovieId.data: ', dataMovieId.data)
 
             setAllValues({
                 poster: dataMovieId.data.ImageOfMovie[0].url,
@@ -122,15 +161,67 @@ function ChiTietPhim() {
                 typeImage: dataMovieId.data.ImageOfMovie,
                 status: dataMovieId.data.status,
                 description: dataMovieId.data.description,
-                url: newUrl
+                type: dataMovieId.data.type,
+                url: newUrl,
+                dataMovieUpcoming: dataMovieUpcoming
             })
+        }
+    }
+
+    async function fetchDataPost(type) {
+        const dataPost = await getNewsByType(type);
+        // console.log("dataPost", dataPost);
+
+        if (dataPost && dataPost.data) {
+            setPromotionPost(dataPost.data)
         }
     }
 
 
     useEffect(() => {
         fetchMovieById(id);
+        fetchDataPost(3);
     }, []);
+
+    useEffect(() => {
+        fetchMovieById(id);
+        fetchDataPost(3);
+    }, [id]);
+
+
+    const votePostRating = async (data) => {
+
+
+        console.log('data: ', data)
+        // if (!allValuesDetail.isLoggedInUser) {
+        //     toast.warning('Vui lòng đăng nhập để thực hiện')
+        //     return
+        // }
+
+        // Call API //
+        // let res = await votePostRatingService({
+        //     rating: data,
+        //     cusId: allValuesDetail.cusId,
+        //     newsId: id
+        // })
+
+        // console.log('res: ', res)
+
+        // if (res && res.errCode === 0) {
+        //     toast.success("Thank you")
+
+        // } else {
+        //     toast.error(res.errMessage);
+        // }
+
+    }
+
+    const handleBookTicket = () => {
+        history.push(`/dat-ve-qua-phim/${id}`)
+    }
+
+
+
     return (
         <>
             <Header />
@@ -169,25 +260,25 @@ function ChiTietPhim() {
                                     <ul>
                                         <li >
                                             <div className='title-left'>
-                                                {allValues.name}
+                                                {(allValues && allValues.name) ? allValues.name : ''}
                                             </div>
                                             <div className='title-right'>
-                                                aaaaa
+                                                <div className="rating-movie rating-home"><span className="rating-value"><strong className="review-home ng-binding">9.5</strong><span>/10</span><span className="ng-binding">&nbsp;(806)</span></span></div>
                                             </div>
                                         </li>
-
                                     </ul>
                                 </div>
                             </div>
                             <div className='row row-seen'>
-                                <div className='row detail'>
+                                <div className='row detail time-container'>
                                     <ul>
                                         <li >
-                                            <div className='seen-left'>
-                                                aaaaa
+                                            <div className='time-left'>
+                                                <i className="icon-c13"></i>
                                             </div>
-                                            <div className='seen-right'>
-                                                aaaaa
+                                            <div className='time-right'>
+                                                <i className="fas fa-clock"></i>
+                                                {(allValues.duration) ? allValues.duration + ' phút' : ''}
                                             </div>
                                         </li>
                                     </ul>
@@ -197,50 +288,42 @@ function ChiTietPhim() {
                                 <div className='row row-info-detail'>
                                     <ul>
                                         <li>
-                                            <div className='info-left'>nhà sản xuất</div>
-                                            <div className='info-right'>{allValues.brand}</div>
+                                            <div className='info-left'>Nhà sản xuất</div>
+                                            <div className='info-right'>{(allValues.brand) ? allValues.brand : ''}</div>
                                         </li>
                                         <li>
-                                            <div className='info-left'>đạo diễn</div>
+                                            <div className='info-left'>Đạo diễn</div>
                                             <div className='info-right'>None</div>
                                         </li>
                                         <li>
-                                            <div className='info-left'>thể loại</div>
-                                            <div className='info-right' style={{ display: 'flex' }}>
-                                                {
-                                                    allValues.typeMovie.map((item, index) => {
-                                                        return (
-                                                            <div key={index}>{item.name + ','} &nbsp; </div>
-                                                        )
-                                                    })
-                                                }
+                                            <div className='info-left'>Thể loại</div>
+                                            <div className='info-right'>
+                                                {(allValues.type) ? allValues.type : ''}
                                             </div>
-
-                                        </li>
-                                        <div className='info-right'></div>
-                                        <li>
-                                            <div className='info-left'>diễn viên</div>
-                                            <div className='info-right'>{allValues.cast}</div>
                                         </li>
                                         <li>
-                                            <div className='info-left'>quốc gia</div>
-                                            <div className='info-right'>{allValues.country}</div>
+                                            <div className='info-left'>Diễn viên</div>
+                                            <div className='info-right'>{(allValues.cast) ? allValues.cast : ''}</div>
                                         </li>
                                         <li>
-                                            <div className='info-left'>ngày khởi chiếu</div>
-                                            <div className='info-right'>{allValues.releaseTime}</div>
+                                            <div className='info-left'>Quốc gia</div>
+                                            <div className='info-right'>{(allValues.country) ? allValues.country : ''}</div>
+                                        </li>
+                                        <li>
+                                            <div className='info-left'>Ngày khởi chiếu</div>
+                                            <div className='info-right'>{(allValues.releaseTime) ? moment(allValues.releaseTime).format('DD/MM/YYYY') : ''}</div>
                                         </li>
                                     </ul>
-
                                 </div>
                             </div>
 
-                            <div className='row row-btn' style={{ 'paddingLeft': '20px' }}>
+                            <div className='row row-btn'>
                                 <div className='blog'>
-                                    <button className='btn-buy btn'>mua vé</button>
-                                    <li><div className="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
-                                    <button className='btn btn-review'>đánh giá</button>
-
+                                    <button className='btn-buy btn' onClick={handleBookTicket}>mua vé</button>
+                                    <button className='btn btn-warning btn-review' onMouseOver={handleMouseOver} onClick={handleMouseLeave}>Đánh giá</button>
+                                    {
+                                        hovering && <Ratings checkClick={votePostRating} />
+                                    }
                                 </div>
                             </div>
 
@@ -269,31 +352,30 @@ function ChiTietPhim() {
                             </div>
                             <div className='slide-discount'>
                                 <Slider {...settings}>
-                                    <div>
-                                        <img src={quang_cao_1} />
-                                    </div>
-                                    <div>
-                                        <img src={quang_cao_2} />
-                                    </div>
-                                    <div>
-                                        <img src={quang_cao_3} />
-                                    </div>
-                                    <div>
-                                        <img src={quang_cao_4} />
-                                    </div>
-                                    {/* <div>
-                                        <img src={quang_cao_2} />
-                                    </div>
-                                    <div>
-                                        <img src={quang_cao_1} />
-                                    </div> */}
+                                    {allPromotionPost && allPromotionPost.length > 0 &&
+                                        allPromotionPost.map((item, index) => {
+                                            if (index < 5) {
+                                                return (
+                                                    <div key={index} >
+                                                        <img src={item.thumbnail} />
+                                                    </div>
+
+                                                )
+                                            }
+                                        })
+
+                                    }
+
 
 
                                 </Slider>
                             </div>
                         </div>
                     </div>
-                    <FilmShowing />
+                    {/* <FilmShowing /> */}
+                    <InCommingFilms
+                        dataMovieUpcoming={allValues.dataMovieUpcoming}
+                    />
 
                 </div>
             </div>

@@ -261,9 +261,8 @@ function Payment() {
         if (res && res.statusCode === 200 && res.data) {
             console.log('res data: ', res.data);
 
-
-
             try {
+
                 let resLink = JSON.parse(res.data);
                 if (resLink.payUrl) {
                     window.location.replace(resLink.payUrl);
@@ -302,9 +301,17 @@ function Payment() {
             if (dataVoucher && dataVoucher.data) {
                 console.log('totalPrice: ', allValues.totalPrice);
 
-                let newPrice = (dataVoucher.data.discount > 100) ? allValues.totalPrice - dataVoucher.data.discount : (dataVoucher.data.discount * allValues.totalPrice) / 100
+                if (dataVoucher.data.condition && allValues.totalPrice < dataVoucher.data.condition) {
+                    let con = dataVoucher.data.condition.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+                    toast.error(`Voucher chỉ áp dụng cho đơn hàng từ ${con} trở lên`);
+                    setAllValues((prevState) => ({
+                        ...prevState,
+                        voucherCode: ''
+                    }));
+                    return
+                }
 
-                console.log('newPrice: ', newPrice);
+                let newPrice = (dataVoucher.data.discount > 100) ? allValues.totalPrice - dataVoucher.data.discount : (dataVoucher.data.discount * allValues.totalPrice) / 100
 
                 setAllValues((prevState) => ({
                     ...prevState,
@@ -314,8 +321,6 @@ function Payment() {
             } else {
                 toast.error("Voucher not found")
             }
-
-
         }
 
         else
