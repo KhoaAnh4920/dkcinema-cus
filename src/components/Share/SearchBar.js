@@ -34,7 +34,7 @@ function SearchBar({ placeholder, data }) {
                         placeholder={placeholder}
                         value={keyEnter}
                         onChange={handleFilter} />
-                    <div className='iconSearch'>
+                    <div className='iconSearch' style={{ backgroundColor: '#666666' }}>
                         {
                             filterData.length === 0 ? (
                                 <FaSearch />
