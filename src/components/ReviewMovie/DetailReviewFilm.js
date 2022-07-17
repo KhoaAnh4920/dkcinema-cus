@@ -12,8 +12,8 @@ import { userState } from "../../redux/userSlice";
 import "./DetailReviewFilm.scss";
 import { toast } from 'react-toastify';
 import moment from 'moment';
-
-
+import InCommingFilms from '../Share/InCommingFilms';
+import { getListMovieByStatus } from '../../services/MovieServices';
 
 
 
@@ -44,7 +44,8 @@ function DetailReviewFilm() {
         phoneNumber: '',
         ratingComment: null,
         cusCmt: '',
-        listCmt: []
+        listCmt: [],
+        dataMovieUpcoming: []
     });
     //const detail = "Những năm gần đây, điện ảnh Việt ngày càng có nhiều sự tiến bộ khi chứng kiến nhiều tác phẩm chất lượng ra đời. Với đa dạng đề tài từ hành động, hài, tình cảm…, các nhà làm phim đã chứng tỏ được tay nghề thông qua nhiều tựa phim đạt được thành công tại phòng vé. Ngoài việc phát triển ý tưởng từ kịch bản gốc, phim remake cũng là một hướng đi mới mẻ của ngành phim ảnh trong nước. Từ có nhiều cái tên được Việt hóa từ nội dung nước ngoài, nhưng vẫn được sự đón nhận của đông đảo người xem. Dịp lễ 30/4 sắp đến, Nghề Siêu Dễ sẽ là lựa chọn hoàn hảo cho những ai muốn có giờ phút thư giãn vui vẻ bên gia đình, bạn bè và người yêu. Dựa trên phiên bản Extreme Job của Hàn Quốc, nhà sản xuất Thu Trang cùng đạo diễn Võ Thanh Hòa đã thảo luận, thay đổi vài chi tiết để cho ra thành phẩm Nghề Siêu Dễ mang đậm bản sắc Việt.";
     //const change = detail.toString();
@@ -55,7 +56,16 @@ function DetailReviewFilm() {
     const { id } = useParams();
     async function fetchDetailById(id) {
         let dataDetail = await getNewsById(id);
-        console.log("chi tiet", dataDetail);
+
+        let dataMovieUpcoming = await getListMovieByStatus(1, 1, 6);
+
+
+        if (dataMovieUpcoming && dataMovieUpcoming.data && dataMovieUpcoming.data.length > 0) {
+            dataMovieUpcoming = dataMovieUpcoming.data.slice(0, 3)
+        } else
+            dataMovieUpcoming = []
+
+
 
         if (dataDetail && dataDetail.data) {
             setAllValuesDetail((prevState) => ({
@@ -65,7 +75,8 @@ function DetailReviewFilm() {
                 thumbnail: dataDetail.data.thumbnail,
                 rating: dataDetail.data.rating,
                 listCmt: dataDetail.data.CommentNews || [],
-                type: dataDetail.data.type
+                type: dataDetail.data.type,
+                dataMovieUpcoming: dataMovieUpcoming
             }));
 
         }
@@ -76,7 +87,6 @@ function DetailReviewFilm() {
 
     useEffect(() => {
 
-        console.log('selectUser: ', selectUser)
 
         setAllValuesDetail((prevState) => ({
             ...prevState,
@@ -214,7 +224,7 @@ function DetailReviewFilm() {
                                 {allValuesDetail.listCmt && allValuesDetail.listCmt.length > 0 &&
                                     allValuesDetail.listCmt.map((item, index) => {
                                         return (
-                                            <div className='show-comment'>
+                                            <div className='show-comment' key={index}>
                                                 <div className='user-name'>
                                                     <span>{(item.CustomerComment && item.CustomerComment.fullName) ? item.CustomerComment.fullName : ''}</span>
                                                     <span style={{ fontSize: '12px', marginLeft: '10px', color: '#aaa', fontWeight: 500 }}>{moment(item.CustomerComment.createdAt).locale('vi').fromNow(true)}</span>
@@ -251,7 +261,9 @@ function DetailReviewFilm() {
 
                     </div>
 
-                    <FilmShowing />
+                    <InCommingFilms
+                        dataMovieUpcoming={allValuesDetail.dataMovieUpcoming}
+                    />
                 </div>
 
             </div>

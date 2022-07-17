@@ -29,7 +29,7 @@ export default function InCommingFilms(props) {
                     props.dataMovieUpcoming && props.dataMovieUpcoming.length > 0 && props.dataMovieUpcoming.map((item, index) => {
                         return (
                             <>
-                                <div className='image' onClick={() => handleClickFilms(item)}>
+                                <div className='image' key={index} onClick={() => handleClickFilms(item)}>
                                     {
                                         item.ImageOfMovie.map((item1, index1) => {
                                             if (item1.typeImage === 1) {

@@ -205,8 +205,20 @@ function BookTicket() {
         const dataCombos = await getAllCombo();
         // console.log("data Combo", dataCombos);
         if (dataCombos && dataCombos.dataCombo) {
+            let res = dataCombos.dataCombo.map(item => {
+                item.nameFood = '';
+                item.ComboInFood.map(x => {
+                    item.nameFood += ' ' + x.Combo_Food.amount + ' ' + x.name + ' +';
+                })
+                item.nameFood = item.nameFood.substr(0, item.nameFood.length - 1);
+                return item;
+            })
+
+
+            console.log('res: ', res)
+
             setAllCombo({
-                listCombo: dataCombos.dataCombo.slice(0, 4)
+                listCombo: res.slice(0, 4)
             })
         }
     }
@@ -428,7 +440,7 @@ function BookTicket() {
                                                             <img style={{ width: '100px', height: '67px', marginRight: '10px' }} src={item.image} />
                                                             <div className='info-item'>
                                                                 <p style={{ fontWeight: '700', marginBottom: '3px' }}>{item.name}</p>
-                                                                <p style={{ fontSize: '10px' }}>1 BẮP + 3 NƯỚC + 1 SNACK</p>
+                                                                <p style={{ fontSize: '10px' }}>{item.nameFood}</p>
                                                             </div>
                                                         </td>
                                                         <td style={{ verticalAlign: 'middle' }}>

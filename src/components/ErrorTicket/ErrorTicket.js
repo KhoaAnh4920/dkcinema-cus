@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 import { LANGUAGES } from '../../utils/constant';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
-import { getAllCombo } from '../../services/ComboService';
 import { dataBookingRedux } from "../../redux/BookingSlice";
 import { updateDataBooking } from "../../redux/BookingSlice";
 import { getScheduleById } from "../../services/ScheduleService";
@@ -19,7 +18,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { selectLanguage, updateLanguage, userState } from "../../redux/userSlice";
 import { handleCreateBookingTicket } from "../../services/BookingServices";
 import Swal from 'sweetalert2';
-
+import bearImage from '../../assets/Con-gau-cute.png';
 
 
 
@@ -472,7 +471,16 @@ function ErrorTicket() {
                             <div className='row_chair col-lg-12'>
                                 <div className='chair'>
 
-                                    AAAA
+                                    <div className='img-error'>
+                                        <img src={bearImage} />
+                                    </div>
+                                    <div className='error-content'>
+                                        <p>Trường hợp giao dịch chưa thành công, quý khách vui lòng không thực hiện giao dịch online lần nữa và tới rạp DK Cinema gần nhất để mua vé.
+
+                                            Việc phản hồi tới quý khách có thể bị chậm trễ, mong quý khách thông cảm và kiên nhẫn cùng nhân viên CSKH của DK Cinema.
+
+                                            Chúng tôi cam kết sẽ hoàn lại 100% giá trị giao dịch lỗi đã bị trừ tiền sau khi đội ngũ CSKH kiểm tra và xác nhận. Vui lòng gởi thông tin giao dịch lỗi về email <span style={{ color: '#FCAF17' }}>hotro@dkcinema.com.vn </span> hoặc tin nhắn trang fanpage<span style={{ color: '#FCAF17' }}> https://facebook.com/dkcinema</span></p>
+                                    </div>
 
                                 </div>
 

@@ -21,6 +21,11 @@ import moment from 'moment';
 import { useHistory, useParams } from "react-router-dom";
 import { userState } from "../../redux/userSlice";
 import { toast } from 'react-toastify';
+import LoadingOverlay from 'react-loading-overlay'
+import ClipLoader from 'react-spinners/ClipLoader'
+
+
+
 
 
 
@@ -57,7 +62,8 @@ function BuyTicket() {
         movieId: null,
         theaterId: null,
         scheduleId: null,
-        cusId: null
+        cusId: null,
+        isShowLoading: true
     });
 
 
@@ -73,20 +79,26 @@ function BuyTicket() {
             setAllValues((prevState) => ({
                 ...prevState,
                 listMovie: dataMovie.data,
-                dataID: dataMovie.data.id
+                dataID: dataMovie.data.id,
+                isShowLoading: false
             }))
 
         }
     }
 
     async function fetchDataTheater() {
+        setAllValues((prevState) => ({
+            ...prevState,
+            isShowLoading: true
+        }))
+
         const dataTheater = await getListTheater();
-        console.log("data theater", dataTheater);
 
         if (dataTheater && dataTheater.movie) {
             setAllValues((prevState) => ({
                 ...prevState,
-                listTheater: dataTheater.movie
+                listTheater: dataTheater.movie,
+                isShowLoading: false
             }))
         }
     }
@@ -148,6 +160,10 @@ function BuyTicket() {
 
 
     const handleClickTheater = async (theaterId) => {
+        setAllValues((prevState) => ({
+            ...prevState,
+            isShowLoading: true
+        }))
         // call api fetch schedule //
         if (allValues.movieId && theaterId) {
             setAllValues((prevState) => ({
@@ -155,7 +171,7 @@ function BuyTicket() {
                 theaterId: theaterId,
             }))
             const dataSchedule = await getListScheduleByFilm(allValues.movieId, theaterId);
-            console.log("Data Schedule", dataSchedule);
+
 
             if (dataSchedule && dataSchedule.data) {
                 // Lọc các ngày chiếu trong danh sách //
@@ -218,8 +234,6 @@ function BuyTicket() {
 
                 })
 
-
-
                 let finalSchedule = res.filter(item => item.status === 0);
 
                 let listSchedule = groupBy(finalSchedule, "premiereDate");
@@ -227,17 +241,14 @@ function BuyTicket() {
                 setAllValues((prevState) => ({
                     ...prevState,
                     theaterId: theaterId,
-                    listSchedule: listSchedule.reverse()
+                    listSchedule: listSchedule.reverse(),
+                    isShowLoading: false
                 }))
             }
         }
-
-
-        console.log("Check state: ", allValues)
     }
 
     const handleClickSchedule = (scheduleId) => {
-        console.log(allValues.isLoginUser)
         if (!allValues.isLoginUser) {
             toast.error("Vui lòng đăng nhập để đặt vé");
             history.push('/login')
@@ -254,7 +265,6 @@ function BuyTicket() {
 
             history.push('/dat-ve');
         }
-        console.log("ScheduleId: ", scheduleId);
 
     }
 

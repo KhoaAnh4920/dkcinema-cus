@@ -72,6 +72,7 @@ export default function Header() {
             dispatch(processLogoutUser());
             dispatch(updateDataBooking(null));
             console.log('Time Expired');
+            history.push('/login')
         }
     };
 
@@ -80,11 +81,15 @@ export default function Header() {
 
         const data = JSON.parse(localStorage.getItem("persist:user"));
 
-        const dataLocal = JSON.parse(data.user)
+        if (data && data.user) {
+            const dataLocal = JSON.parse(data.user)
 
-        if (dataLocal && dataLocal.userInfo && dataLocal.userInfo.accessToken) {
-            parseJwt(dataLocal.userInfo.accessToken)
+            if (dataLocal && dataLocal.userInfo && dataLocal.userInfo.accessToken) {
+                parseJwt(dataLocal.userInfo.accessToken)
+            }
         }
+
+
 
     }, [])
 
@@ -111,7 +116,7 @@ export default function Header() {
 
                             <div className='login-customer'>
                                 {
-                                    selectUser.isLoggedInUser === true &&
+                                    selectUser.isLoggedInUser == true &&
                                     <>
                                         <div className="dropdown dropdown-userinfo">
                                             <div id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -128,7 +133,7 @@ export default function Header() {
                                 }
 
                                 {
-                                    selectUser.isLoggedInUser === false &&
+                                    selectUser.isLoggedInUser == false &&
                                     <>
 
                                         <Link to="/login" className='nav-link login-text'>
