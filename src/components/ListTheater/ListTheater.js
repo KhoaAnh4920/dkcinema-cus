@@ -179,7 +179,7 @@ function ListTheater() {
 
         let lat = null;
         let lng = null;
-        axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyC50PpD45fzUWVnBECoMjjYrmfOJluOlAY`)
+        axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key={GG_API_KEY}`)
             .then(res => {
                 console.log('res: ', res.data);
                 if (res.data && res.data.results) {
