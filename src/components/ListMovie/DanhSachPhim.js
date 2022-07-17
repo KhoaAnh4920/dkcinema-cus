@@ -70,11 +70,6 @@ function DanhSachPhim() {
             totalData: dataMovie.totalData
         })
 
-
-
-
-
-
         // dispatch(
         //     getList({
         //         ...paramFilter,

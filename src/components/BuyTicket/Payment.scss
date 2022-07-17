@@ -1,7 +1,7 @@
 .paymentContainer {
     height: 800px;
     width: 100%;
-    padding: 0 80px;
+    padding: 20px 100px;
 
     .payment-wrapper {
         width: 100%;
@@ -22,7 +22,7 @@
             .countdown {
                 margin-left: auto;
                 order: 2;
-                color: orange;
+                color: rgb(252, 175, 23);
                 font-weight: 700;
                 font-size: 18px;
             }
@@ -76,6 +76,22 @@
                         margin-top: 10px;
                         background-color: #000;
                     }
+                }
+
+                .btn-payment {
+                    font-size: 20px;
+                    width: 200px;
+                    background-color: rgb(252, 175, 23);
+                    border: none
+                }
+
+                .btn-back {
+                    // fontSize: '20px', width: '200px', border: '1px solid #000', backgroundColor: '#fff', marginRight: '10px'
+                    font-size: 20px;
+                    width: 200px;
+                    background-color: #fff;
+                    border: 1px solid #bdbdbd;
+                    margin-right: 10px;
                 }
             }
         }

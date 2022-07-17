@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './BookSeet.scss';
+import './ErrorTicket.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from "react-redux";
@@ -21,7 +21,11 @@ import { handleCreateBookingTicket } from "../../services/BookingServices";
 import Swal from 'sweetalert2';
 
 
-function BookSeet() {
+
+
+
+
+function ErrorTicket() {
     const bookingRedux = useSelector(dataBookingRedux);
     const dispatch = useDispatch();
     const alphabet = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"];
@@ -193,23 +197,23 @@ function BookSeet() {
     }
 
 
-    useEffect(() => {
-        console.log("Check data in redux: ", bookingRedux);
-        let movieId = bookingRedux.dataBooking.movieId;
-        let scheduleId = bookingRedux.dataBooking.showTimeId;
+    // useEffect(() => {
+    //     console.log("Check data in redux: ", bookingRedux);
+    //     let movieId = bookingRedux.dataBooking.movieId;
+    //     let scheduleId = bookingRedux.dataBooking.showTimeId;
 
-        let totalPriceBooking = document.getElementById('totalPriceBooking');
-
-
-        totalPriceBooking.innerHTML = new Intl.NumberFormat('vi-VN').format(bookingRedux.dataBooking.totalPrice) + ' VNĐ';
-
-        fetchDataScheduleById(scheduleId, bookingRedux.dataBooking.combo);
-        // fetchDataRoom();
-        // fetch data schedule //
+    //     let totalPriceBooking = document.getElementById('totalPriceBooking');
 
 
+    //     totalPriceBooking.innerHTML = new Intl.NumberFormat('vi-VN').format(bookingRedux.dataBooking.totalPrice) + ' VNĐ';
 
-    }, [bookingRedux]);
+    //     fetchDataScheduleById(scheduleId, bookingRedux.dataBooking.combo);
+    //     // fetchDataRoom();
+    //     // fetch data schedule //
+
+
+
+    // }, [bookingRedux]);
 
 
 
@@ -233,20 +237,20 @@ function BookSeet() {
         // fetchDataCombo();
     }, []);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        console.log('setUserInfo: ', selectUser.userInfo);
+    //     console.log('setUserInfo: ', selectUser.userInfo);
 
 
-        setAllValues((prevState) => ({
-            ...prevState,
-            cusId: (selectUser.userInfo) ? selectUser.userInfo.id : '',
-            fullName: (selectUser.userInfo) ? selectUser.userInfo.fullName : '',
-            email: (selectUser.userInfo) ? selectUser.userInfo.email : '',
-            phoneNumber: (selectUser.userInfo) ? selectUser.userInfo.phone : '',
-        }));
+    //     setAllValues((prevState) => ({
+    //         ...prevState,
+    //         cusId: (selectUser.userInfo) ? selectUser.userInfo.id : '',
+    //         fullName: (selectUser.userInfo) ? selectUser.userInfo.fullName : '',
+    //         email: (selectUser.userInfo) ? selectUser.userInfo.email : '',
+    //         phoneNumber: (selectUser.userInfo) ? selectUser.userInfo.phone : '',
+    //     }));
 
-    }, [selectUser]);
+    // }, [selectUser]);
 
 
 
@@ -458,113 +462,24 @@ function BookSeet() {
             <Header />
             <br />
 
-            <div className='bookingSeetController'>
+            <div className='errorTicketController container'>
                 <div className='row'>
-                    <div className='room-main col-8'>
-                        <p className='title-select-seet'>Chọn ghế: {allValues.nameSeet}</p>
+                    <div className='room-main col-12'>
+                        <p className='title-select-seet'>Lỗi mua vé</p>
                         <div className='room-seet'>
                             { /* EXAMPLE MAP INTERGRATE*/}
 
                             <div className='row_chair col-lg-12'>
                                 <div className='chair'>
-                                    {allValues.listSeet && allValues.listSeet.length > 0 &&
-                                        allValues.listSeet.map((item, index) => {
-                                            return (
-                                                <div className='one_row' key={index}>
-                                                    <p className='name-column'>{alphabet[item.posOfColumn]}</p>
-                                                    {
-                                                        item.posOfRow.map((item2, index2) => {
-                                                            if (allValues.selectSeet.some(id => id === item2.id)) {
-                                                                return (<p className='seet-item selected' key={index2} onClick={() => handleClickSeet(item, item2)}>{item2.pos + 1}</p>)
-                                                            }
-                                                            else if (item2.typeId === 2)
-                                                                return (<p className='seet-item active' key={index2} onClick={() => handleClickSeet(item, item2)}>{item2.pos + 1}</p>);
-                                                            else if (item2.typeId === -1)
-                                                                return (<p className='seet-item sold' key={index2}>{item2.pos + 1}</p>);
-                                                            else
-                                                                return (<p className='seet-item' key={index2} onClick={() => handleClickSeet(item, item2)}>{item2.pos + 1}</p>);
-                                                        })
-                                                    }
-                                                    <p className='name-column'>{alphabet[item.posOfColumn]}</p>
-                                                </div>
-                                            )
-                                        })
 
-                                    }
-
+                                    AAAA
 
                                 </div>
 
-                            </div>
-                            <div className='sreen-room'>
-                                <div className='text'>
-                                    <p>Màn hình</p>
-                                    <p className='line'></p>
-                                </div>
-                                <div className='infoSeet'>
-                                    <div className='content-seet'>
-                                        <div className='seet-default'>
-                                            <p className='color-default'></p>
-                                            <p className='name-seet'>Ghế đang chọn</p>
-                                        </div>
-                                        <div className='seet-sold'>
-                                            <p className='color-sold'></p>
-                                            <p className='name-seet'>Ghế đã bán</p>
-                                        </div>
-                                        <div className='seet-available'>
-                                            <p className='color-available'></p>
-                                            <p className='name-seet'>Ghế có thể chọn</p>
-                                        </div>
-
-                                        <div className='seet-vip'>
-                                            <p className='color-vip'></p>
-                                            <p className='name-seet'>Ghế Vip</p>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className='col-4'>
-                        <div className='ticket-header'>
-                            <div style={{ textAlign: 'center' }} className="col-12">
-                                {dataSchedule && dataSchedule.ShowtimeMovie && dataSchedule.ShowtimeMovie.ImageOfMovie.length > 0 && dataSchedule.ShowtimeMovie.ImageOfMovie.map((item, index) => {
-                                    if (item.typeImage === 1) {
-                                        return (
-                                            <img src={item.url} style={{ width: '300px' }} />
-                                        )
-                                    }
-                                })}
 
-                            </div>
-                            <div className='col-12'>
-                                <div className="ticket-detail">
-                                    <h2 className="ticket-title upper-text">{(dataSchedule && dataSchedule.ShowtimeMovie) ? dataSchedule.ShowtimeMovie.name : ''}</h2>
-                                    <h2 className="ticket-title vn upper-text">{(dataSchedule && dataSchedule.ShowtimeMovie) ? dataSchedule.ShowtimeMovie.transName : ''}</h2>
-                                    {/* <div className="ticket-icon">
-                                        <span><i className="icon-c13" />
-                                            <span className="notice">(*) Phim chỉ dành cho khán giả từ 13 tuổi trở lên</span></span>
-                                    </div> */}
-                                    <div className="ticket-info"><p><b>Rạp: &nbsp;</b>
-                                        {(dataSchedule && dataSchedule.RoomShowTime && dataSchedule.RoomShowTime.MovieTheaterRoom) ? dataSchedule.RoomShowTime.MovieTheaterRoom.tenRap : ''}&nbsp; | {(dataSchedule && dataSchedule.RoomShowTime) ? dataSchedule.RoomShowTime.name : ''}&nbsp;
-                                    </p>{/*p*/}{/*  b #{i18n("Ngày")}: &nbsp*/}{/*  | #{sessionInfo.dayOfWeekLabel}, #{sessionInfo.showDate}*/}<p>
-                                            <b>Suất chiếu: &nbsp;</b>{(dataSchedule && dataSchedule.startTime) ? moment(dataSchedule.startTime).format("HH:mm") : ''}&nbsp; | {dataSchedule && dataSchedule.formatDate}</p><p className="ng-binding"><b>Combo: &nbsp;</b> <span id='listCombo'>{allCombo.nameCombo}</span> </p><p className="ng-binding"><b>Ghế: &nbsp;</b>{allValues.nameSeet}</p></div>
-                                    <div className="ticket-price-total">
-                                        <hr />
-                                        <p style={{ 'display': 'inline', 'fontSize': '16px', 'fontWeight': 'bold' }}>TỔNG: </p>
-                                        <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '16px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>90.000 VNĐ</span>
-
-                                    </div>
-                                    <div className='submit-container'>
-                                        <div className='button-book-submit'>
-                                            <button className='btn btn-backToPage' onClick={history.goBack} >Quay lại</button>
-                                            <button className='btn btn-book' onClick={() => handleBookingSeet()} >Tiếp tục</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -575,4 +490,4 @@ function BookSeet() {
     );
 }
 
-export default BookSeet;
+export default ErrorTicket;

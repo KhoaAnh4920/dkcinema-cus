@@ -4,14 +4,23 @@ import Footer from '../Share/Footer';
 import FilmShowing from '../Share/FilmShowing';
 import Ratings from '../Share/Rating';
 import { Rating } from 'react-simple-star-rating';
-import { getNewsById } from '../../services/NewsServices';
+import { getNewsById, votePostRatingService, handleCommentService } from '../../services/NewsServices';
 import { Link, useParams } from 'react-router-dom';
-
+import { useSelector } from "react-redux";
+import { userState } from "../../redux/userSlice";
 //import css
 import "./DetailReviewFilm.scss";
+import { toast } from 'react-toastify';
+import moment from 'moment';
+
+
+
+
+
 
 function DetailReviewFilm() {
     const [show, setShow] = useState(true);
+    let selectUser = useSelector(userState);
     const handleClickShow = () => {
         setShow(!show);
     }
@@ -29,34 +38,123 @@ function DetailReviewFilm() {
         title: '',
         noiDung: '',
         thumbnail: '',
+        cusId: '',
+        name: '',
+        email: '',
+        phoneNumber: '',
+        ratingComment: null,
+        cusCmt: '',
+        listCmt: []
     });
     //const detail = "Những năm gần đây, điện ảnh Việt ngày càng có nhiều sự tiến bộ khi chứng kiến nhiều tác phẩm chất lượng ra đời. Với đa dạng đề tài từ hành động, hài, tình cảm…, các nhà làm phim đã chứng tỏ được tay nghề thông qua nhiều tựa phim đạt được thành công tại phòng vé. Ngoài việc phát triển ý tưởng từ kịch bản gốc, phim remake cũng là một hướng đi mới mẻ của ngành phim ảnh trong nước. Từ có nhiều cái tên được Việt hóa từ nội dung nước ngoài, nhưng vẫn được sự đón nhận của đông đảo người xem. Dịp lễ 30/4 sắp đến, Nghề Siêu Dễ sẽ là lựa chọn hoàn hảo cho những ai muốn có giờ phút thư giãn vui vẻ bên gia đình, bạn bè và người yêu. Dựa trên phiên bản Extreme Job của Hàn Quốc, nhà sản xuất Thu Trang cùng đạo diễn Võ Thanh Hòa đã thảo luận, thay đổi vài chi tiết để cho ra thành phẩm Nghề Siêu Dễ mang đậm bản sắc Việt.";
     //const change = detail.toString();
     const detail = allValuesDetail.noiDung;
     const content = { detail };
     //console.log(content);
-    const image = "https://www.galaxycine.vn/media/2022/6/23/1135-1_1655988278572.jpg";
+    // const image = "https://www.galaxycine.vn/media/2022/6/23/1135-1_1655988278572.jpg";
     const { id } = useParams();
     async function fetchDetailById(id) {
         let dataDetail = await getNewsById(id);
         console.log("chi tiet", dataDetail);
+
         if (dataDetail && dataDetail.data) {
-            setAllValuesDetail({
+            setAllValuesDetail((prevState) => ({
+                ...prevState,
                 title: dataDetail.data.title,
                 noiDung: dataDetail.data.noiDung,
-                thumbnail: dataDetail.data.thumbnail
-            })
+                thumbnail: dataDetail.data.thumbnail,
+                rating: dataDetail.data.rating,
+                listCmt: dataDetail.data.CommentNews || [],
+                type: dataDetail.data.type
+            }));
+
         }
     }
     useEffect(() => {
         fetchDetailById(id);
     }, [])
 
+    useEffect(() => {
+
+        console.log('selectUser: ', selectUser)
+
+        setAllValuesDetail((prevState) => ({
+            ...prevState,
+            cusId: (selectUser.userInfo) ? selectUser.userInfo.id : '',
+            name: (selectUser.userInfo) ? selectUser.userInfo.fullName : '',
+            email: (selectUser.userInfo) ? selectUser.userInfo.email : '',
+            phoneNumber: (selectUser.userInfo) ? selectUser.userInfo.phone : '',
+            isLoggedInUser: selectUser.isLoggedInUser
+        }));
+
+    }, [selectUser]);
+
 
     const renderHTML = (p) => (<span dangerouslySetInnerHTML={{ __html: p.HTML }}></span>)
 
     const createMarkup = () => {
         return { __html: allValuesDetail.noiDung };
+    }
+
+    const votePostRating = async (data) => {
+
+        if (!allValuesDetail.isLoggedInUser) {
+            toast.warning('Vui lòng đăng nhập để thực hiện')
+            return
+        }
+
+        // Call API //
+        let res = await votePostRatingService({
+            rating: data,
+            cusId: allValuesDetail.cusId,
+            newsId: id
+        })
+
+        console.log('res: ', res)
+
+        if (res && res.errCode === 0) {
+            toast.success("Thank you")
+
+        } else {
+            toast.error(res.errMessage);
+        }
+
+    }
+
+    const voteRatingComment = (data) => {
+        console.log("Check vote comment: ", data);
+
+        setAllValuesDetail((prevState) => ({
+            ...prevState,
+            ratingComment: data
+        }));
+    }
+
+    const changeHandler = e => {
+        setAllValuesDetail({ ...allValuesDetail, [e.target.name]: e.target.value })
+    }
+
+    const handleComment = async () => {
+        if (!allValuesDetail.isLoggedInUser) {
+            toast.warning('Vui lòng đăng nhập để thực hiện')
+            return
+        }
+
+        if (allValuesDetail.cusCmt) {
+            let res = await handleCommentService({
+                comment: allValuesDetail.cusCmt,
+                rating: allValuesDetail.ratingComment,
+                cusId: allValuesDetail.cusId,
+                newsId: id
+            })
+            if (res && res.errCode === 0) {
+                // Load comment //
+                fetchDetailById(id);
+            }
+        } else {
+            toast.error("Comment gì đi nè !!!")
+        }
+
     }
 
     return (
@@ -72,11 +170,10 @@ function DetailReviewFilm() {
                         </div>
                         <hr />
                         <div className='row row-de-fc'>
-                            <li><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
-                            <li><div class="rating-movie rating-home"><span class="rating-value"><strong class="review-home ng-binding">9.5</strong><span>/10</span><span class="ng-binding">&nbsp;(806)</span></span></div></li>
+                            <li><div class="rating-movie rating-home"><span class="rating-value"><strong class="review-home ng-binding">{allValuesDetail.rating}</strong><span>/10</span><span class="ng-binding">&nbsp;(806)</span></span></div></li>
                             <li><button className='btn btn-warning btn-review' onMouseOver={handleMouseOver} onClick={handleMouseLeave}>Đánh giá</button></li>
                             {
-                                hovering && <Ratings />
+                                hovering && <Ratings checkClick={votePostRating} />
                             }
                         </div>
                         <div className='row row-content-de editor' dangerouslySetInnerHTML={createMarkup()}>
@@ -94,37 +191,64 @@ function DetailReviewFilm() {
                                 )
                             } */}
                         </div>
-                        <div className='comment-film'>
-                            <div className='title-cmt'>
-                                <h5>bình luận phim</h5>
-                            </div>
-                            <div className='form-cmt'>
-                                <textarea className='area-51'></textarea>
-                            </div>
-                            <div className='btn-send'>
-                                <button>Gửi</button>
-                            </div>
-                            <div className='row rating-cmt'>
-                                Chọn số sao:&nbsp;<Ratings />
-                            </div>
-                        </div>
-                        <div className='show-comment'>
-                            <div className='user-name'>
-                                Van a
-                            </div>
-                            <div className='number-rate'>
-                                <Rating
-                                    iconsCount={10}
-                                    readonly={true}
-                                    //ratingValue={10}
-                                    initialValue={7}
-                                    size={30}
-                                />
-                            </div>
-                            <div className='content-cmt'>
-                                It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
-                            </div>
-                        </div>
+                        {allValuesDetail.type !== 3 &&
+                            <>
+                                <div className='comment-film'>
+                                    <div className='title-cmt'>
+                                        <h5>bình luận phim</h5>
+                                    </div>
+                                    <div className='form-cmt'>
+                                        <textarea className='area-51 form-control animated' name='cusCmt' onChange={changeHandler} value={allValuesDetail.cusCmt} placeholder='Bình luận của bạn...' cols="50"></textarea>
+                                    </div>
+                                    <div className='bottom-cmt'>
+                                        <div className='row rating-cmt'>
+                                            Chọn số sao:&nbsp;<Ratings checkClick={voteRatingComment} />
+                                        </div>
+                                        <div className='btn-send'>
+                                            <button className='btn btn-light' onClick={() => handleComment()}>Gửi</button>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                {allValuesDetail.listCmt && allValuesDetail.listCmt.length > 0 &&
+                                    allValuesDetail.listCmt.map((item, index) => {
+                                        return (
+                                            <div className='show-comment'>
+                                                <div className='user-name'>
+                                                    <span>{(item.CustomerComment && item.CustomerComment.fullName) ? item.CustomerComment.fullName : ''}</span>
+                                                    <span style={{ fontSize: '12px', marginLeft: '10px', color: '#aaa', fontWeight: 500 }}>{moment(item.CustomerComment.createdAt).locale('vi').fromNow(true)}</span>
+                                                </div>
+                                                <div className='number-rate'>
+                                                    <Rating
+                                                        iconsCount={5}
+                                                        readonly={true}
+                                                        //ratingValue={10}
+                                                        initialValue={item.rating}
+                                                        size={15}
+                                                    />
+                                                </div>
+
+                                                <div className='content-cmt'>
+                                                    {item.comment}
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+
+                                }
+
+                                {
+                                    allValuesDetail.listCmt && allValuesDetail.listCmt.length === 0 &&
+                                    <div className='show-comment'>
+                                        <p style={{ textAlign: 'center' }}>Hãy để lại bình luận đầu tiên cho bài viết</p>
+                                    </div>
+                                }
+                            </>
+                        }
+
+
+
                     </div>
 
                     <FilmShowing />

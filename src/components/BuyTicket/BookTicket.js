@@ -47,7 +47,7 @@ function BookTicket() {
 
     async function fetchDataScheduleById(scheduleId) {
         const dataSchedule = await getScheduleById(scheduleId);
-        console.log("dataSchedule", dataSchedule);
+        // console.log("dataSchedule", dataSchedule);
         if (dataSchedule && dataSchedule.data) {
             let schedule = dataSchedule.data;
             let formatDate = moment(schedule.premiereDate).format("DD/MM/YYYY")
@@ -89,13 +89,13 @@ function BookTicket() {
             let obj = {};
             if (+quantity[a].value !== '') {
 
-                console.log(+quantity[a].id)
+                // console.log(+quantity[a].id)
 
                 obj.typeId = quantity[a].id;
                 obj.amount = +quantity[a].value;
                 let test = document.getElementById(`type-${quantity[a].id}`);
 
-                console.log('test: ', test);
+                // console.log('test: ', test);
 
                 let test2 = document.getElementById(`typePrice-${quantity[a].id}`);
                 let totalPrice = document.getElementById('totalPriceTicket');
@@ -106,7 +106,7 @@ function BookTicket() {
 
                 sum += priceTicket
 
-                console.log('sum: ', sum);
+                // console.log('sum: ', sum);
 
                 totalPrice.innerHTML = sum.toLocaleString('it-IT')
 
@@ -152,7 +152,7 @@ function BookTicket() {
             if (+quantity[a].value !== '') {
                 if (+quantity[a].value !== 0) {
                     let listChoose = allCombo.listCombo.filter(item => item.id === +quantity[a].id)
-                    console.log('listCombo: ', listChoose);
+                    // console.log('listCombo: ', listChoose);
                     nameComBo += listChoose[0].name + ', ';
                 }
 
@@ -168,7 +168,7 @@ function BookTicket() {
 
                 sum += priceCombo
 
-                console.log('sum: ', sum);
+                // console.log('sum: ', sum);
 
                 totalPrice.innerHTML = sum.toLocaleString('it-IT')
 
@@ -187,7 +187,7 @@ function BookTicket() {
         let totalPriceCombo = sum;
         let totalPriceBooking = document.getElementById('totalPriceBooking');
 
-        console.log('totalTicket: ', totalTicket)
+        // console.log('totalTicket: ', totalTicket)
         // totalPriceBooking.innerText.split('.').join("");
         let total = +totalPriceCombo + +totalTicket;
 
@@ -203,10 +203,10 @@ function BookTicket() {
 
     async function fetchDataCombo() {
         const dataCombos = await getAllCombo();
-        console.log("data Combo", dataCombos);
+        // console.log("data Combo", dataCombos);
         if (dataCombos && dataCombos.dataCombo) {
             setAllCombo({
-                listCombo: dataCombos.dataCombo
+                listCombo: dataCombos.dataCombo.slice(0, 4)
             })
         }
     }
@@ -315,7 +315,7 @@ function BookTicket() {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>GHẾ TIÊU CHUẨN</td>
+                                            <td style={{ verticalAlign: 'middle' }}>GHẾ TIÊU CHUẨN</td>
                                             <td>
                                                 <div class="input-group inline-group">
                                                     <div class="input-group-prepend">
@@ -332,12 +332,12 @@ function BookTicket() {
                                                 </div>
                                             </td>
                                             <input type='hidden' id={`typePrice-1`} value='90000' />
-                                            <td>90.000</td>
+                                            <td style={{ verticalAlign: 'middle' }}>90.000</td>
 
-                                            <td id="type-1">90.000</td>
+                                            <td id="type-1" style={{ verticalAlign: 'middle' }}>90.000</td>
                                         </tr>
                                         <tr>
-                                            <td>GHẾ VIP</td>
+                                            <td style={{ verticalAlign: 'middle' }}>GHẾ VIP</td>
                                             <td>
                                                 <div class="input-group inline-group">
                                                     <div class="input-group-prepend">
@@ -345,7 +345,7 @@ function BookTicket() {
                                                             <i class="fa fa-minus"></i>
                                                         </button>
                                                     </div>
-                                                    <input class="form-control quantityTicket" min="0" id='2' name="quantityTicket" value="1" type="number" />
+                                                    <input class="form-control quantityTicket" min="0" id='2' name="quantityTicket" value="0" type="number" />
                                                     <div class="input-group-append">
                                                         <button class="btn btn-outline-secondary btn-plus" onClick={(e) => test(e)}>
                                                             <i class="fa fa-plus"></i>
@@ -354,9 +354,9 @@ function BookTicket() {
                                                 </div>
                                             </td>
                                             <input type='hidden' id={`typePrice-2`} value='100000' />
-                                            <td>100.000</td>
+                                            <td style={{ verticalAlign: 'middle' }}>100.000</td>
 
-                                            <td id="type-2">100.000</td>
+                                            <td id="type-2" style={{ verticalAlign: 'middle' }}>100.000</td>
                                         </tr>
                                         {/* <tr>
                                             <td>Vé 2D-Thành viên</td>
@@ -424,8 +424,14 @@ function BookTicket() {
                                             && allCombo.listCombo.map((item, index) => {
                                                 return (
                                                     <tr key={index}>
-                                                        <td>{item.name}</td>
-                                                        <td>
+                                                        <td style={{ display: 'flex' }}>
+                                                            <img style={{ width: '100px', height: '67px', marginRight: '10px' }} src={item.image} />
+                                                            <div className='info-item'>
+                                                                <p style={{ fontWeight: '700', marginBottom: '3px' }}>{item.name}</p>
+                                                                <p style={{ fontSize: '10px' }}>1 BẮP + 3 NƯỚC + 1 SNACK</p>
+                                                            </div>
+                                                        </td>
+                                                        <td style={{ verticalAlign: 'middle' }}>
                                                             <input type='hidden' id={`Price-${item.id}`} value={item.price} />
                                                             <div class="input-group inline-group">
                                                                 <div class="input-group-prepend">
@@ -442,8 +448,8 @@ function BookTicket() {
                                                             </div>
                                                         </td>
 
-                                                        <td>{new Intl.NumberFormat('vi-VN').format(item.price)}</td>
-                                                        <td id={`Combo-${item.id}`}>0</td>
+                                                        <td style={{ verticalAlign: 'middle' }}>{new Intl.NumberFormat('vi-VN').format(item.price)}</td>
+                                                        <td id={`Combo-${item.id}`} style={{ verticalAlign: 'middle' }}>0</td>
                                                     </tr>
                                                 )
                                             })

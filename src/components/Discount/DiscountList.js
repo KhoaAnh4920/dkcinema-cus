@@ -13,8 +13,8 @@ import { data } from 'jquery';
 
 function DiscountList() {
     let history = useHistory();
-    const redirectDiscountDetail = () => {
-        history.push("/chi-tiet-khuyen-mai");
+    const redirectDiscountDetail = (id) => {
+        history.push(`/chi-tiet-review/${id}`);
     }
     const [allDis, setAllDis] = useState({
         listDis: [],
@@ -48,7 +48,7 @@ function DiscountList() {
                                         <div className='img-dis'>
                                             <img src={item.thumbnail} className="image__" />
                                             <div className='image__overlay__dis image__overlay--primary'>
-                                                <Button size='md' variant='warning' className='btn__show' onClick={redirectDiscountDetail}>Chi tiết</Button>
+                                                <Button size='md' variant='warning' className='btn__show' onClick={() => redirectDiscountDetail(item.id)}>Chi tiết</Button>
                                             </div>
                                         </div>
                                     )

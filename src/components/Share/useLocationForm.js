@@ -142,7 +142,6 @@ function useLocationForm(shouldFetchInitialLocation) {
 
 export default useLocationForm;
 
-
 const testFunction = async (cityCode, districtCode, wardCode) => {
     const initialData = await fetchDataLocationOfUser(cityCode, districtCode, wardCode);
     return initialData;

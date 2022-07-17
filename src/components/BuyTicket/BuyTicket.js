@@ -136,9 +136,9 @@ function BuyTicket() {
                 isShowTheaer: true
             }))
         }
-
-
     }
+
+
 
     const groupBy = (arr, prop) => {
         const map = new Map(Array.from(arr, obj => [obj[prop], []]));

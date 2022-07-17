@@ -5,6 +5,11 @@ const getListScheduleByFilm = (movieId, movieTheaterId) => {
 }
 
 
+const getListScheduleByTheater = (movieId, date, movieTheaterId) => {
+    return axios.get(`/get-list-schedule/`, { params: { movieId: movieId, date: date, movieTheaterId: movieTheaterId || null, type: 1 } });
+}
+
+
 
 const getScheduleById = (scheduleId) => {
     return axios.get(`/schedule/${scheduleId}`)
@@ -12,5 +17,6 @@ const getScheduleById = (scheduleId) => {
 
 export {
     getListScheduleByFilm,
-    getScheduleById
+    getScheduleById,
+    getListScheduleByTheater
 }

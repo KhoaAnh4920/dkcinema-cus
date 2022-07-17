@@ -20,15 +20,15 @@ import quang_cao_3 from '../../assets/3.jpg';
 import quang_cao_4 from '../../assets/4.jpg';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
-import { hanedleLoginUser, signUpNewUser } from '../../services/UserService';
+import { hanedleLoginUser, signUpNewUser, sendMailResetPassServices } from '../../services/UserService';
 import { userLoginSuccess } from '../../redux/userSlice';
 import { useHistory } from "react-router-dom";
 import useLocationForm from "./useLocationForm";
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
-
-
-
+import { Button } from 'react-bootstrap';
+import Spinner from 'react-bootstrap/Spinner';
+import ModalForgotPass from './ModalForgotPass';
 
 
 
@@ -44,7 +44,6 @@ const options = [
 
 function Login() {
     const language = useSelector(selectLanguage);
-    const [selectedOption, setSelectedOption] = useState(null);
     const [birthday, setBirthday] = useState(null);
     const [errMessage, setErrMessage] = useState('');
     const [allValues, setAllValues] = useState({
@@ -61,13 +60,14 @@ function Login() {
         errors: {},
         errPass: '',
         gender: 1,
-        isShowLoading: false
+        isShowLoadingLogin: false
     });
     const dispatch = useDispatch();
     let history = useHistory();
+    const [isOpenModalForgotPass, setOpenModalForgotPass] = useState(false);
 
     const { state, onCitySelect, onDistrictSelect, onWardSelect, onSubmit } =
-        useLocationForm(true);
+        useLocationForm(false);
 
     const {
         cityOptions,
@@ -97,37 +97,46 @@ function Login() {
     //     dispatch(updateLanguage(language));
     // }
 
+    const toggleForgotPassModal = () => {
+        setOpenModalForgotPass(isOpenModalForgotPass => !isOpenModalForgotPass)
+    }
+
     const handleOnChangeDatePicker = (date) => {
         setAllValues({ ...allValues, birthday: date[0] })
     }
 
     const handleLogin = async () => {
+        setAllValues((prevState) => ({
+            ...prevState,
+            isShowLoadingLogin: true
+        }));
         // Clear mã lỗi //
         setErrMessage('');
 
-
-
         try {
             let data = await hanedleLoginUser(allValues.emailLogin, allValues.passwordLogin); // goi api login //
-            if (data && data.errorCode !== 0) {
-                setErrMessage(data.message);
-            }
             if (data && data.errorCode === 0) {
                 console.log('---login ok---');
 
-                //this.props.testRedux();
-
                 dispatch(userLoginSuccess(data.data));
+                toast.success("Đăng nhập thành công")
                 history.push("/");
-            } else {
-                toast.error("Login fail");
-            }
+            } else
+                toast.error(data.errMessage);
+            setAllValues((prevState) => ({
+                ...prevState,
+                isShowLoadingLogin: false
+            }));
         } catch (e) {
             // Lấy mã lỗi // 
             if (e.response) {
                 if (e.response.data) {
                     setErrMessage(e.response.data);
                 }
+                setAllValues((prevState) => ({
+                    ...prevState,
+                    isShowLoadingLogin: false
+                }));
             }
         }
 
@@ -177,7 +186,7 @@ function Login() {
             setAllValues((prevState) => ({
                 ...prevState,
                 errors: errors,
-                isShowLoading: false
+                isShowLoadingLogin: false
             }));
         }
         return isValid;
@@ -185,18 +194,15 @@ function Login() {
 
 
     const handleSignInCustomer = async () => {
-        console.log("Check state: ", allValues);
 
         setAllValues((prevState) => ({
             ...prevState,
-            isShowLoading: true
+            isShowLoadingLogin: true
         }));
 
         let isValid = checkValidateInput();
         if (isValid) {
             let formatedDate = new Date(allValues.birthday).getTime();
-
-
 
 
             let res = await signUpNewUser({
@@ -207,9 +213,9 @@ function Login() {
                 phone: allValues.phone,
                 gender: allValues.gender,
                 address: allValues.address,
-                cityCode: selectedCity.value,
-                districtCode: selectedDistrict.value,
-                wardCode: selectedWard.value
+                cityCode: (selectedCity && selectedCity.value) ? selectedCity.value : null,
+                districtCode: (selectedDistrict && selectedDistrict.value) ? selectedDistrict.value : null,
+                wardCode: (selectedWard && selectedWard.value) ? selectedWard.value : null
             })
 
             if (res && res.errCode == 0) {
@@ -226,11 +232,33 @@ function Login() {
                     address: '',
                     errors: {},
                     gender: 1,
-                    isShowLoading: false
+                    isShowLoadingLogin: false
                 });
             } else {
                 history.push("/users-management")
                 toast.error("Đăng ký thất bại");
+            }
+        }
+    }
+
+
+    const handleSendMailResetPass = async (data) => {
+        console.log("Check data from modal: ", data);
+        if (data) {
+            let res = await sendMailResetPassServices({
+                email: data.email
+            })
+
+            if (res && res.errCode == 0) {
+                setOpenModalForgotPass(false);
+                Swal.fire({
+                    icon: 'success',
+                    text: 'Chúng tôi đã gửi thông tin đặt lại mật khẩu vào email của bạn, vui lòng kiểm tra email và làm theo hướng dẫn',
+                    showConfirmButton: false,
+                    timer: 3000
+                })
+            } else {
+                toast.error(res.errMessage);
             }
         }
     }
@@ -266,10 +294,30 @@ function Login() {
                                 />
 
                             </div>
-                            <Link to="/quen-mat-khau" className="link-forgot-pass">Quên mật khẩu ?</Link>
+                            <Link className="link-forgot-pass" onClick={() => setOpenModalForgotPass(true)}>Quên mật khẩu ?</Link>
                             <div className='submit-container'>
                                 <div className='button-login-submit'>
-                                    <button className='btn btn-login' onClick={handleLogin}>Đăng nhập</button>
+                                    <Button {...allValues.isShowLoadingLogin && 'disabled'} className="btn btn-login" onClick={() => handleLogin()} >
+                                        {allValues.isShowLoadingLogin &&
+                                            <>
+                                                <Spinner
+                                                    as="span"
+                                                    animation="border"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                />
+                                                <span className="visually" style={{ marginLeft: '10px' }}>Loading...</span>
+                                            </>
+
+                                        }
+                                        {!allValues.isShowLoadingLogin &&
+                                            <>
+                                                <span className="visually">Đăng nhập</span>
+                                            </>
+                                        }
+                                    </Button>
+
                                 </div>
                             </div>
                         </div>
@@ -432,7 +480,27 @@ function Login() {
                             <div className='submit-container'>
                                 <div className='col-3'></div>
                                 <div className='button-register-submit col-9'>
-                                    <button className='btn btn-register' onClick={() => handleSignInCustomer()}>Đăng ký</button>
+                                    <Button variant="primary" {...allValues.isShowLoadingSignIn && 'disabled'} className="btn btn-register" onClick={() => handleSignInCustomer()} >
+                                        {allValues.isShowLoadingSignIn &&
+                                            <>
+                                                <Spinner
+                                                    as="span"
+                                                    animation="border"
+                                                    size="sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                />
+                                                <span className="visually" style={{ marginLeft: '10px' }}>Loading...</span>
+                                            </>
+
+                                        }
+                                        {!allValues.isShowLoadingSignIn &&
+                                            <>
+                                                <span className="visually">Đăng ký</span>
+                                            </>
+                                        }
+                                    </Button>
+
                                 </div>
                             </div>
                         </div>
@@ -474,6 +542,15 @@ function Login() {
             </div>
 
             <Footer />
+
+
+            {isOpenModalForgotPass &&
+                <ModalForgotPass
+                    isOpen={isOpenModalForgotPass}
+                    toggleFromParent={toggleForgotPassModal}
+                    sendMailResetPass={handleSendMailResetPass}
+                />
+            }
 
 
         </>
