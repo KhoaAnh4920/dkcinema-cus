@@ -132,18 +132,32 @@ function Home() {
     }
 
     async function fetchDataPost(type) {
+
         const dataPost = await getNewsByType(type);
-        // console.log("dataPost", dataPost);
+
+
 
         if (dataPost && dataPost.data) {
-            if (type === 1) {
-                setAllReviewMovie(dataPost.data)
-            } else if (type === 2) {
-                setInComingMovie(dataPost.data)
-            } else {
-                setPromotionPost(dataPost.data)
+            let listPost = groupBy(dataPost.data, "type");
+            // console.log("listPost", listPost);
+            for (let i = 0; i < listPost.length; i++) {
+                if (listPost[i][0].type === 2) {
+                    setInComingMovie(listPost[i])
+                }
+                if (listPost[i][0].type === 1) {
+                    setAllReviewMovie(listPost[i])
+                }
+                if (listPost[i][0].type === 3) {
+                    setPromotionPost(listPost[i])
+                }
+                continue;
             }
         }
+
+        document.body.style.overflow = "auto";
+        document.body.style.height = "auto";
+        setIsShowLoading(false);
+
     }
 
     async function clientVerifyEmail(data) {
@@ -157,15 +171,24 @@ function Home() {
         }
     }
 
+    const groupBy = (arr, prop) => {
+        const map = new Map(Array.from(arr, obj => [obj[prop], []]));
+        arr.forEach(obj => map.get(obj[prop]).push(obj));
+        return Array.from(map.values());
+    }
+
     useEffect(() => {
         document.body.style.overflow = "hidden";
         document.body.style.height = "100%";
 
         fetchDataMovie(1);
         fetchDataBanner();
-        fetchDataPost(1);
-        fetchDataPost(2);
-        fetchDataPost(3);
+
+        fetchDataPost();
+
+        // fetchDataPost(1);
+        // fetchDataPost(2);
+        // fetchDataPost(3);
 
         // Check thanh toán //
         let url = window.location.href;
@@ -244,9 +267,7 @@ function Home() {
 
         }
 
-        document.body.style.overflow = "auto";
-        document.body.style.height = "auto";
-        setIsShowLoading(false);
+
 
     }, []);
 

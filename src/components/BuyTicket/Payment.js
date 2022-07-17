@@ -155,7 +155,7 @@ function Payment() {
                 localStorage.removeItem("minutes");
                 toast.error("Hết thời gian thanh toán");
                 clearInterval(intervalId);
-                history.push('/')
+                history.push('/loi-ve')
 
             } else {
                 window.localStorage.setItem("seconds", seconds)

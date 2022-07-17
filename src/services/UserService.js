@@ -34,6 +34,18 @@ const updateUserService = (data) => {
     return axios.put('/users', data)
 }
 
+const customerSendFeedback = (data) => {
+    return axios.post('/feedback-customer', data)
+}
+
+const getTicketCustomer = (data) => {
+    return axios.get(`/get-booking-customer`, { params: { cusId: data.cusId, startTime: data.startTime, endTime: data.endTime } });
+}
+
+const customerChangePassword = (data) => {
+    return axios.post('/customer-new-password', data)
+}
+
 
 export {
     hanedleLoginUser,
@@ -43,5 +55,8 @@ export {
     updateUserService,
     sendMailResetPassServices,
     requiredResetPassServices,
-    resetNewPassword
+    resetNewPassword,
+    customerSendFeedback,
+    getTicketCustomer,
+    customerChangePassword
 };

@@ -11,13 +11,13 @@ import { useDispatch } from "react-redux";
 import { selectLanguage } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
 import "./HoTroGiaiDap.scss";
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMinus, faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
+import { getListMovieByStatus } from '../../services/MovieServices';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
 import FilmShowing from '../Share/FilmShowing';
 import { useHistory } from "react-router-dom";
+import InCommingFilms from '../Share/InCommingFilms';
 
 
 function HoTroGiaiDap() {
@@ -25,6 +25,13 @@ function HoTroGiaiDap() {
     const language = useSelector(selectLanguage);
     const dispatch = useDispatch();
     let history = useHistory();
+    const [allValues, setAllValues] = useState({
+        dataMovieUpcoming: []
+    });
+
+
+
+
     const redirectFeedBack = () => {
         history.push("/phan-hoi");
     }
@@ -38,6 +45,28 @@ function HoTroGiaiDap() {
     const handleClickShow = () => {
         setShow(!show);
     }
+
+    async function fetchDataMovieIncomming() {
+        let dataMovieUpcoming = await getListMovieByStatus(1, 1, 6);
+
+
+        if (dataMovieUpcoming && dataMovieUpcoming.data && dataMovieUpcoming.data.length > 0) {
+            dataMovieUpcoming = dataMovieUpcoming.data.slice(0, 3)
+        } else
+            dataMovieUpcoming = []
+
+        setAllValues((prevState) => ({
+            ...prevState,
+            dataMovieUpcoming: dataMovieUpcoming
+        }))
+    }
+
+
+    useEffect(() => {
+        fetchDataMovieIncomming();
+    }, []);
+
+
 
     return (
         <>
@@ -163,7 +192,9 @@ function HoTroGiaiDap() {
                         </div>
 
                     </div>
-                    <FilmShowing />
+                    <InCommingFilms
+                        dataMovieUpcoming={allValues.dataMovieUpcoming}
+                    />
 
                 </div>
             </div>

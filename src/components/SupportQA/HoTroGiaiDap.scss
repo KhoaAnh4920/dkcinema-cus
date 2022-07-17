@@ -9,7 +9,7 @@
 }
 
 .support-content {
-    padding-top: 40px;
+    padding: 40px 150px;
 
     .row-support {
 
@@ -21,18 +21,18 @@
 
                     li {
                         list-style-type: none;
-                        margin-left    : 20px;
-                        margin-right   : 20px;
+                        margin-left: 20px;
+                        margin-right: 20px;
 
                         a {
                             text-decoration: none;
-                            text-transform : uppercase;
-                            color          : #555555;
-                            font-size      : 15pt;
-                            cursor         : pointer;
+                            text-transform: uppercase;
+                            color: #555555;
+                            font-size: 15pt;
+                            cursor: pointer;
 
                             &:hover {
-                                color      : #fcaf17;
+                                color: #fcaf17;
                                 font-weight: bold;
                             }
                         }
@@ -46,8 +46,8 @@
                         h5 {
                             .title {
                                 text-transform: capitalize;
-                                font-size     : 13pt;
-                                font-weight   : 400;
+                                font-size: 13pt;
+                                font-weight: 400;
 
                                 .icon {
                                     &::before {
@@ -62,7 +62,7 @@
                         .card-body {
                             p {
                                 text-align: justify;
-                                font-size : 13pt;
+                                font-size: 13pt;
                             }
 
                             ul {
@@ -127,20 +127,20 @@
     .col-right {
         .title {
             h5 {
-                position      : relative;
+                position: relative;
                 text-transform: uppercase;
-                font-size     : 13pt;
-                color         : #000000;
-                font-weight   : bold;
+                font-size: 13pt;
+                color: #000000;
+                font-weight: bold;
             }
 
             &:after {
-                content   : "";
-                position  : absolute;
-                display   : block;
-                left      : 13px;
-                width     : 30%;
-                height    : 3px;
+                content: "";
+                position: absolute;
+                display: block;
+                left: 13px;
+                width: 30%;
+                height: 3px;
                 margin-top: -5px;
                 background: #fcaf17;
             }
@@ -158,13 +158,13 @@
 
                 .vn {
                     text-transform: uppercase;
-                    font-weight   : bold;
-                    color         : #000000;
+                    font-weight: bold;
+                    color: #000000;
                 }
 
                 .eng {
                     text-transform: uppercase;
-                    color         : #555555;
+                    color: #555555;
 
                 }
             }
@@ -174,9 +174,9 @@
 
                 a {
                     text-decoration: none;
-                    text-transform : uppercase;
-                    color          : #fcaf17;
-                    font-weight    : bold;
+                    text-transform: uppercase;
+                    color: #fcaf17;
+                    font-weight: bold;
                 }
             }
         }

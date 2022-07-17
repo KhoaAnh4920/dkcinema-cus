@@ -18,10 +18,15 @@ const getSearchMovie = (kw) => {
     return axios.get('/search-movie', { params: { kw: kw } })
 }
 
+const voteMovieRatingService = (data) => {
+    return axios.post(`/movie/vote`, data)
+}
+
 
 export {
     getListMovieByStatus,
     getMovieById,
     getAllMovie,
-    getSearchMovie
+    getSearchMovie,
+    voteMovieRatingService
 };

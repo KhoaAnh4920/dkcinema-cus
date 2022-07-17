@@ -1,29 +1,54 @@
 .review-con {
     max-width: 1400px;
+    padding: 30px 150px;
 
     .row-review {
         padding-top: 30px;
 
         .col-left {
+            .title {
+                h5 {
+                    position: relative;
+                    text-transform: uppercase;
+                    font-size: 13pt;
+                    color: #000000;
+                    font-weight: bold;
+                }
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    display: block;
+                    left: 13px;
+                    width: 10%;
+                    height: 3px;
+                    margin-top: -5px;
+                    background: #fcaf17;
+                }
+            }
+
             .list-films {
+                padding-top: 20px;
+
                 .blog {
                     margin-bottom: 30px;
-                    display      : flex;
+                    display: flex;
 
                     .movie-thumb {
                         .img-review {
-                            width     : 350px;
-                            display   : block;
+                            width: 250px;
+                            display: block;
                             object-fit: contain;
                         }
                     }
 
                     .content-title {
-                        margin-left   : 20px;
+                        margin-left: 20px;
                         flex-direction: column;
 
                         h5 {
                             .link {
+                                font-size: 16px;
                                 color: #000000;
 
 
@@ -35,15 +60,34 @@
 
 
                         .summary {
-                            width: 100%;
+                            color: #a0a3a7;
+                            display: block;
+                            display: -webkit-box;
+                            max-width: 100%;
+                            -webkit-line-clamp: 3;
+                            -webkit-box-orient: vertical;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            font-size: 14px;
+                            margin: 10px 0;
+                            font-weight: lighter;
+                            max-height: 63px;
+
                         }
 
                         .row-fc {
-                            margin-top: 20px;
+                            // margin-top: 20px;
 
                             .list-fc {
+                                padding: 0;
                                 list-style-type: none;
-                                display        : flex;
+                                display: flex;
+
+                                .btn-review {
+                                    text-transform: uppercase;
+                                    height: 25px;
+                                    font-size: 10px;
+                                }
 
                                 .fb-like {
                                     span {
@@ -58,26 +102,26 @@
                                 }
 
                                 li {
-                                    margin     : 0px 20px 0px 10px;
+                                    margin: 0px 20px 0px 10px;
                                     line-height: 40px;
                                 }
 
                                 .rating-movie.rating-home {
-                                    background-size: 20px;
-                                    height         : 30px;
-                                    padding-left   : 24px;
-                                    margin-left    : 10px;
+                                    background-size: 15px;
+                                    height: 30px;
+                                    padding-left: 24px;
+                                    margin-left: 10px;
                                 }
 
                                 .rating-movie {
-                                    font-size          : 20px;
-                                    height             : 40px;
-                                    background         : url(../../assets/ic_star_yellow.png) no-repeat;
-                                    background-size    : 30px;
-                                    padding-left       : 30px;
+                                    font-size: 20px;
+                                    height: 40px;
+                                    background: url(../../assets/ic_star_yellow.png) no-repeat;
+                                    background-size: 30px;
+                                    padding-left: 30px;
                                     background-position: left center;
-                                    display            : table-cell;
-                                    vertical-align     : middle;
+                                    display: table-cell;
+                                    vertical-align: middle;
                                 }
                             }
                         }

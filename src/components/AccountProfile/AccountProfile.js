@@ -4,23 +4,33 @@ import Footer from '../Share/Footer';
 import Header from '../Share/Header';
 import "./AccountProfile.scss";
 import useLocationForm from "./useLocationForm";
-import avatar from '../../assets/man.png';
-import DatePicker from '../Share/DatePicker';
-import { Button } from 'react-bootstrap';
+import { Image, Button } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { CommonUtils } from '../../utils';
 import Swal from 'sweetalert2';
-import { getUserByExternalId, updateUserService } from '../../services/UserService';
+import { getUserByExternalId, updateUserService, getTicketCustomer } from '../../services/UserService';
 import { selectLanguage, updateLanguage, userState, processLogoutUser } from "../../redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { testFunction } from './useLocationForm';
 import { userLoginSuccess } from '../../redux/userSlice';
 import { toast } from 'react-toastify';
+import Table from 'react-bootstrap/Table';
+import LoadingOverlay from 'react-loading-overlay'
+import ClipLoader from 'react-spinners/ClipLoader'
+import moment from 'moment';
+import DatePicker from '../Share/DatePicker';
+import { getListMovieByStatus } from '../../services/MovieServices';
+import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+
+
 
 
 
 
 function AccountProfile() {
+    let history = useHistory();
     const dispatch = useDispatch();
     let selectUser = useSelector(userState);
     const fileUploader = useRef(null);
@@ -46,9 +56,13 @@ function AccountProfile() {
         selectedMovieTheater: '',
         isShowMovieTheater: true,
         errors: {},
-        isShowLoading: false,
+        isShowLoading: true,
+        isShowLoadingButton: false,
         imagePreviewUrl: 'https://res.cloudinary.com/cdmedia/image/upload/v1646921892/image/avatar/Unknown_b4jgka.png',
-        activeTab: 'Tab1'
+        activeTab: 'Tab1',
+        listBooking: [],
+        startTime: null,
+        endTime: null,
     });
 
     const customStyles = {
@@ -150,6 +164,40 @@ function AccountProfile() {
         setAllValues({ ...allValues, birthday: date[0] })
     }
 
+    const handleOnChangeDatePickerEndTime = async (date) => {
+        setAllValues({ ...allValues, endTime: date[0] })
+
+        setAllValues((prevState) => ({
+            ...prevState,
+            isShowLoading: true,
+
+        }));
+
+        let endTime = date[0];
+        const resDataTicket = await getTicketCustomer({
+            cusId: allValues.id,
+            startTime: (allValues.startTime) ? new Date(allValues.startTime).getTime() : null,
+            endTime: new Date(endTime).getTime(),
+        });
+        setAllValues({ ...allValues, isShowLoading: false, endTime: date[0], listBooking: (resDataTicket && resDataTicket.data) ? resDataTicket.data : [] })
+    }
+
+    const handleOnChangeDatePickerStartTime = async (date) => {
+        setAllValues((prevState) => ({
+            ...prevState,
+            isShowLoading: true,
+
+        }));
+
+        let startTime = date[0];
+        const resDataTicket = await getTicketCustomer({
+            cusId: allValues.id,
+            startTime: new Date(startTime).getTime(),
+            endTime: (allValues.endTime) ? new Date(allValues.endTime).getTime() : null,
+        });
+        setAllValues({ ...allValues, isShowLoading: false, startTime: date[0], listBooking: (resDataTicket && resDataTicket.data) ? resDataTicket.data : [] })
+    }
+
 
     useEffect(() => {
 
@@ -166,15 +214,24 @@ function AccountProfile() {
 
     const handleSetTab = (data) => {
 
+
+        setAllValues((prevState) => ({
+            ...prevState,
+            isShowLoading: true,
+        }));
+
+
         setTabDefault((prevState) => ({
             isShowTab1: !prevState.isShowTab1,
             isShowTab2: !prevState.isShowTab2,
         }));
 
 
+
         setAllValues((prevState) => ({
             ...prevState,
             activeTab: data,
+            isShowLoading: false
         }));
     }
 
@@ -184,19 +241,24 @@ function AccountProfile() {
     useEffect(() => {
         async function fetchEditUser() {
             const res = await getUserByExternalId(selectUser.userInfo.externalid);
+            const resDataTicket = await getTicketCustomer({
+                cusId: selectUser.userInfo.id
+            });
+            let dataMovieUpcoming = await getListMovieByStatus(1, 1, 6);
+
+            if (dataMovieUpcoming && dataMovieUpcoming.data && dataMovieUpcoming.data.length > 0) {
+                dataMovieUpcoming = dataMovieUpcoming.data.slice(0, 4)
+            } else
+                dataMovieUpcoming = []
+
+            // console.log('resDataTicket: ', resDataTicket)
+
             let listGender = buildDataInputSelect([], 'GENDERS');
 
-
-            // setAllValues((prevState) => ({
-            //     ...prevState,
-            //     listGender: listGender,
-            // }));
             let dataUser = {}
             if (res && res.data) {
                 dataUser = res.data
             }
-
-            console.log('dataUser: ', dataUser)
 
             let selectedGender = setDefaultValue(listGender, (dataUser.gender) ? 1 : 0);
 
@@ -216,10 +278,13 @@ function AccountProfile() {
                 address: dataUser.address,
                 birthday: dataUser.birthday,
                 listGender: listGender,
-                selectedGender
+                selectedGender,
+                isShowLoading: false,
+                listBooking: (resDataTicket && resDataTicket.data) ? resDataTicket.data : [],
+                dataMovieUpcoming: dataMovieUpcoming,
             }));
 
-            console.log(allValues);
+
         }
         async function testFunctionParent(cityCode, districtCode, wardCode) {
             const location = await testFunction(cityCode, districtCode, wardCode);
@@ -267,9 +332,9 @@ function AccountProfile() {
 
         setAllValues({
             ...allValues,
-            isShowLoading: true
+            isShowLoadingButton: true
         })
-        console.log('allValuesInput: ', allValuesInput)
+
 
         let formatedDate = new Date(allValues.birthday).getTime(); // convert timestamp //
 
@@ -319,6 +384,16 @@ function AccountProfile() {
     }
 
 
+    const handleClickDetailFilms = (item) => {
+        history.push(`/chi-tiet-phim/${item.id}`)
+    }
+
+    const handleClickFilms = (item) => {
+        history.push(`/dat-ve-qua-phim/${item.id}`)
+        window.location.reload();
+    }
+
+
 
     return (
         <div className='profile-main'>
@@ -339,156 +414,268 @@ function AccountProfile() {
             </div>
 
 
+            <LoadingOverlay
+                active={allValues.isShowLoading}
+                spinner={<ClipLoader color='#FCAF17' size={50} />}
+                styles={{
+                    overlay: (base) => ({
+                        ...base,
+                        background: '#fff',
+                    })
+                }}
+            >
 
-            <div className='container con-info-u' style={{ display: (allValues.activeTab === "Tab1" ? 'block' : 'none') }}>
-                <div className='avatar-user-container'>
-                    <div className='grap-avatar'>
-                        <div className='avatar-main'>
-                            <img className='avatar-user' onClick={handleOpenUploadFile} src={allValues.imagePreviewUrl} />
-                            <input
-                                id='uploadFile'
-                                ref={fileUploader}
-                                accept="image/*"
-                                hidden type='file'
-                                onChange={(e) => _handleImageChange(e)}
+                <div className='container con-info-u' style={{ display: (allValues.activeTab === "Tab1" ? 'block' : 'none') }}>
+                    <div className='avatar-user-container'>
+                        <div className='grap-avatar'>
+                            <div className='avatar-main'>
+                                <img className='avatar-user' onClick={handleOpenUploadFile} src={allValues.imagePreviewUrl} />
+                                <input
+                                    id='uploadFile'
+                                    ref={fileUploader}
+                                    accept="image/*"
+                                    hidden type='file'
+                                    onChange={(e) => _handleImageChange(e)}
+                                />
+                            </div>
+                            <button className="btn btn-update-avatar" onClick={handleOpenUploadFile}><i className='fas fa-pencil-alt'></i></button>
+                            <div className='name-user'>
+                                <div className='text'>
+                                    <span className='fullname'>{allValues.fullName}</span>
+                                    <span className='address-user'>{allValues.address}</span>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div className='input-form-container'>
+                        <div className='form-main'>
+
+                            <div className='input-flex' style={{ marginTop: '0px' }}>
+                                <div className='input-content'>
+                                    <label htmlFor="exampleInputEmail1">Email</label>
+                                    <input type="email" className="form-control input-small" onChange={changeHandler} value={allValues.email} disabled name='email' placeholder="Email" />
+                                </div>
+
+                                <div className='input-content'>
+                                    <label htmlFor="exampleInputEmail1">Họ tên</label>
+                                    <input type="text" className="form-control input-small" onChange={changeHandler} value={allValues.fullName} name='fullName' placeholder="Họ tên" />
+                                </div>
+
+                            </div>
+                            <div className='input-flex'>
+                                <div className='input-content'>
+                                    <label htmlFor="exampleInputEmail1">Số điện thoại</label>
+                                    <input type="text" className="form-control input-small" name='phone' onChange={changeHandler} value={allValues.phone} placeholder="Số điện thoại" />
+                                </div>
+
+                                <div className='input-content'>
+                                    <label htmlFor="exampleInputEmail1">Giới tính</label>
+
+                                    <Select
+                                        className='gender-select'
+                                        value={allValues.selectedGender}
+                                        onChange={handleChangeSelect}
+                                        options={allValues.listGender}
+                                        placeholder='Chọn...'
+                                        name='selectedGender'
+                                        styles={customStyles}
+
+                                    />
+                                </div>
+                                <div className='input-content'>
+                                    <label htmlFor="exampleInputEmail1">Ngày sinh</label>
+
+                                    <DatePicker
+                                        onChange={handleOnChangeDatePicker}
+                                        className="form-control"
+                                        name="birthday"
+                                        value={allValues.birthday}
+                                    />
+                                </div>
+
+                            </div>
+                            <div className='input-flex'>
+                                <div className='input-content'>
+                                    <label htmlFor="exampleInputEmail1">Thành phố</label>
+                                    <Select
+                                        className='city-select'
+                                        name="cityId"
+                                        key={`cityId_${selectedCity?.value}`}
+                                        isDisabled={cityOptions.length === 0}
+                                        options={cityOptions}
+                                        onChange={(option) => onCitySelect(option)}
+                                        placeholder="City"
+                                        defaultValue={state.selectedCity}
+                                        styles={customStyles}
+                                    />
+                                </div>
+
+                                <div className='input-content'>
+                                    <label htmlFor="exampleInputEmail1">Quận</label>
+                                    <Select
+                                        className='district-select'
+                                        name="districtId"
+                                        key={`districtId_${selectedDistrict?.value}`}
+                                        isDisabled={districtOptions.length === 0}
+                                        options={districtOptions}
+                                        onChange={(option) => onDistrictSelect(option)}
+                                        placeholder="District"
+                                        defaultValue={selectedDistrict}
+                                        styles={customStyles}
+                                    />
+                                </div>
+
+                                <div className='input-content'>
+                                    <label htmlFor="exampleInputEmail1">Phường</label>
+                                    <Select
+                                        className='ward-select'
+                                        name="wardId"
+                                        key={`wardId_${selectedWard?.value}`}
+                                        isDisabled={wardOptions.length === 0}
+                                        options={wardOptions}
+                                        placeholder="Phường/Xã"
+                                        onChange={(option) => onWardSelect(option)}
+                                        defaultValue={selectedWard}
+                                        styles={customStyles}
+                                    />
+                                </div>
+
+                            </div>
+                            <div className='input-content' style={{ marginTop: '30px' }}>
+                                <label htmlFor="exampleInputEmail1">Địa chỉ</label>
+                                <input type="text" className="form-control input-small" value={allValues.address} onChange={changeHandler} name='address' placeholder="Địa chỉ" />
+                            </div>
+                            <div className='submit-container'>
+                                <Button variant="primary" {...allValues.isShowLoadingButton && 'disabled'} className="btn-update-profile" onClick={hanldeUpdateProfile} >
+                                    {allValues.isShowLoadingButton &&
+                                        <>
+                                            <Spinner
+                                                as="span"
+                                                animation="border"
+                                                size="sm"
+                                                role="status"
+                                                aria-hidden="true"
+                                            />
+                                            <span className="visually" style={{ marginLeft: '10px' }}>Loading...</span>
+                                        </>
+
+                                    }
+                                    {!allValues.isShowLoadingButton &&
+                                        <>
+                                            <span className="visually">Lưu thay đổi</span>
+                                        </>
+                                    }
+                                </Button>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div className='container con-info-u' style={{ display: (allValues.activeTab === "Tab2" ? 'block' : 'none') }}>
+                    <div className="form-group horizon-form form-filter">
+
+                        <div className='horizon-input input-date'>
+                            <label htmlFor="exampleInputEmail1">Từ</label>
+                            <DatePicker
+                                onChange={handleOnChangeDatePickerStartTime}
+                                className="form-control"
+                                value={allValues.startTime || {}}
                             />
                         </div>
-                        <button className="btn btn-update-avatar" onClick={handleOpenUploadFile}><i className='fas fa-pencil-alt'></i></button>
-                        <div className='name-user'>
-                            <div className='text'>
-                                <span className='fullname'>{allValues.fullName}</span>
-                                <span className='address-user'>{allValues.address}</span>
-                            </div>
-
+                        <div className='horizon-input input-date'>
+                            <label htmlFor="exampleInputEmail1">Đến</label>
+                            <DatePicker
+                                onChange={handleOnChangeDatePickerEndTime}
+                                className="form-control"
+                                value={allValues.endTime || {}}
+                            />
                         </div>
+
+
+
+
+                    </div>
+                    <div className='table-payment-container'>
+                        <Table striped bordered hover className='table-member' size="sm">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Ngày</th>
+                                    <th>Mã book</th>
+                                    <th>Số lượng vé đặt</th>
+                                    <th>Rạp</th>
+                                    <th>Phim</th>
+                                    <th>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {allValues.listBooking.length > 0 && allValues.listBooking.map((item, index) => {
+                                    // console.log('item.BookingTicket[0].TicketShowtime.RoomShowTime.MovieTheaterRoom: ', item.BookingTicket[0].TicketShowtime.RoomShowTime.MovieTheaterRoom.tenR)
+                                    return (
+                                        <tr key={index}>
+                                            <td>{index + 1}</td>
+                                            <td>{moment(item.createdAt).format('DD-MM-YYYY HH:mm')}</td>
+                                            <td>{item.id}</td>
+                                            <td>{item.BookingTicket.length}</td>
+                                            <td>{item.BookingTicket[0].TicketShowtime.RoomShowTime.MovieTheaterRoom.tenR}</td>
+                                            <td>{item.BookingTicket[0].TicketShowtime.ShowtimeMovie.name}</td>
+                                            <td>{item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
+                                        </tr>
+                                    )
+                                })}
+
+                            </tbody>
+                        </Table>
                     </div>
 
                 </div>
-                <div className='input-form-container'>
-                    <div className='form-main'>
 
-                        <div className='input-flex' style={{ marginTop: '0px' }}>
-                            <div className='input-content'>
-                                <label htmlFor="exampleInputEmail1">Email</label>
-                                <input type="email" className="form-control input-small" onChange={changeHandler} value={allValues.email} disabled name='email' placeholder="Email" />
-                            </div>
-
-                            <div className='input-content'>
-                                <label htmlFor="exampleInputEmail1">Họ tên</label>
-                                <input type="text" className="form-control input-small" onChange={changeHandler} value={allValues.fullName} name='fullName' placeholder="Họ tên" />
-                            </div>
-
-                        </div>
-                        <div className='input-flex'>
-                            <div className='input-content'>
-                                <label htmlFor="exampleInputEmail1">Số điện thoại</label>
-                                <input type="text" className="form-control input-small" name='phone' onChange={changeHandler} value={allValues.phone} placeholder="Số điện thoại" />
-                            </div>
-
-                            <div className='input-content'>
-                                <label htmlFor="exampleInputEmail1">Giới tính</label>
-
-                                <Select
-                                    className='gender-select'
-                                    value={allValues.selectedGender}
-                                    onChange={handleChangeSelect}
-                                    options={allValues.listGender}
-                                    placeholder='Chọn...'
-                                    name='selectedGender'
-                                    styles={customStyles}
-
-                                />
-                            </div>
-                            <div className='input-content'>
-                                <label htmlFor="exampleInputEmail1">Ngày sinh</label>
-
-                                <DatePicker
-                                    onChange={handleOnChangeDatePicker}
-                                    className="form-control"
-                                    name="birthday"
-                                    value={allValues.birthday}
-                                />
-                            </div>
-
-                        </div>
-                        <div className='input-flex'>
-                            <div className='input-content'>
-                                <label htmlFor="exampleInputEmail1">Thành phố</label>
-                                <Select
-                                    className='city-select'
-                                    name="cityId"
-                                    key={`cityId_${selectedCity?.value}`}
-                                    isDisabled={cityOptions.length === 0}
-                                    options={cityOptions}
-                                    onChange={(option) => onCitySelect(option)}
-                                    placeholder="City"
-                                    defaultValue={state.selectedCity}
-                                    styles={customStyles}
-                                />
-                            </div>
-
-                            <div className='input-content'>
-                                <label htmlFor="exampleInputEmail1">Quận</label>
-                                <Select
-                                    className='district-select'
-                                    name="districtId"
-                                    key={`districtId_${selectedDistrict?.value}`}
-                                    isDisabled={districtOptions.length === 0}
-                                    options={districtOptions}
-                                    onChange={(option) => onDistrictSelect(option)}
-                                    placeholder="District"
-                                    defaultValue={selectedDistrict}
-                                    styles={customStyles}
-                                />
-                            </div>
-
-                            <div className='input-content'>
-                                <label htmlFor="exampleInputEmail1">Phường</label>
-                                <Select
-                                    className='ward-select'
-                                    name="wardId"
-                                    key={`wardId_${selectedWard?.value}`}
-                                    isDisabled={wardOptions.length === 0}
-                                    options={wardOptions}
-                                    placeholder="Phường/Xã"
-                                    onChange={(option) => onWardSelect(option)}
-                                    defaultValue={selectedWard}
-                                    styles={customStyles}
-                                />
-                            </div>
-
-                        </div>
-                        <div className='input-content' style={{ marginTop: '30px' }}>
-                            <label htmlFor="exampleInputEmail1">Địa chỉ</label>
-                            <input type="text" className="form-control input-small" value={allValues.address} onChange={changeHandler} name='address' placeholder="Địa chỉ" />
-                        </div>
-                        <div className='submit-container'>
-                            <Button variant="primary" {...allValues.isShowLoading && 'disabled'} className="btn-update-profile" onClick={hanldeUpdateProfile} >
-                                {allValues.isShowLoading &&
+                <div className='container col-12 col-right'>
+                    <div className='title'>
+                        <Link to="/phim-dang-chieu">phim đang chiếu</Link>
+                    </div>
+                    <div className='col-image'>
+                        {
+                            allValues.dataMovieUpcoming && allValues.dataMovieUpcoming.length > 0 && allValues.dataMovieUpcoming.map((item, index) => {
+                                return (
                                     <>
-                                        <Spinner
-                                            as="span"
-                                            animation="border"
-                                            size="sm"
-                                            role="status"
-                                            aria-hidden="true"
-                                        />
-                                        <span className="visually" style={{ marginLeft: '10px' }}>Loading...</span>
+                                        <div className='item-movie'>
+                                            <div className='image' key={index} onClick={() => handleClickFilms(item)}>
+                                                {
+                                                    item.ImageOfMovie.map((item1, index1) => {
+                                                        if (item1.typeImage === 2) {
+                                                            return (
+                                                                <Image style={{ width: '230px', height: '320px' }} src={item1.url} className='image__img' key={index1} />
+                                                            )
+                                                        }
+                                                    })
+                                                }
+
+                                                <div className='image__overlay image__overlay--primary'>
+                                                    <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
+                                                </div>
+
+                                            </div>
+                                            <div className='text-detail' onClick={() => handleClickDetailFilms(item)}>
+                                                <p className='vn'>{item.name}</p>
+                                            </div>
+                                        </div>
+
                                     </>
 
-                                }
-                                {!allValues.isShowLoading &&
-                                    <>
-                                        <span className="visually">Lưu thay đổi</span>
-                                    </>
-                                }
-                            </Button>
 
-                        </div>
+                                )
 
+                            })
+                        }
                     </div>
                 </div>
-            </div>
+
+            </LoadingOverlay>
 
             <Footer />
         </div>

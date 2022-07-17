@@ -438,7 +438,7 @@ function BookSeet() {
 
         if (dataBooking && dataBooking.errCode === 0) {
             // save redux //
-            let newBookingRedux = { ...bookingRedux.dataBooking, bookingId: dataBooking.result };
+            let newBookingRedux = { ...bookingRedux.dataBooking, bookingId: dataBooking.result, nameSeet: allValues.nameSeet };
             dispatch(updateDataBooking(newBookingRedux));
             history.push('/thanh-toan');
         } else {

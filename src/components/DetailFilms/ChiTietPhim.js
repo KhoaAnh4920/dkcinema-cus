@@ -17,16 +17,12 @@ import Plyr from 'plyr-react'
 import 'plyr-react/dist/plyr.css'
 import "react-modal-video/scss/modal-video.scss";
 import { FacebookProvider, Like } from 'react-facebook';
-import { getMovieById, getListMovieByStatus } from '../../services/MovieServices';
+import { getMovieById, getListMovieByStatus, voteMovieRatingService } from '../../services/MovieServices';
 import Slider from "react-slick";
 import { Link, useParams } from 'react-router-dom';
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import quang_cao_1 from '../../assets/1.jpg';
-import quang_cao_2 from '../../assets/2.jpg';
-import quang_cao_3 from '../../assets/3.jpg';
-import quang_cao_4 from '../../assets/4.jpg';
 import Footer from '../Share/Footer';
 import Header from '../Share/Header';
 import FilmShowing from '../Share/FilmShowing';
@@ -36,7 +32,7 @@ import Ratings from '../Share/Rating';
 import { toast } from 'react-toastify';
 import InCommingFilms from '../Share/InCommingFilms';
 import { getNewsByType } from '../../services/NewsServices';
-
+import { userState } from "../../redux/userSlice";
 
 
 
@@ -46,6 +42,9 @@ import { getNewsByType } from '../../services/NewsServices';
 
 function ChiTietPhim() {
     let history = useHistory();
+    let selectUser = useSelector(userState);
+
+
     const redirectBookTicket = () => {
         history.push("/dat-ve-qua-phim");
     }
@@ -88,6 +87,8 @@ function ChiTietPhim() {
         releaseTime: 0,
         errors: {},
         poster: '',
+        isLoginUser: false,
+        cusId: null,
     });
     const [allPromotionPost, setPromotionPost] = useState([])
     //const urlTrailer = allValues.url;
@@ -144,9 +145,8 @@ function ChiTietPhim() {
 
             dataMovieId.data.type = dataMovieId.data.type.replace(/,\s*$/, "");
 
-            console.log('dataMovieId.data: ', dataMovieId.data)
-
-            setAllValues({
+            setAllValues((prevState) => ({
+                ...prevState,
                 poster: dataMovieId.data.ImageOfMovie[0].url,
                 id: id,
                 name: dataMovieId.data.name,
@@ -162,9 +162,11 @@ function ChiTietPhim() {
                 status: dataMovieId.data.status,
                 description: dataMovieId.data.description,
                 type: dataMovieId.data.type,
+                rating: dataMovieId.data.rating,
                 url: newUrl,
                 dataMovieUpcoming: dataMovieUpcoming
-            })
+            }))
+
         }
     }
 
@@ -188,31 +190,48 @@ function ChiTietPhim() {
         fetchDataPost(3);
     }, [id]);
 
+    useEffect(() => {
 
-    const votePostRating = async (data) => {
+        if (!selectUser.isLoggedInUser) {
+            setAllValues((prevState) => ({
+                ...prevState,
+                isLoginUser: selectUser.isLoggedInUser,
+            }))
+        } else {
+            setAllValues((prevState) => ({
+                ...prevState,
+                isLoginUser: selectUser.isLoggedInUser,
+                cusId: selectUser.userInfo.id
+            }))
+        }
+
+    }, [selectUser]);
 
 
-        console.log('data: ', data)
-        // if (!allValuesDetail.isLoggedInUser) {
-        //     toast.warning('Vui lòng đăng nhập để thực hiện')
-        //     return
-        // }
+    const voteMovieRating = async (data) => {
+
+
+        console.log('allValues: ', allValues.isLoginUser)
+        if (!allValues.isLoginUser) {
+            toast.warning('Vui lòng đăng nhập để thực hiện')
+            return
+        }
 
         // Call API //
-        // let res = await votePostRatingService({
-        //     rating: data,
-        //     cusId: allValuesDetail.cusId,
-        //     newsId: id
-        // })
+        let res = await voteMovieRatingService({
+            rating: data,
+            cusId: allValues.cusId,
+            movieId: id
+        })
 
-        // console.log('res: ', res)
+        console.log('res: ', res)
 
-        // if (res && res.errCode === 0) {
-        //     toast.success("Thank you")
+        if (res && res.errCode === 0) {
+            toast.success("Thank you")
 
-        // } else {
-        //     toast.error(res.errMessage);
-        // }
+        } else {
+            toast.error(res.errMessage);
+        }
 
     }
 
@@ -263,7 +282,7 @@ function ChiTietPhim() {
                                                 {(allValues && allValues.name) ? allValues.name : ''}
                                             </div>
                                             <div className='title-right'>
-                                                <div className="rating-movie rating-home"><span className="rating-value"><strong className="review-home ng-binding">9.5</strong><span>/10</span><span className="ng-binding">&nbsp;(806)</span></span></div>
+                                                <div className="rating-movie rating-home"><span className="rating-value"><strong className="review-home ng-binding">{allValues.rating}</strong><span>/5</span><span className="ng-binding">&nbsp;(806)</span></span></div>
                                             </div>
                                         </li>
                                     </ul>
@@ -293,7 +312,7 @@ function ChiTietPhim() {
                                         </li>
                                         <li>
                                             <div className='info-left'>Đạo diễn</div>
-                                            <div className='info-right'>None</div>
+                                            <div className='info-right'>{(allValues.dataMovie && allValues.dataMovie.director) ? allValues.dataMovie.director : ''}</div>
                                         </li>
                                         <li>
                                             <div className='info-left'>Thể loại</div>
@@ -322,7 +341,7 @@ function ChiTietPhim() {
                                     <button className='btn-buy btn' onClick={handleBookTicket}>mua vé</button>
                                     <button className='btn btn-warning btn-review' onMouseOver={handleMouseOver} onClick={handleMouseLeave}>Đánh giá</button>
                                     {
-                                        hovering && <Ratings checkClick={votePostRating} />
+                                        hovering && <Ratings checkClick={voteMovieRating} />
                                     }
                                 </div>
                             </div>
