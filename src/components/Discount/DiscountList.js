@@ -52,18 +52,24 @@ function DiscountList() {
     }, [])
     return (
         <>
+
+
+            <Header />
             <LoadingOverlay
                 active={allDis.isShowLoading}
-                spinner={<ClipLoader color='#fff' size={50} />}
+                spinner={<ClipLoader color='#FCAF17' size={50} />}
                 styles={{
+                    wrapper: {
+                        // width: '400px',
+                        // height: '400px',
+                        overflow: 'hidden'
+                    },
                     overlay: (base) => ({
                         ...base,
-                        background: 'rgb(10 10 10 / 68%)',
+                        background: '#fff',
                     })
                 }}
             >
-
-                <Header />
                 <div className='container con-dis'>
                     <div className='row row-dis'>
                         <div className='col-8 col-list-dis'>
@@ -131,9 +137,10 @@ function DiscountList() {
                         />
                     </div>
                 </div>
-                <Footer />
-
             </LoadingOverlay>
+            <Footer />
+
+
         </>
     );
 }

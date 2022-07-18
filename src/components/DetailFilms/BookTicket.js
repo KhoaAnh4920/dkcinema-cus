@@ -242,12 +242,18 @@ function BookTicketThrough() {
 
         if (listSchedule && listSchedule.data && listSchedule.data.length > 0) {
 
+            console.log('listSchedule: ', listSchedule)
 
             let customSchedule = listSchedule.data.map(item => {
-                item.movieTheaterId = item.RoomShowTime.MovieTheaterRoom.id;
-                item.tenRap = item.RoomShowTime.MovieTheaterRoom.tenRap
-                return item;
+                if (item.RoomShowTime) {
+                    item.movieTheaterId = item.RoomShowTime.MovieTheaterRoom.id;
+                    item.tenRap = item.RoomShowTime.MovieTheaterRoom.tenRap
+                    return item;
+                }
+
             })
+
+            console.log('customSchedule: ', customSchedule)
 
             let timeNow = moment();
             let res = customSchedule.map((item, index) => {
@@ -259,53 +265,56 @@ function BookTicketThrough() {
                 // time hien tai is between start va end => dang chieu
                 // time hien tai < start => sap chieu
                 // else => da chieu
+                if (item) {
+                    console.log('item: ', item)
+                    var duration = moment.duration(timeNow.diff(moment(item.premiereDate)));
 
+                    // console.log("Check duation: ", duration);
+                    // console.log("Check day: ", duration.asDays() / 10);
 
-                var duration = moment.duration(timeNow.diff(moment(item.premiereDate)));
+                    // console.log("Check day: ", Math.trunc(duration.asDays()));
+                    // console.log("Check asHours: ", Math.trunc(duration.asHours()));
+                    // console.log("Check asMinutes: ", Math.trunc(duration.asMinutes()));
 
-                // console.log("Check duation: ", duration);
-                // console.log("Check day: ", duration.asDays() / 10);
-
-                // console.log("Check day: ", Math.trunc(duration.asDays()));
-                // console.log("Check asHours: ", Math.trunc(duration.asHours()));
-                // console.log("Check asMinutes: ", Math.trunc(duration.asMinutes()));
-
-                if (Math.trunc(duration.asDays()) < 0 || Math.trunc(duration.asHours()) < 0 || Math.trunc(duration.asMinutes()) < 0) {
-                    item.status = 0
-                } else if (Math.trunc(duration.asDays()) > 0) {
-                    item.status = 2
-                }
-                else {
-
-                    // time hien tai is between start va end => dang chieu
-                    // time hien tai < start => sap chieu
-                    // else => da chieu
-
-                    let h = moment(timeNow).format("HH");
-                    let m = moment(timeNow).format("mm");
-                    let h1 = moment(item.startTime).format("HH");
-                    let m1 = moment(item.startTime).format("mm");
-                    let h2 = moment(item.endTime).format("HH");
-                    let m2 = moment(item.endTime).format("mm");
-
-                    if ((h1 < h || h1 == h && m1 <= m) && (h < h2 || h == h2 && m <= m2)) {
-                        console.log("Dang chieu")
-                        item.status = 1
-                    }
-                    else if (h < h1) {
-                        console.log("Sap chieu");
+                    if (Math.trunc(duration.asDays()) < 0 || Math.trunc(duration.asHours()) < 0 || Math.trunc(duration.asMinutes()) < 0) {
                         item.status = 0
-                    } else {
+                    } else if (Math.trunc(duration.asDays()) > 0) {
                         item.status = 2
-                        console.log("Da chieu")
                     }
+                    else {
 
+                        // time hien tai is between start va end => dang chieu
+                        // time hien tai < start => sap chieu
+                        // else => da chieu
+
+                        let h = moment(timeNow).format("HH");
+                        let m = moment(timeNow).format("mm");
+                        let h1 = moment(item.startTime).format("HH");
+                        let m1 = moment(item.startTime).format("mm");
+                        let h2 = moment(item.endTime).format("HH");
+                        let m2 = moment(item.endTime).format("mm");
+
+                        if ((h1 < h || h1 == h && m1 <= m) && (h < h2 || h == h2 && m <= m2)) {
+                            console.log("Dang chieu")
+                            item.status = 1
+                        }
+                        else if (h < h1) {
+                            console.log("Sap chieu");
+                            item.status = 0
+                        } else {
+                            item.status = 2
+                            console.log("Da chieu")
+                        }
+
+                    }
+                    return item;
                 }
-                return item;
+
+
 
             })
 
-            let finalSchedule = res.filter(item => item.status === 0);
+            let finalSchedule = res.filter(item => item && item.status === 0);
 
             finalSchedule = groupBy(finalSchedule, "movieTheaterId");
 
@@ -505,17 +514,19 @@ function BookTicketThrough() {
 
     return (
         <>
+
+            <Header />
+
             <LoadingOverlay
                 active={allValues.isShowLoading}
-                spinner={<ClipLoader color='#fff' size={50} />}
+                spinner={<ClipLoader color='#FCAF17' size={50} />}
                 styles={{
                     overlay: (base) => ({
                         ...base,
-                        background: 'rgb(10 10 10 / 68%)',
+                        background: '#fff',
                     })
                 }}
             >
-                <Header />
                 <div className='book-ticket-film'>
                     <div className='container box'>
                         <div className='row row-detail'>
@@ -736,8 +747,9 @@ function BookTicketThrough() {
                     </div>
 
                 </div>
-                <Footer />
             </LoadingOverlay>
+            <Footer />
+
         </>
     )
 }

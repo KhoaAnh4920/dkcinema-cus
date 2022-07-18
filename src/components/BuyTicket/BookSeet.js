@@ -195,6 +195,12 @@ function BookSeet() {
 
     useEffect(() => {
         console.log("Check data in redux: ", bookingRedux);
+
+        if (!bookingRedux.dataBooking) {
+            history.push('/lich-chieu');
+            return;
+        }
+
         let movieId = bookingRedux.dataBooking.movieId;
         let scheduleId = bookingRedux.dataBooking.showTimeId;
 
@@ -210,13 +216,6 @@ function BookSeet() {
 
 
     }, [bookingRedux]);
-
-
-
-
-
-
-
 
 
 
@@ -236,6 +235,11 @@ function BookSeet() {
     useEffect(() => {
 
         console.log('setUserInfo: ', selectUser.userInfo);
+
+        if (!selectUser.isLoggedInUser) {
+            history.push('/login');
+            return;
+        }
 
 
         setAllValues((prevState) => ({

@@ -227,7 +227,7 @@ function DetailReviewFilm() {
                                             <div className='show-comment' key={index}>
                                                 <div className='user-name'>
                                                     <span>{(item.CustomerComment && item.CustomerComment.fullName) ? item.CustomerComment.fullName : ''}</span>
-                                                    <span style={{ fontSize: '12px', marginLeft: '10px', color: '#aaa', fontWeight: 500 }}>{moment(item.CustomerComment.createdAt).locale('vi').fromNow(true)}</span>
+                                                    <span style={{ fontSize: '12px', marginLeft: '10px', color: '#aaa', fontWeight: 500 }}>{moment(item.createdAt).fromNow()}</span>
                                                 </div>
                                                 <div className='number-rate'>
                                                     <Rating
