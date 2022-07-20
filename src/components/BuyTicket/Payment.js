@@ -10,7 +10,7 @@ import Select from 'react-select';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
 import { getScheduleById } from "../../services/ScheduleService";
-import { getMomoPaymentLink, getCustomerVoucher } from "../../services/BookingServices";
+import { getMomoPaymentLink, getCustomerVoucher, handleDeleteBooking } from "../../services/BookingServices";
 import { dataBookingRedux, updateDataBooking } from "../../redux/BookingSlice";
 import moment from 'moment';
 import { useHistory, useParams } from "react-router-dom";
@@ -103,6 +103,13 @@ function Payment() {
 
     useEffect(() => {
         console.log("Check data in redux: ", bookingRedux);
+
+
+        if (!bookingRedux.dataBooking) {
+            history.push('/lich-chieu');
+            return;
+        }
+
         let movieId = bookingRedux.dataBooking.movieId;
         let scheduleId = bookingRedux.dataBooking.showTimeId;
 
@@ -117,15 +124,19 @@ function Payment() {
 
         setAllValues((prevState) => ({
             ...prevState,
-            totalPrice: bookingRedux.dataBooking.totalPrice
+            totalPrice: bookingRedux.dataBooking.totalPrice,
+            bookingId: bookingRedux.dataBooking.bookingId
         }));
 
     }, [bookingRedux]);
 
     useEffect(() => {
 
-        console.log('setUserInfo: ', selectUser.userInfo);
 
+        if (!selectUser.isLoggedInUser) {
+            history.push('/login');
+            return;
+        }
 
         setAllValues((prevState) => ({
             ...prevState,
@@ -153,6 +164,7 @@ function Payment() {
                 // timer = duration;
                 localStorage.removeItem("seconds");
                 localStorage.removeItem("minutes");
+                dispatch(updateDataBooking(null));
                 toast.error("Hết thời gian thanh toán");
                 clearInterval(intervalId);
                 history.push('/loi-ve')
@@ -164,26 +176,36 @@ function Payment() {
 
 
         }, 1000);
-        // setAllValues((prevState) => ({
-        //     ...prevState,
-        //     intervalId: intervalId,
-        //     // selectedColumn: selectedColumn
-        // }));
+        setAllValues((prevState) => ({
+            ...prevState,
+            intervalId: intervalId,
+        }));
 
     }
 
     useEffect(() => {
-        // let sec = parseInt(window.localStorage.getItem("seconds"))
-        // let min = parseInt(window.localStorage.getItem("minutes"))
+        let sec = parseInt(window.localStorage.getItem("seconds"))
+        let min = parseInt(window.localStorage.getItem("minutes"))
 
-        // if (parseInt(min * sec)) {
-        //     var fiveMinutes = (parseInt(min * 60) + sec);
-        // } else {
-        //     var fiveMinutes = 60 * 15;
-        // }
-        // // var fiveMinutes = 60 * 5;
-        // let display = document.querySelector('#time');
-        // startTimer(fiveMinutes, display);
+        console.log('sec: ', sec);
+
+        if (sec || min) {
+            localStorage.removeItem("seconds");
+            localStorage.removeItem("minutes");
+            dispatch(updateDataBooking(null));
+            history.push('/lich-chieu');
+            return;
+        }
+
+
+        if (parseInt(min * sec)) {
+            var fiveMinutes = (parseInt(min * 60) + sec);
+        } else {
+            var fiveMinutes = 60 * 15;
+        }
+        // var fiveMinutes = 60 * 5;
+        let display = document.querySelector('#time');
+        startTimer(fiveMinutes, display);
 
 
     }, []);
@@ -329,6 +351,21 @@ function Payment() {
 
 
 
+    const handleGoBack = async () => {
+        console.log(allValues);
+        // CALL API DELETE BOOKING //
+        clearInterval(allValues.intervalId);
+        localStorage.removeItem("seconds");
+        localStorage.removeItem("minutes");
+        let res = await handleDeleteBooking(allValues.bookingId);
+        console.log("res: ", res);
+        if (res && res.errCode === 0) {
+            dispatch(updateDataBooking(null));
+            history.push('/lich-chieu');
+            return;
+        }
+    }
+
 
     return (
         <>
@@ -433,7 +470,7 @@ function Payment() {
                                 <div className="form-group col-12">
                                     <label htmlFor="exampleInputEmail1" className='col-3'></label>
                                     <div className='col-9'>
-                                        <button className='btn btn-back' onClick={history.goBack}>Quay lại</button>
+                                        <button className='btn btn-back' onClick={() => handleGoBack()}>Quay lại</button>
                                         {/* <button className='btn btn-primary btn-payment' onClick={() => handlePayment()} style={{ fontSize: '20px', width: '200px', backgroundColor: 'orange', border: 'none' }}>Thanh toán</button> */}
                                         <Button variant="primary " {...allValues.isShowLoading && 'disabled'} className='btn-payment' onClick={() => handlePayment()} >
                                             {allValues.isShowLoading &&

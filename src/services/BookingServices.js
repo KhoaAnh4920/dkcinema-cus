@@ -23,10 +23,15 @@ const getCustomerVoucher = (voucherCode) => {
     return axios.get(`/apply-voucher/${voucherCode}`)
 }
 
+const handleDeleteBooking = (id) => {
+    return axios.delete(`/booking/${id}`)
+}
+
 export {
     handleCreateBookingTicket,
     getValidateSignature,
     getSeetWasBooking,
     getCustomerVoucher,
-    getMomoPaymentLink
+    getMomoPaymentLink,
+    handleDeleteBooking
 }

@@ -204,18 +204,24 @@ function ReviewFilms() {
 
     return (
         <>
+
+            <Header />
+
             <LoadingOverlay
                 active={allNews.isShowLoading}
-                spinner={<ClipLoader color='#fff' size={50} />}
+                spinner={<ClipLoader color='#FCAF17' size={50} />}
                 styles={{
+                    wrapper: {
+                        // width: '400px',
+                        // height: '400px',
+                        overflow: 'hidden'
+                    },
                     overlay: (base) => ({
                         ...base,
-                        background: 'rgb(10 10 10 / 68%)',
+                        background: '#fff',
                     })
                 }}
             >
-                <Header />
-
                 <div className='container-fluid review-con'>
                     <div className='row row-review'>
                         <div className='col-8 col-left'>
@@ -296,10 +302,11 @@ function ReviewFilms() {
                     </div>
 
                 </div>
-
-                <Footer />
-
             </LoadingOverlay>
+
+            <Footer />
+
+
 
         </>
     );

@@ -137,24 +137,25 @@ function DanhSachPhim() {
 
     return (
         <>
-            <LoadingOverlay
-                active={allValues.isShowLoading}
-                spinner={<ClipLoader color='#fff' size={50} />}
-                styles={{
-                    overlay: (base) => ({
-                        ...base,
-                        background: 'rgb(10 10 10 / 68%)',
-                    })
-                }}
-            >
-                <Header />
 
-                <div className='list-movie-container'>
-                    <div className='title-list'>
-                        <a name='pdc' className={titleDefault.isShowTitleDangChieu ? 'playing-movie active' : 'playing-movie'} onClick={handleClickTitle}>phim đang chiếu</a>
-                        <span>|</span>
-                        <a name='psc' className={titleDefault.isShowTitleSapChieu ? 'upcoming-movie active' : 'upcoming-movie'} onClick={handleClickTitle}>phim sắp chiếu</a>
-                    </div>
+            <Header />
+
+            <div className='list-movie-container'>
+                <div className='title-list'>
+                    <a name='pdc' className={titleDefault.isShowTitleDangChieu ? 'playing-movie active' : 'playing-movie'} onClick={handleClickTitle}>phim đang chiếu</a>
+                    <span>|</span>
+                    <a name='psc' className={titleDefault.isShowTitleSapChieu ? 'upcoming-movie active' : 'upcoming-movie'} onClick={handleClickTitle}>phim sắp chiếu</a>
+                </div>
+                <LoadingOverlay
+                    active={allValues.isShowLoading}
+                    spinner={<ClipLoader color='#FCAF17' size={50} />}
+                    styles={{
+                        overlay: (base) => ({
+                            ...base,
+                            background: '#fff',
+                        })
+                    }}
+                >
                     <div className='list-movie col-12 container'>
                         <div className='row'>
                             {
@@ -224,12 +225,15 @@ function DanhSachPhim() {
                         />
 
                     </div>
+                </LoadingOverlay>
 
-                </div>
+            </div>
 
-                <Footer />
 
-            </LoadingOverlay>
+
+            <Footer />
+
+
 
 
         </>

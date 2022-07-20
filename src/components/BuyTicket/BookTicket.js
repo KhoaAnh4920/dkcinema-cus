@@ -4,9 +4,7 @@ import './BookTicket.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from "react-redux";
-import { updateLanguage } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
-import { selectLanguage } from "../../redux/userSlice";
 import { LANGUAGES } from '../../utils/constant';
 import Table from 'react-bootstrap/Table';
 import $ from "jquery";
@@ -19,12 +17,17 @@ import { getScheduleById } from "../../services/ScheduleService"
 import { isContentEditable } from '@testing-library/user-event/dist/utils';
 import moment from 'moment';
 import { useHistory, useParams } from "react-router-dom";
+import { selectLanguage, updateLanguage, userState } from "../../redux/userSlice";
+
+
+
+
 
 function BookTicket() {
     const bookingRedux = useSelector(dataBookingRedux);
     const dispatch = useDispatch();
     let history = useHistory();
-
+    let selectUser = useSelector(userState);
     const [allValues, setAllValues] = useState({
         priceTicket: 90000
     });
@@ -63,6 +66,12 @@ function BookTicket() {
 
     useEffect(() => {
         console.log("Check data in redux: ", bookingRedux);
+
+        if (!bookingRedux.dataBooking) {
+            history.push('/lich-chieu');
+            return;
+        }
+
         let movieId = bookingRedux.dataBooking.movieId;
         let scheduleId = bookingRedux.dataBooking.showTimeId;
 
@@ -70,9 +79,20 @@ function BookTicket() {
         fetchDataScheduleById(scheduleId)
         // fetch data schedule //
 
-
-
     }, [bookingRedux]);
+
+
+    useEffect(() => {
+
+        console.log('setUserInfo: ', selectUser.userInfo);
+
+        if (!selectUser.isLoggedInUser) {
+            history.push('/login');
+            return;
+        }
+
+    }, [selectUser]);
+
 
     const test = (e) => {
         const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
@@ -545,7 +565,7 @@ function BookTicket() {
                                     <div className="ticket-price-total">
                                         <hr />
                                         <p style={{ 'display': 'inline', 'fontSize': '16px', 'fontWeight': 'bold' }}>TỔNG: </p>
-                                        <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '16px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>190.000 VNĐ</span>
+                                        <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '16px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>90.000 VNĐ</span>
                                     </div>
                                     <div className='submit-container'>
                                         <div className='button-book-submit'>

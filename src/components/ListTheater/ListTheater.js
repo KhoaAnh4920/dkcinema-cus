@@ -179,7 +179,7 @@ function ListTheater() {
 
         let lat = null;
         let lng = null;
-        axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyC50PpD45fzUWVnBECoMjjYrmfOJluOlAY`)
+        axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key={GG_KEY}`)
             .then(res => {
                 console.log('res: ', res.data);
                 if (res.data && res.data.results) {
@@ -341,19 +341,23 @@ function ListTheater() {
 
     return (
         <>
+
+            <Header />
             <LoadingOverlay
                 active={allValues.isShowLoading}
-                spinner={<ClipLoader color='#fff' size={50} />}
+                spinner={<ClipLoader color='#FCAF17' size={50} />}
                 styles={{
+                    wrapper: {
+                        // width: '400px',
+                        // height: '400px',
+                        overflow: 'hidden'
+                    },
                     overlay: (base) => ({
                         ...base,
-                        background: 'rgb(10 10 10 / 68%)',
+                        background: '#fff',
                     })
                 }}
             >
-
-
-                <Header />
                 <div className='container con-theater'>
                     <div className='row-bread'>
                         <div className='breadcrumb list-bread'>
@@ -483,8 +487,9 @@ function ListTheater() {
 
                     </div>
                 </div>
-                <Footer />
             </LoadingOverlay>
+            <Footer />
+
         </>
     );
 }

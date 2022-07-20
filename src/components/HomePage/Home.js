@@ -281,9 +281,11 @@ function Home() {
 
     return (
         <>
+
+            <Header />
             <LoadingOverlay
                 active={isShowLoading}
-                spinner={<ClipLoader color='#fff' size={50} />}
+                spinner={<ClipLoader color='#FCAF17' size={50} />}
                 styles={{
                     wrapper: {
                         // width: '400px',
@@ -292,11 +294,10 @@ function Home() {
                     },
                     overlay: (base) => ({
                         ...base,
-                        background: 'rgb(10 10 10 / 68%)',
+                        background: '#fff',
                     })
                 }}
             >
-                <Header />
                 <Carousel
                     autoPlay={true}
                     infiniteLoop={true}
@@ -452,9 +453,11 @@ function Home() {
                     </div>
                 </div>
 
-                <Footer />
-
             </LoadingOverlay>
+
+            <Footer />
+
+
 
 
         </>
