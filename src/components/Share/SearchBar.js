@@ -101,8 +101,9 @@ function SearchBar({ placeholder, data }) {
                         type='text'
                         placeholder={placeholder}
                         value={keyEnter}
-                        onChange={handleFilter} />
-                    <div className='iconSearch' style={{ backgroundColor: '#666666' }}>
+                        onKeyDown={handleKeyDown}
+                        onChange={(e) => setKeyEntr(e.target.value)} />
+                    <div className='iconSearch'>
                         {
                             filterData.length === 0 ? (
                                 <FaSearch />
