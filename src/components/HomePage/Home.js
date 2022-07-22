@@ -457,9 +457,6 @@ function Home() {
 
             <Footer />
 
-
-
-
         </>
     );
 }
