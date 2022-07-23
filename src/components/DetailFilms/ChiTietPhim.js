@@ -79,6 +79,7 @@ function ChiTietPhim() {
         duration: '',
         description: '',
         brand: '',
+        director: '',
         cast: '',
         status: 0,
         typeMovie: [],
@@ -156,6 +157,7 @@ function ChiTietPhim() {
                 language: dataMovieId.data.language,
                 releaseTime: dateRe,
                 brand: dataMovieId.data.brand,
+                director: dataMovieId.data.director,
                 cast: dataMovieId.data.cast,
                 typeMovie: dataMovieId.data.MovieOfType,
                 typeImage: dataMovieId.data.ImageOfMovie,
@@ -261,9 +263,9 @@ function ChiTietPhim() {
                                 })
                             }
 
-                            <Button variant='link' onClick={handleShowVideo} className='btn-show'>
+                            <div variant='link' onClick={handleShowVideo} className='btn-show'>
                                 <FontAwesomeIcon icon={faPlayCircle} className='icon-show' />
-                            </Button>
+                            </div>
 
                             <ModalVideo
                                 channel='youtube'
@@ -312,7 +314,7 @@ function ChiTietPhim() {
                                         </li>
                                         <li>
                                             <div className='info-left'>Đạo diễn</div>
-                                            <div className='info-right'>{(allValues.dataMovie && allValues.dataMovie.director) ? allValues.dataMovie.director : ''}</div>
+                                            <div className='info-right'>{(allValues.director) ? allValues.director : ''}</div>
                                         </li>
                                         <li>
                                             <div className='info-left'>Thể loại</div>
@@ -330,7 +332,7 @@ function ChiTietPhim() {
                                         </li>
                                         <li>
                                             <div className='info-left'>Ngày khởi chiếu</div>
-                                            <div className='info-right'>{(allValues.releaseTime) ? moment(allValues.releaseTime).format('DD/MM/YYYY') : ''}</div>
+                                            <div className='info-right'>{(allValues.releaseTime) ? allValues.releaseTime : ''}</div>
                                         </li>
                                     </ul>
                                 </div>

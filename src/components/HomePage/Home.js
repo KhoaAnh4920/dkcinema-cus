@@ -276,6 +276,10 @@ function Home() {
         history.push(`/dat-ve-qua-phim/${item.id}`)
     }
 
+    const handleClickDetailPromotion = (id) => {
+        history.push(`/chi-tiet-review/${id}`)
+    }
+
 
 
 
@@ -391,7 +395,7 @@ function Home() {
                                         <div className='img-discount'>
                                             <Image src={item.thumbnail} className='img' />
                                             <div className='image__overlay image__overlay--primary'>
-                                                <Button size='md' variant='warning' className='btn__show'>Chi tiết</Button>
+                                                <Button size='md' variant='warning' className='btn__show' onClick={() => handleClickDetailPromotion(item.id)}>Chi tiết</Button>
                                             </div>
                                         </div>
                                     )
@@ -431,7 +435,7 @@ function Home() {
 
                         </div>
                         <div className='col-6 col-right'>
-                            <h1 className='text-intro'>giới thiệu phim sắp chiếu</h1>
+                            <h1 className='text-intro'>Blog điện ảnh</h1>
                             {allInComingMovie && allInComingMovie.map((item, index) => {
                                 if (index < 4) {
                                     return (

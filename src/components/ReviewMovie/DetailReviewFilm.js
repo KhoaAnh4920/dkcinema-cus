@@ -14,12 +14,18 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 import InCommingFilms from '../Share/InCommingFilms';
 import { getListMovieByStatus } from '../../services/MovieServices';
+import LoadingOverlay from 'react-loading-overlay'
+import ClipLoader from 'react-spinners/ClipLoader'
+
+
 
 
 
 
 function DetailReviewFilm() {
     const [show, setShow] = useState(true);
+
+
     let selectUser = useSelector(userState);
     const handleClickShow = () => {
         setShow(!show);
@@ -45,14 +51,12 @@ function DetailReviewFilm() {
         ratingComment: null,
         cusCmt: '',
         listCmt: [],
-        dataMovieUpcoming: []
+        dataMovieUpcoming: [],
+        isShowLoading: true,
     });
-    //const detail = "Những năm gần đây, điện ảnh Việt ngày càng có nhiều sự tiến bộ khi chứng kiến nhiều tác phẩm chất lượng ra đời. Với đa dạng đề tài từ hành động, hài, tình cảm…, các nhà làm phim đã chứng tỏ được tay nghề thông qua nhiều tựa phim đạt được thành công tại phòng vé. Ngoài việc phát triển ý tưởng từ kịch bản gốc, phim remake cũng là một hướng đi mới mẻ của ngành phim ảnh trong nước. Từ có nhiều cái tên được Việt hóa từ nội dung nước ngoài, nhưng vẫn được sự đón nhận của đông đảo người xem. Dịp lễ 30/4 sắp đến, Nghề Siêu Dễ sẽ là lựa chọn hoàn hảo cho những ai muốn có giờ phút thư giãn vui vẻ bên gia đình, bạn bè và người yêu. Dựa trên phiên bản Extreme Job của Hàn Quốc, nhà sản xuất Thu Trang cùng đạo diễn Võ Thanh Hòa đã thảo luận, thay đổi vài chi tiết để cho ra thành phẩm Nghề Siêu Dễ mang đậm bản sắc Việt.";
-    //const change = detail.toString();
-    const detail = allValuesDetail.noiDung;
-    const content = { detail };
-    //console.log(content);
-    // const image = "https://www.galaxycine.vn/media/2022/6/23/1135-1_1655988278572.jpg";
+
+
+
     const { id } = useParams();
     async function fetchDetailById(id) {
         let dataDetail = await getNewsById(id);
@@ -76,7 +80,8 @@ function DetailReviewFilm() {
                 rating: dataDetail.data.rating,
                 listCmt: dataDetail.data.CommentNews || [],
                 type: dataDetail.data.type,
-                dataMovieUpcoming: dataMovieUpcoming
+                dataMovieUpcoming: dataMovieUpcoming,
+                isShowLoading: false
             }));
 
         }
@@ -170,103 +175,119 @@ function DetailReviewFilm() {
     return (
         <div>
             <Header />
-            <div className='container con-de'>
-                <div className='row row-de'>
-                    <div className='col-8 col-de-left'>
-                        <div className='row row-de-1'>
-                            <p>
-                                {allValuesDetail.title}
-                            </p>
-                        </div>
-                        <hr />
-                        <div className='row row-de-fc'>
-                            <li><div class="rating-movie rating-home"><span class="rating-value"><strong class="review-home ng-binding">{allValuesDetail.rating}</strong><span>/10</span><span class="ng-binding">&nbsp;(806)</span></span></div></li>
-                            <li><button className='btn btn-warning btn-review' onMouseOver={handleMouseOver} onClick={handleMouseLeave}>Đánh giá</button></li>
-                            {
-                                hovering && <Ratings checkClick={votePostRating} />
-                            }
-                        </div>
-                        <div className='row row-content-de editor' dangerouslySetInnerHTML={createMarkup()}>
+            <LoadingOverlay
+                active={allValuesDetail.isShowLoading}
+                spinner={<ClipLoader color='#FCAF17' size={50} />}
+                styles={{
+                    wrapper: {
+                        // width: '400px',
+                        // height: '400px',
+                        overflow: 'hidden'
+                    },
+                    overlay: (base) => ({
+                        ...base,
+                        background: '#fff',
+                    })
+                }}
+            >
+                <div className='container con-de'>
+                    <div className='row row-de'>
+                        <div className='col-8 col-de-left'>
+                            <div className='row row-de-1'>
+                                <p>
+                                    {allValuesDetail.title}
+                                </p>
+                            </div>
+                            <hr />
+                            <div className='row row-de-fc'>
+                                <li><div class="rating-movie rating-home"><span class="rating-value"><strong class="review-home ng-binding">{allValuesDetail.rating}</strong><span>/10</span><span class="ng-binding">&nbsp;(806)</span></span></div></li>
+                                <li><button className='btn btn-warning btn-review' onMouseOver={handleMouseOver} onClick={handleMouseLeave}>Đánh giá</button></li>
+                                {
+                                    hovering && <Ratings checkClick={votePostRating} />
+                                }
+                            </div>
+                            <div className='row row-content-de editor' dangerouslySetInnerHTML={createMarkup()}>
 
-                            {/* {
+                                {/* {
                                 show ? allValuesDetail.noiDung.slice(0, 400) : allValuesDetail.noiDung
                             } */}
-                        </div>
-                        <div>
-                            {/* {
+                            </div>
+                            <div>
+                                {/* {
                                 content.detail && content.detail.length > 400 && (
                                     <button onClick={handleClickShow}>
                                         {show ? "Xem Them" : "An di"}
                                     </button>
                                 )
                             } */}
-                        </div>
-                        {allValuesDetail.type !== 3 &&
-                            <>
-                                <div className='comment-film'>
-                                    <div className='title-cmt'>
-                                        <h5>bình luận phim</h5>
-                                    </div>
-                                    <div className='form-cmt'>
-                                        <textarea className='area-51 form-control animated' name='cusCmt' onChange={changeHandler} value={allValuesDetail.cusCmt} placeholder='Bình luận của bạn...' cols="50"></textarea>
-                                    </div>
-                                    <div className='bottom-cmt'>
-                                        <div className='row rating-cmt'>
-                                            Chọn số sao:&nbsp;<Ratings checkClick={voteRatingComment} />
+                            </div>
+                            {allValuesDetail.type !== 3 &&
+                                <>
+                                    <div className='comment-film'>
+                                        <div className='title-cmt'>
+                                            <h5>bình luận phim</h5>
                                         </div>
-                                        <div className='btn-send'>
-                                            <button className='btn btn-light' onClick={() => handleComment()}>Gửi</button>
+                                        <div className='form-cmt'>
+                                            <textarea className='area-51 form-control animated' name='cusCmt' onChange={changeHandler} value={allValuesDetail.cusCmt} placeholder='Bình luận của bạn...' cols="50"></textarea>
                                         </div>
-                                    </div>
-
-
-                                </div>
-                                {allValuesDetail.listCmt && allValuesDetail.listCmt.length > 0 &&
-                                    allValuesDetail.listCmt.map((item, index) => {
-                                        return (
-                                            <div className='show-comment' key={index}>
-                                                <div className='user-name'>
-                                                    <span>{(item.CustomerComment && item.CustomerComment.fullName) ? item.CustomerComment.fullName : ''}</span>
-                                                    <span style={{ fontSize: '12px', marginLeft: '10px', color: '#aaa', fontWeight: 500 }}>{moment(item.createdAt).fromNow()}</span>
-                                                </div>
-                                                <div className='number-rate'>
-                                                    <Rating
-                                                        iconsCount={5}
-                                                        readonly={true}
-                                                        //ratingValue={10}
-                                                        initialValue={item.rating}
-                                                        size={15}
-                                                    />
-                                                </div>
-
-                                                <div className='content-cmt'>
-                                                    {item.comment}
-                                                </div>
+                                        <div className='bottom-cmt'>
+                                            <div className='row rating-cmt'>
+                                                Chọn số sao:&nbsp;<Ratings checkClick={voteRatingComment} />
                                             </div>
-                                        )
-                                    })
+                                            <div className='btn-send'>
+                                                <button className='btn btn-light' onClick={() => handleComment()}>Gửi</button>
+                                            </div>
+                                        </div>
 
-                                }
 
-                                {
-                                    allValuesDetail.listCmt && allValuesDetail.listCmt.length === 0 &&
-                                    <div className='show-comment'>
-                                        <p style={{ textAlign: 'center' }}>Hãy để lại bình luận đầu tiên cho bài viết</p>
                                     </div>
-                                }
-                            </>
-                        }
+                                    {allValuesDetail.listCmt && allValuesDetail.listCmt.length > 0 &&
+                                        allValuesDetail.listCmt.map((item, index) => {
+                                            return (
+                                                <div className='show-comment' key={index}>
+                                                    <div className='user-name'>
+                                                        <span>{(item.CustomerComment && item.CustomerComment.fullName) ? item.CustomerComment.fullName : ''}</span>
+                                                        <span style={{ fontSize: '12px', marginLeft: '10px', color: '#aaa', fontWeight: 500 }}>{moment(item.createdAt).fromNow()}</span>
+                                                    </div>
+                                                    <div className='number-rate'>
+                                                        <Rating
+                                                            iconsCount={5}
+                                                            readonly={true}
+                                                            //ratingValue={10}
+                                                            initialValue={item.rating}
+                                                            size={15}
+                                                        />
+                                                    </div>
+
+                                                    <div className='content-cmt'>
+                                                        {item.comment}
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+
+                                    }
+
+                                    {
+                                        allValuesDetail.listCmt && allValuesDetail.listCmt.length === 0 &&
+                                        <div className='show-comment'>
+                                            <p style={{ textAlign: 'center' }}>Hãy để lại bình luận đầu tiên cho bài viết</p>
+                                        </div>
+                                    }
+                                </>
+                            }
 
 
 
+                        </div>
+
+                        <InCommingFilms
+                            dataMovieUpcoming={allValuesDetail.dataMovieUpcoming}
+                        />
                     </div>
 
-                    <InCommingFilms
-                        dataMovieUpcoming={allValuesDetail.dataMovieUpcoming}
-                    />
                 </div>
-
-            </div>
+            </LoadingOverlay>
             <Footer />
         </div>
     );

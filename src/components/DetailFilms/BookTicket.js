@@ -541,9 +541,9 @@ function BookTicketThrough() {
                                         }
                                     })
                                 }
-                                <Button variant='link' onClick={handleShowVideo} className='btn-show'>
+                                <div variant='link' onClick={handleShowVideo} className='btn-show'>
                                     <FontAwesomeIcon icon={faPlayCircle} className='icon-show' />
-                                </Button>
+                                </div>
 
                                 <ModalVideo
                                     channel='youtube'
