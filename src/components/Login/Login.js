@@ -29,6 +29,11 @@ import { toast } from 'react-toastify';
 import { Button } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import ModalForgotPass from './ModalForgotPass';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+
 
 
 
@@ -37,12 +42,60 @@ const options = [
     { value: 1, label: 'Nam' },
 ];
 
+const schema = yup.object().shape({
+    emailLogin: yup
+        .string()
+        .email('Vui lòng nhập email hợp')
+        .required("Vui lòng nhập email"),
+    passwordLogin: yup
+        .string()
+        .required("Vui lòng nhập mật khẩu")
+        .min(6, 'Tối thiểu 6 ký tự')
 
+});
+
+const schemaRegister = yup.object().shape({
+    fullName: yup
+        .string()
+        .required("Vui lòng nhập họ tên"),
+    email: yup
+        .string()
+        .required("Vui lòng nhập email")
+        .email('Vui lòng nhập email hợp lệ'),
+    password: yup
+        .string()
+        .required("Vui lòng nhập mật khẩu")
+        .min(6, 'Tối thiểu 6 ký tự'),
+    phone: yup
+        .string()
+        .required("Vui lòng nhập số điện thoại")
+        .min(10, 'Tối thiểu 10 ký tự')
+        .max(11, 'Tối thiểu 11 ký tự'),
+
+
+});
 
 
 
 
 function Login() {
+    // sử dụng schema đã tạo ở trên vào RHF
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset
+    } = useForm({ resolver: yupResolver(schema), mode: "onBlur", });
+
+    const {
+        register: register2,
+        formState: { errors: errors2 },
+        handleSubmit: handleSubmit2,
+    } = useForm({
+        resolver: yupResolver(schemaRegister),
+        mode: "onBlur",
+    });
+
     const language = useSelector(selectLanguage);
     const [birthday, setBirthday] = useState(null);
     const [errMessage, setErrMessage] = useState('');
@@ -60,7 +113,8 @@ function Login() {
         errors: {},
         errPass: '',
         gender: 1,
-        isShowLoadingLogin: false
+        isShowLoadingLogin: false,
+        isShowLoadingSignIn: false
     });
     const dispatch = useDispatch();
     let history = useHistory();
@@ -106,6 +160,8 @@ function Login() {
     }
 
     const handleLogin = async () => {
+
+
         setAllValues((prevState) => ({
             ...prevState,
             isShowLoadingLogin: true
@@ -149,10 +205,6 @@ function Login() {
     }
 
     const changeHandler = e => {
-        if (e.target.name === 'rePassword') {
-            if (e.target.value !== allValues.password)
-                allValues.errPass = 'Mật khẩu không trùng khớp';
-        }
         setAllValues({ ...allValues, [e.target.name]: e.target.value })
     }
 
@@ -165,80 +217,76 @@ function Login() {
         }))
     }
 
-    const checkValidateInput = () => {
-        let isValid = true;
-        let errors = {};
-        let arrInput = ['email', 'password', 'rePassword', 'birthday', 'gender', 'phone']
-        for (let i = 0; i < arrInput.length; i++) {
-            if (!allValues[arrInput[i]]) {
-                isValid = false;
-                errors[arrInput[i]] = "Cannot be empty";
-            }
-        }
-
-        if (!isValid) {
-            Swal.fire({
-                title: 'Missing data?',
-                text: "Vui lòng điền đầy đủ thông tin!",
-                icon: 'warning',
-            })
-
-            setAllValues((prevState) => ({
-                ...prevState,
-                errors: errors,
-                isShowLoadingLogin: false
-            }));
-        }
-        return isValid;
-    }
 
 
     const handleSignInCustomer = async () => {
 
-        setAllValues((prevState) => ({
-            ...prevState,
-            isShowLoadingLogin: true
-        }));
+        console.log(allValues);
+        if (allValues.password !== allValues.rePassword) {
+            toast.error("Mật khẩu không trùng khớp");
+            return;
+        }
 
-        let isValid = checkValidateInput();
-        if (isValid) {
-            let formatedDate = new Date(allValues.birthday).getTime();
-
-
-            let res = await signUpNewUser({
-                email: allValues.email,
-                password: allValues.password,
-                fullName: allValues.fullName,
-                birthday: formatedDate,
-                phone: allValues.phone,
-                gender: allValues.gender,
-                address: allValues.address,
-                cityCode: (selectedCity && selectedCity.value) ? selectedCity.value : null,
-                districtCode: (selectedDistrict && selectedDistrict.value) ? selectedDistrict.value : null,
-                wardCode: (selectedWard && selectedWard.value) ? selectedWard.value : null
-            })
-
-            if (res && res.errCode == 0) {
-                toast.success("Đăng ký thành công");
-                setAllValues({
-                    email: '',
-                    password: '',
-                    rePassword: '',
-                    phone: '',
-                    userName: '',
-                    fullName: '',
-                    address: '',
-                    birthday: '',
-                    address: '',
-                    errors: {},
-                    gender: 1,
-                    isShowLoadingLogin: false
-                });
-            } else {
-                history.push("/users-management")
-                toast.error("Đăng ký thất bại");
+        if (!allValues.email || !allValues.fullName || !allValues.phone || !allValues.password) {
+            if (allValues.password !== allValues.rePassword) {
+                toast.error("Vui lòng điền đầy đủ thông tin");
+                return;
             }
         }
+
+
+
+        setAllValues((prevState) => ({
+            ...prevState,
+            isShowLoadingSignIn: true
+        }));
+
+        let formatedDate = new Date(allValues.birthday).getTime();
+
+
+        let res = await signUpNewUser({
+            email: allValues.email,
+            password: allValues.password,
+            fullName: allValues.fullName,
+            birthday: formatedDate,
+            phone: allValues.phone,
+            gender: allValues.gender,
+            address: allValues.address,
+            cityCode: (selectedCity && selectedCity.value) ? selectedCity.value : null,
+            districtCode: (selectedDistrict && selectedDistrict.value) ? selectedDistrict.value : null,
+            wardCode: (selectedWard && selectedWard.value) ? selectedWard.value : null
+        })
+
+        if (res && res.errCode == 0) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Đăng ký thành công',
+                text: 'Quý khách vui lòng kiểm tra email để kích hoạt tài khoản',
+                showConfirmButton: false,
+                timer: 3000
+            })
+            setAllValues({
+                email: '',
+                password: '',
+                rePassword: '',
+                phone: '',
+                userName: '',
+                fullName: '',
+                address: '',
+                birthday: '',
+                address: '',
+                errors: {},
+                gender: 1,
+                isShowLoadingSignIn: false
+            });
+            return;
+        } else {
+            toast.error(res.message);
+        }
+        setAllValues((prevState) => ({
+            ...prevState,
+            isShowLoadingSignIn: false
+        }));
     }
 
 
@@ -274,235 +322,289 @@ function Login() {
                     <div className='login-cus col-5'>
                         <div className='form-login'>
                             <h4 className='title-login'>Đăng nhập</h4>
-                            <div className="form-group">
-                                <input type="email" className="form-control"
-                                    placeholder="Enter email"
-                                    name="emailLogin"
-                                    id="emailLogin"
-                                    onChange={changeHandler}
-                                />
-
-                            </div>
-
-                            <div className="form-group">
-                                <input type="password" className="form-control"
-                                    placeholder="Enter Password"
-                                    name="passwordLogin"
-                                    id="passwordLogin"
-                                    onChange={changeHandler}
-                                    onKeyDown={event => handleKeyDown(event)}
-                                />
-
-                            </div>
-                            <Link className="link-forgot-pass" onClick={() => setOpenModalForgotPass(true)}>Quên mật khẩu ?</Link>
-                            <div className='submit-container'>
-                                <div className='button-login-submit'>
-                                    <Button {...allValues.isShowLoadingLogin && 'disabled'} className="btn btn-login" onClick={() => handleLogin()} >
-                                        {allValues.isShowLoadingLogin &&
-                                            <>
-                                                <Spinner
-                                                    as="span"
-                                                    animation="border"
-                                                    size="sm"
-                                                    role="status"
-                                                    aria-hidden="true"
-                                                />
-                                                <span className="visually" style={{ marginLeft: '10px' }}>Loading...</span>
-                                            </>
-
-                                        }
-                                        {!allValues.isShowLoadingLogin &&
-                                            <>
-                                                <span className="visually">Đăng nhập</span>
-                                            </>
-                                        }
-                                    </Button>
+                            <form onSubmit={handleSubmit(handleLogin)}>
+                                <div className="form-group">
+                                    <input
+                                        type="email"
+                                        className="form-control"
+                                        placeholder="Enter email"
+                                        name="emailLogin"
+                                        id="emailLogin"
+                                        onChange={changeHandler}
+                                        required
+                                        {...register("emailLogin", {
+                                            onChange: changeHandler
+                                        })}
+                                    />
+                                    {errors.emailLogin && errors.emailLogin.message &&
+                                        <span className='errorInput'>{errors.emailLogin.message}</span>
+                                    }
 
                                 </div>
-                            </div>
+
+
+                                <div className="form-group">
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        placeholder="Enter Password"
+                                        name="passwordLogin"
+                                        id="passwordLogin"
+                                        onChange={changeHandler}
+                                        onKeyDown={event => handleKeyDown(event)}
+                                        required
+                                        {...register("passwordLogin", {
+                                            onChange: changeHandler
+                                        })}
+                                    />
+                                    {errors.passwordLogin && errors.passwordLogin.message &&
+                                        <span className='errorInput'>{errors.passwordLogin.message}</span>
+                                    }
+
+                                </div>
+
+                                <Link className="link-forgot-pass" onClick={() => setOpenModalForgotPass(true)}>Quên mật khẩu ?</Link>
+                                <div className='submit-container'>
+                                    <div className='button-login-submit'>
+                                        <Button {...allValues.isShowLoadingLogin && 'disabled'} className="btn btn-login" type='submit' >
+                                            {allValues.isShowLoadingLogin &&
+                                                <>
+                                                    <Spinner
+                                                        as="span"
+                                                        animation="border"
+                                                        size="sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                    />
+                                                    <span className="visually" style={{ marginLeft: '10px' }}>Loading...</span>
+                                                </>
+
+                                            }
+                                            {!allValues.isShowLoadingLogin &&
+                                                <>
+                                                    <span className="visually">Đăng nhập</span>
+                                                </>
+                                            }
+                                        </Button>
+
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                     <div className='register-cus col-7'>
                         <div className='form-register'>
-                            <h4 className='title-register'>Đăng ký tài khoản</h4>
-                            <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail1" className='col-3'>Họ và tên</label>
-                                <input type="email" className="form-control col-9"
-                                    placeholder="Nhập họ và tên" name='fullName'
-                                    value={allValues.fullName}
-                                    onChange={changeHandler}
-                                />
+                            <form onSubmit={handleSubmit2(handleSignInCustomer)}>
+                                <h4 className='title-register'>Đăng ký tài khoản</h4>
+                                <div className="form-group col-12">
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Họ và tên</label>
+                                    <input type="text" className="form-control col-9"
+                                        placeholder="Nhập họ và tên" name='fullName'
+                                        required
+                                        value={allValues.fullName}
+                                        {...register2("fullName", {
+                                            onChange: changeHandler
+                                        })}
+                                    />
 
-                            </div>
+                                </div>
 
-                            <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail1" className='col-3'>Email</label>
-                                <input type="email" className="form-control col-9"
-                                    placeholder="Nhập email" name='email'
-                                    value={allValues.email}
-                                    onChange={changeHandler}
-                                />
+                                <div className="form-group col-12">
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Email</label>
+                                    <input type="email" className="form-control col-9"
+                                        placeholder="Nhập email" name='email'
+                                        value={allValues.email}
+                                        required
+                                        {...register2("email", {
+                                            onChange: changeHandler
+                                        })}
+                                    />
 
-                            </div>
-                            <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail1" className='col-3'>Mật khẩu</label>
-                                <input type="password" className="form-control col-9"
-                                    placeholder="Nhập mật khẩu" name='password'
-                                    value={allValues.password}
-                                    onChange={changeHandler}
-                                />
+                                </div>
+                                <div className="form-group col-12">
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Mật khẩu</label>
+                                    <input type="password" className="form-control col-9"
+                                        placeholder="Nhập mật khẩu" name='password'
+                                        value={allValues.password}
+                                        required
+                                        {...register2("password", {
+                                            onChange: changeHandler
+                                        })}
+                                    />
 
-                            </div>
-                            <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail1" className='col-3'>Nhập lại mật khẩu</label>
-                                <input type="password" className="form-control col-9"
-                                    placeholder="Nhập lại mật khẩu" name='rePassword'
-                                    value={allValues.rePassword}
-                                    onChange={changeHandler}
-                                />
-                                {/* {allValues.errPass && allValues.errPass !== '' &&
+                                </div>
+                                <div className="form-group col-12">
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Nhập lại mật khẩu</label>
+                                    <input type="password" className="form-control col-9"
+                                        placeholder="Nhập lại mật khẩu" name='rePassword'
+                                        value={allValues.rePassword}
+                                        required
+                                        onChange={changeHandler}
+                                    />
+                                    {/* {allValues.errPass && allValues.errPass !== '' &&
                                     <span className='error-pass'>{allValues.errPass}</span>
                                 } */}
 
-                            </div>
-                            <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail1" className='col-3'>Số điện thoại</label>
-                                <input type="text" className="form-control col-9"
-                                    placeholder="Nhập số điện thoại" name='phone'
-                                    value={allValues.phone}
-                                    onChange={changeHandler}
-                                />
+                                </div>
+                                <div className="form-group col-12">
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Số điện thoại</label>
+                                    <input type="text" className="form-control col-9"
+                                        placeholder="Nhập số điện thoại" name='phone'
+                                        required
+                                        value={allValues.phone}
+                                        {...register2("phone", {
+                                            onChange: changeHandler
+                                        })}
+                                    />
 
-                            </div>
-                            <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail1" className='col-3'>Giới tính</label>
-                                <div className='col-9' style={{ padding: 0 }}>
-                                    <div class="form-check form-check-inline" style={{ marginRight: '50px' }}>
-                                        <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" name="selectedGender" checked id="inlineRadio1" value='1' />
-                                        <label class="form-check-label" style={{ marginBottom: 0 }} for="inlineRadio1">Nam</label>
+                                </div>
+                                <div className="form-group col-12">
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Giới tính</label>
+                                    <div className='col-9' style={{ padding: 0 }}>
+                                        <div class="form-check form-check-inline" style={{ marginRight: '50px' }}>
+                                            <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" name="selectedGender" checked id="inlineRadio1" value='1' />
+                                            <label class="form-check-label" style={{ marginBottom: 0 }} for="inlineRadio1">Nam</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" name="selectedGender" id="inlineRadio2" value='0' />
+                                            <label class="form-check-label" style={{ marginBottom: 0 }} for="inlineRadio2">Nữ</label>
+                                        </div>
                                     </div>
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" name="selectedGender" id="inlineRadio2" value='0' />
-                                        <label class="form-check-label" style={{ marginBottom: 0 }} for="inlineRadio2">Nữ</label>
-                                    </div>
+
+                                </div>
+                                <div className="form-group col-12">
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Ngày sinh</label>
+                                    <DatePicker
+                                        onChange={handleOnChangeDatePicker}
+                                        className="form-control"
+                                        name="birthday"
+                                        value={allValues.birthday}
+                                    />
+
                                 </div>
 
-                            </div>
-                            <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail1" className='col-3'>Ngày sinh</label>
-                                <DatePicker
-                                    onChange={handleOnChangeDatePicker}
-                                    className="form-control"
-                                    name="birthday"
-                                    value={allValues.birthday}
-                                />
+                                <div className="form-group col-12" style={{ padding: '10px 0px' }}>
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>ĐỊA CHỈ LIÊN HỆ</label>
+                                    <div className='strikethrough col-9'>
+                                        <span className='line'></span>
+                                    </div>
 
-                            </div>
-
-                            <div className="form-group col-12" style={{ padding: '10px 0px' }}>
-                                <label htmlFor="exampleInputEmail1" className='col-3'>ĐỊA CHỈ LIÊN HỆ</label>
-                                <div className='strikethrough col-9'>
-                                    <span className='line'></span>
                                 </div>
 
-                            </div>
-
-                            <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail1" className='col-3'>Tỉnh / Thành Phố</label>
-                                {/* <Select
+                                <div className="form-group col-12">
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Tỉnh / Thành Phố</label>
+                                    {/* <Select
                                     className='select-gender col-9'
                                     defaultValue={selectedOption}
                                     onChange={setSelectedOption}
                                     options={options}
                                 /> */}
-                                <Select
-                                    className='select-gender col-9'
-                                    name="cityId"
-                                    key={`cityId_${selectedCity?.value}`}
-                                    isDisabled={cityOptions.length === 0}
-                                    options={cityOptions}
-                                    onChange={(option) => onCitySelect(option)}
-                                    placeholder="Tỉnh/Thành"
-                                    defaultValue={selectedCity}
-                                />
+                                    <Select
+                                        className='select-gender col-9'
+                                        name="cityId"
+                                        key={`cityId_${selectedCity?.value}`}
+                                        isDisabled={cityOptions.length === 0}
+                                        options={cityOptions}
+                                        onChange={(option) => onCitySelect(option)}
+                                        placeholder="Tỉnh/Thành"
+                                        defaultValue={selectedCity}
+                                    />
 
-                            </div>
+                                </div>
 
-                            <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail1" className='col-3'>Quận / Huyện</label>
-                                {/* <Select
+                                <div className="form-group col-12">
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Quận / Huyện</label>
+                                    {/* <Select
                                     className='select-gender col-9'
                                     defaultValue={selectedOption}
                                     onChange={setSelectedOption}
                                     options={options}
                                 /> */}
 
-                                <Select
-                                    className='select-gender col-9'
-                                    name="districtId"
-                                    key={`districtId_${selectedDistrict?.value}`}
-                                    isDisabled={districtOptions.length === 0}
-                                    options={districtOptions}
-                                    onChange={(option) => onDistrictSelect(option)}
-                                    placeholder="Quận/Huyện"
-                                    defaultValue={selectedDistrict}
-                                />
-
-                            </div>
-
-                            <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail1" className='col-3'>Phường / Xã</label>
-
-                                <Select
-                                    className='select-gender col-9'
-                                    name="wardId"
-                                    key={`wardId_${selectedWard?.value}`}
-                                    isDisabled={wardOptions.length === 0}
-                                    options={wardOptions}
-                                    placeholder="Phường/Xã"
-                                    onChange={(option) => onWardSelect(option)}
-                                    defaultValue={selectedWard}
-                                />
-
-                            </div>
-
-                            <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail1" className='col-3'>Số nhà và tên đường</label>
-                                <input type="text" className="form-control col-9"
-                                    onChange={changeHandler}
-                                    placeholder="Nhập địa chỉ nhà"
-                                    name='address'
-                                    value={allValues.address}
-                                />
-
-                            </div>
-
-                            <div className='submit-container'>
-                                <div className='col-3'></div>
-                                <div className='button-register-submit col-9'>
-                                    <Button variant="primary" {...allValues.isShowLoadingSignIn && 'disabled'} className="btn btn-register" onClick={() => handleSignInCustomer()} >
-                                        {allValues.isShowLoadingSignIn &&
-                                            <>
-                                                <Spinner
-                                                    as="span"
-                                                    animation="border"
-                                                    size="sm"
-                                                    role="status"
-                                                    aria-hidden="true"
-                                                />
-                                                <span className="visually" style={{ marginLeft: '10px' }}>Loading...</span>
-                                            </>
-
-                                        }
-                                        {!allValues.isShowLoadingSignIn &&
-                                            <>
-                                                <span className="visually">Đăng ký</span>
-                                            </>
-                                        }
-                                    </Button>
+                                    <Select
+                                        className='select-gender col-9'
+                                        name="districtId"
+                                        key={`districtId_${selectedDistrict?.value}`}
+                                        isDisabled={districtOptions.length === 0}
+                                        options={districtOptions}
+                                        onChange={(option) => onDistrictSelect(option)}
+                                        placeholder="Quận/Huyện"
+                                        defaultValue={selectedDistrict}
+                                    />
 
                                 </div>
-                            </div>
+
+                                <div className="form-group col-12">
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Phường / Xã</label>
+
+                                    <Select
+                                        className='select-gender col-9'
+                                        name="wardId"
+                                        key={`wardId_${selectedWard?.value}`}
+                                        isDisabled={wardOptions.length === 0}
+                                        options={wardOptions}
+                                        placeholder="Phường/Xã"
+                                        onChange={(option) => onWardSelect(option)}
+                                        defaultValue={selectedWard}
+                                    />
+
+                                </div>
+
+                                <div className="form-group col-12">
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Số nhà và tên đường</label>
+                                    <input type="text" className="form-control col-9"
+                                        onChange={changeHandler}
+                                        placeholder="Nhập địa chỉ nhà"
+                                        name='address'
+                                        value={allValues.address}
+                                    />
+
+                                </div>
+
+                                {Object.keys(errors2).length !== 0 &&
+                                    <ul className="error-container">
+                                        {errors2.fullName && errors2.fullName.message &&
+                                            <li>{errors2.fullName.message}</li>
+                                        }
+                                        {errors2.email && errors2.email.message &&
+                                            <li>{errors2.email.message}</li>
+                                        }
+                                        {errors2.password && errors2.password.message &&
+                                            <li>{errors2.password.message}</li>
+                                        }
+                                        {errors2.phone && errors2.phone.message &&
+                                            <li>{errors2.phone.message}</li>
+                                        }
+                                    </ul>
+                                }
+
+                                <div className='submit-container'>
+                                    <div className='col-3'></div>
+                                    <div className='button-register-submit col-9'>
+                                        <Button variant="primary" {...allValues.isShowLoadingSignIn && 'disabled'} className="btn btn-register" type='submit' >
+                                            {allValues.isShowLoadingSignIn &&
+                                                <>
+                                                    <Spinner
+                                                        as="span"
+                                                        animation="border"
+                                                        size="sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                    />
+                                                    <span className="visually" style={{ marginLeft: '10px' }}>Loading...</span>
+                                                </>
+
+                                            }
+                                            {!allValues.isShowLoadingSignIn &&
+                                                <>
+                                                    <span className="visually">Đăng ký</span>
+                                                </>
+                                            }
+                                        </Button>
+
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
 

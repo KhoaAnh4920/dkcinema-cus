@@ -1,14 +1,14 @@
 .bookingSeetController {
     height: 800px;
     width: 100%;
-    padding: 0 80px;
+    padding: 20px 150px;
     //background-color: red;
 
     .room-main {
         position: relative;
         padding: 10px 5px 5px 5px;
         background-color: orange;
-        max-height: 700px;
+        height: 670px;
 
         .title-select-seet {
             text-transform: uppercase;
@@ -18,8 +18,9 @@
 
         .room-seet {
             background-color: #fafafa;
-            height: 520px;
-            max-height: 700px;
+            height: 93%;
+            // border: 1px solid #000;
+            position: relative;
 
 
 
@@ -28,8 +29,7 @@
                 flex-direction: row;
                 position: absolute;
                 /* height: 100%; */
-                bottom: 125px;
-                // top: 100px;
+                bottom: 150px;
                 left: 0;
                 right: 0;
 
@@ -37,18 +37,25 @@
                     margin: 0 auto;
                     display: flex;
                     flex-direction: column-reverse;
-                    column-gap: 20px;
+                    // column-gap: 20px;
                     justify-content: center;
                     align-items: center;
-                    // row-gap: 20px;
+                    row-gap: 3px;
 
                     .one_row {
                         display: flex;
                         flex-direction: row;
-                        column-gap: 20px;
+                        column-gap: 3px;
 
                         .name-column {
+                            margin: 0px 10px;
+                            padding-top: 2px;
+                            font-size: 10px;
+                            height: fit-content;
+                            width: 17px;
                             background-color: transparent;
+                            text-align: center;
+                            border: 1px solid #000;
                         }
                     }
 
@@ -58,6 +65,7 @@
                         width: 20px;
                         background-color: #e9e9e9;
                         text-align: center;
+                        font-size: 12px;
                         margin: 0;
                         padding: 0;
 
@@ -85,8 +93,7 @@
 
             .sreen-room {
                 position: absolute;
-                /* height: 100%; */
-                bottom: 10px;
+                bottom: 0px;
                 left: 0;
                 right: 0;
 

@@ -95,7 +95,8 @@ function ListTheater() {
         lng: 106.6788115,
         selectedMovieTheater: {},
         isShowLoading: true,
-        tenRap: ''
+        tenRap: '',
+        arrImage: []
     });
 
     const groupBy = (arr, prop) => {
@@ -104,11 +105,6 @@ function ListTheater() {
         return Array.from(map.values());
     }
 
-    const youtube_parser = (url) => {
-        var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-        var match = url.match(regExp);
-        return (match && match[7].length == 11) ? match[7] : false;
-    }
 
 
     const buildDataInputSelect = (inputData) => {
@@ -150,13 +146,17 @@ function ListTheater() {
 
         let dataTheater = allValues.dataMovieTheater.filter(item => item.id === selectedOption.value);
 
-        console.log('dataTheater: ', dataTheater)
+
+        let arrImage = dataTheater[0].MovieTheaterImage.filter(item => item.movieTheaterId === selectedOption.value)
+
+
+        stateCopy['arrImage'] = arrImage;
 
         const location = await testFunctionParent(dataTheater[0].cityCode, dataTheater[0].districtCode, dataTheater[0].wardCode);
         let address = dataTheater[0].address + ', ' + location.selectedWard.label + ', ' + location.selectedDistrict.label + ', ' + location.selectedCity.label;
         let phoneNumber = dataTheater[0].soDienThoai;
         let tenRap = dataTheater[0].tenRap
-        console.log('address: ', address);
+
 
         // call api get lịch chiếu //
 
@@ -179,14 +179,13 @@ function ListTheater() {
 
         let lat = null;
         let lng = null;
-        axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key={GG_API_KEY}`)
+        axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key={GG_KEY}`)
             .then(res => {
-                console.log('res: ', res.data);
                 if (res.data && res.data.results) {
                     lat = res.data.results[0].geometry.location.lat;
                     lng = res.data.results[0].geometry.location.lng;
                 }
-                console.log(lat, lng)
+
                 setAllValues({ ...stateCopy, listSchedule: finalSchedule, lat: lat, lng: lng, isShowLoading: false, address, phoneNumber, tenRap })
             })
             .catch(error => console.log(error));
@@ -224,7 +223,6 @@ function ListTheater() {
         let address = '';
         let phoneNumber = '';
         let tenRap = '';
-        console.log('dataMovieTheater: ', dataMovieTheater)
 
         let listMovieTheater = [];
 
@@ -254,7 +252,7 @@ function ListTheater() {
             finalSchedule = groupBy(customSchedule, "movieId");
         }
 
-        console.log('finalSchedule: ', finalSchedule);
+        // console.log('finalSchedule: ', finalSchedule);
 
 
 
@@ -262,14 +260,14 @@ function ListTheater() {
             ...prevState,
             dateToday: date,
             listSchedule: finalSchedule,
-            dataMovieTheater: (dataMovieTheater && dataMovieTheater.data) ? dataMovieTheater.data : {},
             listMovieTheater: listMovieTheater,
-            dataMovieTheater: dataMovieTheater.movie,
+            dataMovieTheater: (dataMovieTheater && dataMovieTheater.movie) ? dataMovieTheater.movie : {},
             selectedMovieTheater,
             isShowLoading: false,
             address,
             phoneNumber,
-            tenRap
+            tenRap,
+            arrImage: (dataMovieTheater && dataMovieTheater.movie && dataMovieTheater.movie[0].MovieTheaterImage.length > 0) ? dataMovieTheater.movie[0].MovieTheaterImage : []
         }))
 
     }
@@ -376,18 +374,14 @@ function ListTheater() {
                     </div>
                     <div className='row row-slider'>
                         <Slider {...settings}>
-                            <div>
-                                <img src="https://cdn.galaxycine.vn/media/2019/5/6/rapgiave-hinhrap-nguyen-du-3_1557134455385.jpg" />
-                            </div>
-                            <div>
-                                <img src="https://rapchieuphim.com/photos/2/galaxy/galaxy-kinh-duong-vuong-2.png" />
-                            </div>
-                            <div>
-                                <img src="https://cdn.galaxycine.vn/media/2019/12/11/galaxy7_1576054843437.jpg" />
-                            </div>
-                            <div>
-                                <img src="https://cdn.galaxycine.vn/media/2019/5/6/rapgiave-hinhrap-nguyen-du-3_1557134455385.jpg" />
-                            </div>
+                            {allValues.arrImage && allValues.arrImage.length > 0 && allValues.arrImage.map((item, index) => {
+                                return (
+                                    <div key={index}>
+                                        <img src={item.url} />
+                                    </div>
+                                )
+                            })}
+
                         </Slider>
                     </div>
                     <div className='row row-film'>

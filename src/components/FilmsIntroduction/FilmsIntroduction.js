@@ -53,24 +53,26 @@ function FilmsIntroduction() {
         isLoginUser: false,
         cusId: null,
         dataMovieUpcoming: [],
-        isShowLoading: true
+        isShowLoading: true,
+        id: null
     })
     const [hovering, setHovering] = useState([{
         indexInit: 0,
         isShow: false
     }]);
-    const handleMouseOver = (indexNews) => {
+    const handleMouseOver = (indexNews, item) => {
         // setHovering(true);
 
         // let data = hovering;
 
         if (!hovering[indexNews]) {
-            // console.log('hovering: ', hovering)
+
             let obj = {}
             obj.indexInit = indexNews;
             obj.isShow = true
-            let res = hovering.push(obj)
-            setHovering(res)
+            hovering.push(obj)
+
+            setHovering(hovering)
         } else {
             let res = hovering.map((item, index) => {
 
@@ -81,9 +83,15 @@ function FilmsIntroduction() {
                 }
                 return item;
             })
+
             setHovering(res)
         }
 
+
+        setAllNews((prevState) => ({
+            ...prevState,
+            id: item.id
+        }))
         // console.log('hovering: ', hovering);
     }
 
@@ -182,21 +190,30 @@ function FilmsIntroduction() {
 
     return (
         <>
+
+            <Header />
             <LoadingOverlay
                 active={allNews.isShowLoading}
-                spinner={<ClipLoader color='#fff' size={50} />}
+                spinner={<ClipLoader color='#FCAF17' size={50} />}
                 styles={{
+                    wrapper: {
+                        // width: '400px',
+                        // height: '400px',
+                        overflow: 'hidden'
+                    },
                     overlay: (base) => ({
                         ...base,
-                        background: 'rgb(10 10 10 / 68%)',
+                        background: '#fff',
                     })
                 }}
             >
-                <Header />
 
                 <div className='container-fluid review-con'>
                     <div className='row row-review'>
                         <div className='col-8 col-left'>
+                            <div className='title'>
+                                <h5>Blog điện ảnh</h5>
+                            </div>
                             <div className='list-films'>
                                 {
                                     allNews.listReviews && allNews.listReviews.length > 0 &&
@@ -223,7 +240,7 @@ function FilmsIntroduction() {
                                                                     </span>
                                                                 </div>
                                                             </li>
-                                                            <li><button className='btn btn-warning btn-review' onClick={() => handleMouseOver(index)}>Đánh giá</button></li>
+                                                            <li><button className='btn btn-warning btn-review' onClick={() => handleMouseOver(index, item)}>Đánh giá</button></li>
                                                             {
                                                                 // console.log('hovering[index]: ', (hovering[index] && hovering[index].isShow) ? hovering[index].isShow : false)
                                                                 hovering[index] && hovering[index].isShow && <Ratings checkClick={votePostRating} />
@@ -271,10 +288,11 @@ function FilmsIntroduction() {
                     </div>
 
                 </div>
-
-                <Footer />
-
             </LoadingOverlay>
+
+            <Footer />
+
+
 
         </>
     );
