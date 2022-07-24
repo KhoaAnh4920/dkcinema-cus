@@ -112,7 +112,7 @@ function Login() {
         address: '',
         errors: {},
         errPass: '',
-        gender: 1,
+        gender: true,
         isShowLoadingLogin: false,
         isShowLoadingSignIn: false
     });
@@ -198,10 +198,14 @@ function Login() {
 
     }
 
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            handleLogin();
-        }
+    // const handleKeyDown = (event) => {
+    //     if (event.key === 'Enter') {
+    //         handleLogin();
+    //     }
+    // }
+
+    const checkKeyDown = (e) => {
+        if (e.code === 'Enter') handleSubmit(handleLogin);
     }
 
     const changeHandler = e => {
@@ -210,11 +214,17 @@ function Login() {
 
 
     const onGenderChanged = e => {
-        console.log(e.currentTarget.value);
-        setAllValues((preState) => ({
-            ...preState,
-            gender: e.currentTarget.value
-        }))
+        console.log(e.target.value);
+        let gender = true;
+        (e.target.value === 'male') ? gender = true : gender = false;
+
+        console.log(gender);
+
+
+        // setAllValues((preState) => ({
+        //     ...preState,
+        //     gender: e.currentTarget.value
+        // }))
     }
 
 
@@ -351,7 +361,7 @@ function Login() {
                                         name="passwordLogin"
                                         id="passwordLogin"
                                         onChange={changeHandler}
-                                        onKeyDown={event => handleKeyDown(event)}
+                                        onKeyDown={(e) => checkKeyDown(e)}
                                         required
                                         {...register("passwordLogin", {
                                             onChange: changeHandler
@@ -462,11 +472,11 @@ function Login() {
                                     <label htmlFor="exampleInputEmail1" className='col-3'>Giới tính</label>
                                     <div className='col-9' style={{ padding: 0 }}>
                                         <div class="form-check form-check-inline" style={{ marginRight: '50px' }}>
-                                            <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" name="selectedGender" checked id="inlineRadio1" value='1' />
+                                            <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" defaultChecked={allValues.gender} name="selectedGender" id="inlineRadio1" value='male' />
                                             <label class="form-check-label" style={{ marginBottom: 0 }} for="inlineRadio1">Nam</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" name="selectedGender" id="inlineRadio2" value='0' />
+                                            <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" name="selectedGender" defaultChecked={!allValues.gender} id="inlineRadio2" value='female' />
                                             <label class="form-check-label" style={{ marginBottom: 0 }} for="inlineRadio2">Nữ</label>
                                         </div>
                                     </div>
