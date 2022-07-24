@@ -26,6 +26,7 @@ export default function Header() {
         fullName: ''
     })
 
+
     const changeLanguage = (language) => {
         // fire redux event: actions
 

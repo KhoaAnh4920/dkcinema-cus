@@ -142,9 +142,9 @@ function DanhSachPhim() {
 
             <div className='list-movie-container'>
                 <div className='title-list'>
-                    <a name='pdc' className={titleDefault.isShowTitleDangChieu ? 'playing-movie active' : 'playing-movie'} onClick={handleClickTitle}>phim đang chiếu</a>
+                    <a name='pdc' className={titleDefault.isShowTitleDangChieu ? 'playing-movie active disable' : 'playing-movie'} onClick={handleClickTitle} >phim đang chiếu</a>
                     <span>|</span>
-                    <a name='psc' className={titleDefault.isShowTitleSapChieu ? 'upcoming-movie active' : 'upcoming-movie'} onClick={handleClickTitle}>phim sắp chiếu</a>
+                    <a name='psc' className={titleDefault.isShowTitleSapChieu ? 'upcoming-movie active disable' : 'upcoming-movie'} onClick={handleClickTitle}>phim sắp chiếu</a>
                 </div>
                 <LoadingOverlay
                     active={allValues.isShowLoading}

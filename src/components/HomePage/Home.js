@@ -121,6 +121,8 @@ function Home() {
         }
         else
             toast.error("Thông tin không hợp lệ")
+        localStorage.removeItem("seconds");
+        localStorage.removeItem("minutes");
     }
     async function fetchDataBanner() {
         const dataBanner = await getAllBanner();
@@ -263,6 +265,11 @@ function Home() {
                 if (rawSignature) {
                     handleSignature(rawSignature, signature);
                 }
+
+                const queryParams = ""
+                history.replace({
+                    search: queryParams,
+                })
             }
 
         }
@@ -327,10 +334,10 @@ function Home() {
                 <div className='home-content-film container-fluid'>
                     <div className='home-button container-fluid'>
                         <div className='row-button'>
-                            <button className={buttonDefault.isShowButtonDangChieu ? 'active' : ''} name='phimDangChieu' onClick={handleClickDefaultButton}>
+                            <button className={buttonDefault.isShowButtonDangChieu ? 'active' : ''} name='phimDangChieu' onClick={handleClickDefaultButton} disabled={buttonDefault.isShowButtonDangChieu}>
                                 Phim đang chiếu
                             </button>
-                            <button className={buttonDefault.isShowButtonSapChieu ? 'active' : ''} name='phimSapChieu' onClick={handleClickDefaultButton} >
+                            <button className={buttonDefault.isShowButtonSapChieu ? 'active' : ''} name='phimSapChieu' onClick={handleClickDefaultButton} disabled={buttonDefault.isShowButtonSapChieu} >
                                 Phim sắp chiếu
                             </button>
                         </div>

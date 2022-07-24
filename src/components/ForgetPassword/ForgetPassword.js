@@ -52,7 +52,7 @@ function ForgetPassword() {
 
     useEffect(() => {
 
-        // Check thanh toán //
+
         let url = window.location.href;
         if (url.includes('?')) {
 
@@ -90,6 +90,10 @@ function ForgetPassword() {
 
             if (allValues.password !== allValues.rePassword) {
                 toast.error("Mật khẩu không trùng khớp");
+                setAllValues((prevState) => ({
+                    ...prevState,
+                    isShowLoading: false,
+                }));
                 return;
             }
             let res = await resetNewPassword({
@@ -101,14 +105,16 @@ function ForgetPassword() {
                 history.push('/login');
             }
             else {
-                toast.success("Đã lỗi hệ thống. Vui lòng liên hệ bộ phận hỗ trợ");
+                toast.error("Đã lỗi hệ thống. Vui lòng liên hệ bộ phận hỗ trợ");
+                setAllValues((prevState) => ({
+                    ...prevState,
+                    isShowLoading: false,
+                }));
+                history.push('/');
                 return;
             }
 
-            setAllValues((prevState) => ({
-                ...prevState,
-                isShowLoading: false,
-            }));
+
         }
     }
 

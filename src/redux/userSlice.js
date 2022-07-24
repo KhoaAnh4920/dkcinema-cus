@@ -42,6 +42,8 @@ export const { updateUsername, updateLanguage, userLoginSuccess, processLogoutUs
 
 // Action là 1 hàm trả về object dạng {type, payload}, chạy thử console.log(updateUsername()) để xem chi tiết
 
+
+
 // Hàm giúp lấy ra state mong muốn.
 // Hàm này có 1 tham số là root state là toàn bộ state trong store, chạy thử console.log(state) trong nội dung hàm để xem chi tiết
 export const selectUser = state => state.user.isLoggedInUser;

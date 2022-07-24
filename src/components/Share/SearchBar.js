@@ -29,14 +29,6 @@ function SearchBar({ placeholder, data }) {
 
 
 
-        // const newFilter = data.filter((value) => {
-        //     return value.title.toLowerCase().includes(kw.toLowerCase());
-        // });
-        // if (kw === "") {
-        //     setFilterData([]);
-        // } else {
-        //     setFilterData(newFilter);
-        // }
     };
 
 

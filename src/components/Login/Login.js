@@ -21,7 +21,7 @@ import quang_cao_4 from '../../assets/4.jpg';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
 import { hanedleLoginUser, signUpNewUser, sendMailResetPassServices } from '../../services/UserService';
-import { userLoginSuccess } from '../../redux/userSlice';
+import { userLoginSuccess, userState } from '../../redux/userSlice';
 import { useHistory } from "react-router-dom";
 import useLocationForm from "./useLocationForm";
 import Swal from 'sweetalert2';
@@ -79,6 +79,7 @@ const schemaRegister = yup.object().shape({
 
 
 function Login() {
+    let selectUser = useSelector(userState);
     // sử dụng schema đã tạo ở trên vào RHF
     const {
         register,
@@ -159,6 +160,17 @@ function Login() {
         setAllValues({ ...allValues, birthday: date[0] })
     }
 
+
+    useEffect(() => {
+
+        if (selectUser.isLoggedInUser) {
+            history.push('/');
+        }
+    }, []);
+
+
+
+
     const handleLogin = async () => {
 
 
@@ -166,8 +178,7 @@ function Login() {
             ...prevState,
             isShowLoadingLogin: true
         }));
-        // Clear mã lỗi //
-        setErrMessage('');
+
 
         try {
             let data = await hanedleLoginUser(allValues.emailLogin, allValues.passwordLogin); // goi api login //

@@ -103,6 +103,11 @@ export default function ModalForgotPass(props) {
             props.sendMailResetPass(allValuesInput);
         }
 
+        setAllValues((prevState) => ({
+            ...prevState,
+            isShowLoading: false
+        }));
+
     }
 
     const handleOnChangeDatePickerStart = (date) => {

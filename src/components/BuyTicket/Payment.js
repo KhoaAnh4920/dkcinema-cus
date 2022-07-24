@@ -106,8 +106,9 @@ function Payment() {
 
 
         if (!bookingRedux.dataBooking) {
-            history.push('/lich-chieu');
-            return;
+            alert('bi da')
+            // history.push('/lich-chieu');
+            // return;
         }
 
         let movieId = bookingRedux.dataBooking.movieId;
@@ -193,8 +194,9 @@ function Payment() {
             localStorage.removeItem("seconds");
             localStorage.removeItem("minutes");
             dispatch(updateDataBooking(null));
-            history.push('/lich-chieu');
-            return;
+            alert('da 2')
+            // history.push('/lich-chieu');
+            // return;
         }
 
 
