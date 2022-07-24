@@ -142,7 +142,11 @@ function BookTicketThrough() {
             })
 
             let timeNow = moment();
-            let res = customSchedule.map((item, index) => {
+
+            // Sắp xếp theo giờ //
+            const sortedActivities = customSchedule.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+
+            let res = sortedActivities.map((item, index) => {
                 // if ngay hien tai < ngay cong chieu
                 // status sap chieu 
                 // if ngay hien tai > ngay cong chieu 
@@ -241,8 +245,6 @@ function BookTicketThrough() {
         }
 
         if (listSchedule && listSchedule.data && listSchedule.data.length > 0) {
-
-            console.log('listSchedule: ', listSchedule)
 
             let customSchedule = listSchedule.data.map(item => {
                 if (item.RoomShowTime) {
@@ -437,8 +439,11 @@ function BookTicketThrough() {
                 return item;
             })
 
+            // Sắp xếp theo giờ //
+            const sortedActivities = customSchedule.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+
             let timeNow = moment();
-            let res = customSchedule.map((item, index) => {
+            let res = sortedActivities.map((item, index) => {
                 // if ngay hien tai < ngay cong chieu
                 // status sap chieu 
                 // if ngay hien tai > ngay cong chieu 

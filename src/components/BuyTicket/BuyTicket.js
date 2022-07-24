@@ -173,10 +173,16 @@ function BuyTicket() {
             const dataSchedule = await getListScheduleByFilm(allValues.movieId, theaterId);
 
 
+
             if (dataSchedule && dataSchedule.data) {
                 // Lọc các ngày chiếu trong danh sách //
 
-                let testSchedule = dataSchedule.data;
+                // Sắp xếp theo giờ //
+                const sortedActivities = dataSchedule.data.sort((a, b) => new Date(a.startTime) - new Date(b.startTime));
+
+                let testSchedule = sortedActivities;
+
+                console.log('testSchedule: ', testSchedule)
 
                 let timeNow = moment();
                 let res = testSchedule.map((item, index) => {
@@ -238,10 +244,12 @@ function BuyTicket() {
 
                 let listSchedule = groupBy(finalSchedule, "premiereDate");
 
+                console.log('listSchedule: ', listSchedule)
+
                 setAllValues((prevState) => ({
                     ...prevState,
                     theaterId: theaterId,
-                    listSchedule: listSchedule.reverse(),
+                    listSchedule: listSchedule,
                     isShowLoading: false
                 }))
             }
@@ -408,7 +416,7 @@ function BuyTicket() {
                                                                     <div className='dinh-dang'>2D-Phụ đề</div>
                                                                     <div className='schedule-movies'>
                                                                         <div className='time-content-btns'>
-                                                                            {item.slice(0).reverse().map(schedule => {
+                                                                            {item.map(schedule => {
                                                                                 return (
                                                                                     <button className='btn-vie' key={schedule.id} onClick={() => handleClickSchedule(schedule.id)}>{moment(schedule.startTime).format('HH:mm')}</button>
                                                                                 )
