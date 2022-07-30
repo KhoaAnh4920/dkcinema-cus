@@ -333,7 +333,7 @@ function BookSeet() {
                         allValues.countSeetStandard++;
                         res.push(item2.id);
                     } else {
-                        toast.error("Fail")
+                        toast.error("Chọn sai loại ghế")
                     }
 
                 }
@@ -347,7 +347,7 @@ function BookSeet() {
                         res.push(item2.id);
 
                     } else {
-                        toast.error("Fail")
+                        toast.error("Chọn sai loại ghế")
                     }
                 }
 
