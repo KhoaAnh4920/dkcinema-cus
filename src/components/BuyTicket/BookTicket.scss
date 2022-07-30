@@ -1,7 +1,6 @@
 .bookingDetailController {
-    height: 800px;
     width: 100%;
-    padding: 0 80px;
+    padding: 20px 150px;
     //background-color: red;
 
     .ticket-wrapper {
@@ -111,20 +110,22 @@
         .submit-container {
             padding-top: 20px;
             display: flex;
-            height: 70px;
+            text-align: center;
 
             .button-book-submit {
                 width: 100%;
 
+
                 .btn-book {
                     background-color: #FCAF17;
-                    padding: 10px;
-                    width: 100%;
-                    height: 48px;
-                    font-weight: 700;
+                    width: 50%;
+                    height: 38px;
+                    font-size: 14px;
                     color: #fff;
                     text-transform: uppercase;
                 }
+
+
             }
         }
     }

@@ -67,7 +67,7 @@ function DanhSachPhim() {
             dataMovie = await getListMovieByStatus(0, current, 6);
         }
 
-        console.log(dataMovie);
+        // console.log(dataMovie);
 
         setAllValues({
             listMovie: dataMovie.data,
@@ -81,7 +81,7 @@ function DanhSachPhim() {
         //     })
         // );
         setPageCurrent(current);
-        console.log(current);
+        // console.log(current);
     }
 
     const handleClickTitle = async e => {
@@ -106,7 +106,7 @@ function DanhSachPhim() {
     async function fetchDataMovie(status) {
         // You can await here
         const dataMovie = await getListMovieByStatus(status);
-        console.log("dataMovie: ", dataMovie);
+        // console.log("dataMovie: ", dataMovie);
 
         if (dataMovie && dataMovie.data) {
             setAllValues({
@@ -186,37 +186,14 @@ function DanhSachPhim() {
 
                                         </div>
 
-                                        // <div className='col-4 film' onClick={() => getDetailMovie(item.id)} key={index}>
-                                        //     {
-                                        //         item.ImageOfMovie.map((item1, index1) => {
-                                        //             if (item1.typeImage === 1) {
-                                        //                 return (
-                                        //                     <img src={item1.url} className='img-film' key={index1} />
-                                        //                 )
-                                        //             }
-
-                                        //         })
-                                        //     }
-
-                                        //     <a href='#' className='name-film'>{item.name}</a>
-                                        //     <p className='desc-film'>{item.transName}</p>
-                                        // </div>
                                     )
 
                                 })
                             }
 
                         </div>
-
-                        {/* <Pagination className={'paginationStyle'} size="sm">
-                        <Pagination.Prev />
-                        <Pagination.Item active activeLabel="" className={'paginationItemStyle'}>{1}</Pagination.Item>
-                        <Pagination.Item>{2}</Pagination.Item>
-                        <Pagination.Item>{3}</Pagination.Item>
-                        <Pagination.Next />
-                    </Pagination> */}
                         <Pagination
-                            style={{ display: 'flex', justifyContent: 'center' }}
+                            style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}
                             responsive={true}
                             onChange={onChangePagination}
                             total={allValues.totalData}

@@ -192,7 +192,6 @@ function BookTicket() {
 
                 totalPrice.innerHTML = sum.toLocaleString('it-IT')
 
-
                 items.push(obj);
             }
         }
@@ -203,7 +202,7 @@ function BookTicket() {
         listName.innerHTML = nameComBo;
 
 
-        let totalTicket = document.getElementById('totalPriceTicket').innerText.split('.').join("");
+        let totalTicket = document.getElementById('totalPriceTicket');
         let totalPriceCombo = sum;
         let totalPriceBooking = document.getElementById('totalPriceBooking');
 
@@ -212,7 +211,7 @@ function BookTicket() {
         let total = +totalPriceCombo + +totalTicket;
 
 
-        totalPriceBooking.innerHTML = new Intl.NumberFormat('vi-VN').format(total);
+        totalPriceBooking.innerHTML = total.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
 
         // console.log('quantityTicket: ', quantityTicket[0].value);
         // let priceTicket = quantityTicket[0].value * 90000;
@@ -277,46 +276,48 @@ function BookTicket() {
             }
         }
 
-        // Get ticket v2 //
-        let quantityTicket = document.getElementsByClassName("quantityTicket");
-        let itemsTicket = [];
-        let sumTicket = 0;
-        for (let a = 0; a < quantityTicket.length; a++) {
-            let obj = {};
-            if (+quantityTicket[a].value !== '') {
+        // // Get ticket v2 //
 
-                obj.typeId = quantityTicket[a].id;
-                obj.amount = +quantityTicket[a].value;
-                let test = document.getElementById(`type-${quantityTicket[a].id}`);
+        // let quantityTicket = document.getElementsByClassName("quantityTicket");
+        // let itemsTicket = [];
+        // let sumTicket = 0;
+        // for (let a = 0; a < quantityTicket.length; a++) {
+        //     let obj = {};
+        //     if (+quantityTicket[a].value !== '') {
 
-                let test2 = document.getElementById(`typePrice-${quantityTicket[a].id}`);
-                let totalPrice = document.getElementById('totalPriceTicket');
+        //         obj.typeId = quantityTicket[a].id;
+        //         obj.amount = +quantityTicket[a].value;
+        //         let test = document.getElementById(`type-${quantityTicket[a].id}`);
 
-
-
-                let priceTicket = obj.amount * test2.value;
-                test.innerHTML = priceTicket.toLocaleString('it-IT')
-
-                sumTicket += priceTicket
+        //         let test2 = document.getElementById(`typePrice-${quantityTicket[a].id}`);
+        //         let totalPrice = document.getElementById('totalPriceTicket');
 
 
 
-                totalPrice.innerHTML = sum.toLocaleString('it-IT')
+        //         let priceTicket = obj.amount * test2.value;
+        //         test.innerHTML = priceTicket.toLocaleString('it-IT')
 
-
-                itemsTicket.push(obj);
-            }
-        }
+        //         sumTicket += priceTicket
 
 
 
-        // Get ticket //
+        //         totalPrice.innerHTML = sum.toLocaleString('it-IT')
 
-        let totalPrice = sum + sumTicket;
+
+        //         itemsTicket.push(obj);
+        //     }
+        // }
+
+
+
+        // // Get ticket //
+
+        // let totalPrice = sum + sumTicket;
 
 
         // // save redux //
-        let newBookingRedux = { ...bookingRedux.dataBooking, 'combo': items, totalPrice: totalPrice, itemsTicket: itemsTicket }
+
+        let newBookingRedux = { ...bookingRedux.dataBooking, 'combo': items, totalPrice: sum }
 
         dispatch(updateDataBooking(newBookingRedux));
 
@@ -334,7 +335,7 @@ function BookTicket() {
                 <div className='row'>
                     <div className='col-8'>
                         <div className='ticket-wrapper'>
-                            <div className='book-ticket'>
+                            {/* <div className='book-ticket'>
                                 <div className='title-book'>Chọn loại vé</div>
                                 <Table striped bordered hover>
                                     <thead>
@@ -390,46 +391,7 @@ function BookTicket() {
 
                                             <td id="type-2" style={{ verticalAlign: 'middle' }}>100.000</td>
                                         </tr>
-                                        {/* <tr>
-                                            <td>Vé 2D-Thành viên</td>
-                                            <td>
-                                                <div class="input-group inline-group">
-                                                    <div class="input-group-prepend">
-                                                        <button class="btn btn-outline-secondary btn-minus" onClick={(e) => test(e)}>
-                                                            <i class="fa fa-minus"></i>
-                                                        </button>
-                                                    </div>
-                                                    <input class="form-control quantity" min="0" name="quantity" value="0" type="number" />
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-secondary btn-plus" onClick={(e) => test(e)}>
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>85.000</td>
-                                            <td>0</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Vé 2D-Ghế đôi</td>
-                                            <td>
-                                                <div class="input-group inline-group">
-                                                    <div class="input-group-prepend">
-                                                        <button class="btn btn-outline-secondary btn-minus" onClick={(e) => test(e)}>
-                                                            <i class="fa fa-minus"></i>
-                                                        </button>
-                                                    </div>
-                                                    <input class="form-control quantity" min="0" name="quantity" value="0" type="number" />
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-outline-secondary btn-plus" onClick={(e) => test(e)}>
-                                                            <i class="fa fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>200.000</td>
-                                            <td>0</td>
-                                        </tr> */}
+                                        
                                         <tr>
                                             <td>Thành Tiền</td>
                                             <td></td>
@@ -438,7 +400,7 @@ function BookTicket() {
                                         </tr>
                                     </tbody>
                                 </Table>
-                            </div>
+                            </div> */}
                             <div className='book-combo'>
                                 <div className='title-book'>Chọn combo</div>
                                 <Table striped bordered hover>
@@ -565,11 +527,14 @@ function BookTicket() {
                                     <div className="ticket-price-total">
                                         <hr />
                                         <p style={{ 'display': 'inline', 'fontSize': '16px', 'fontWeight': 'bold' }}>TỔNG: </p>
-                                        <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '16px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>90.000 VNĐ</span>
+                                        <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '16px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>0 VNĐ</span>
                                     </div>
                                     <div className='submit-container'>
                                         <div className='button-book-submit'>
-                                            <button className='btn btn-book' onClick={() => handleBookTicket()}>Tiếp tục</button>
+                                            <button className='btn btn-book' onClick={() => handleBookTicket()}>
+                                                Tiếp tục
+                                                <i className='fas fa-arrow-right' style={{ marginLeft: '10px' }}></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
