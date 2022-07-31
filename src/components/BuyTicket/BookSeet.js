@@ -44,7 +44,10 @@ function BookSeet() {
         countSeetStandard: 0,
         countSeetVip: 0,
         nameSeet: '',
-        fullName: ''
+        fullName: '',
+        totalPrice: 0,
+        flag: false,
+        resCheck: []
     });
     const [allCombo, setAllCombo] = useState({
         listCombo: [],
@@ -80,10 +83,10 @@ function BookSeet() {
     // }
 
 
-    async function fetchDataScheduleById(scheduleId, bookingCombo) {
+    async function fetchDataScheduleById(scheduleId, bookingCombo, totalPrice) {
         const dataSchedule = await getScheduleById(scheduleId);
         const seetWasBooking = await getSeetWasBooking(scheduleId);
-        console.log("seetWasBooking", seetWasBooking);
+        // console.log("seetWasBooking", seetWasBooking);
 
         let seetBook = [];
         if (seetWasBooking && seetWasBooking.data && seetWasBooking.data.length > 0) {
@@ -91,16 +94,16 @@ function BookSeet() {
                 seetBook.push(item.TicketSeet.id);
             })
         }
-        console.log('seetBook: ', seetBook);
+        // console.log('seetBook: ', seetBook);
 
         if (dataSchedule && dataSchedule.data) {
             let schedule = dataSchedule.data;
             // Fetch room //
 
 
-            let dataRoom = await fetchDataRoom(schedule.RoomShowTime.id, seetBook);
+            let dataRoom = await fetchDataRoom(schedule.RoomShowTime.id, seetBook, totalPrice);
 
-            console.log('dataRoom: ', dataRoom)
+            // console.log('dataRoom: ', dataRoom)
 
             let formatDate = moment(schedule.premiereDate).format("DD/MM/YYYY")
             let now = new Date(schedule.premiereDate).toLocaleDateString('vi-VN', { weekday: "long" });
@@ -110,7 +113,7 @@ function BookSeet() {
 
             setDataSchedule(dataSchedule.data);
             let nameCombo = '';
-            if (bookingCombo.length > 0) {
+            if (bookingCombo && bookingCombo.length > 0) {
                 bookingCombo.map(item => {
                     nameCombo += item.name + ', ';
                 })
@@ -125,13 +128,13 @@ function BookSeet() {
     }
 
 
-    async function fetchDataRoom(id, seetBook) {
+    async function fetchDataRoom(id, seetBook, totalPrice) {
         // You can await here
 
         const dataRoom = await getEditRoom(id);
-        console.log("Check data room: ", dataRoom);
+        // console.log("Check data room: ", dataRoom);
 
-        console.log("Check data room length: ", dataRoom.data.RoomSeet.length);
+        // console.log("Check data room length: ", dataRoom.data.RoomSeet.length);
 
         if (dataRoom && dataRoom.data && dataRoom.data.RoomSeet && dataRoom.data.RoomSeet.length > 0) {
             let result = [];
@@ -140,7 +143,7 @@ function BookSeet() {
 
             let maxPosColoumn = Math.max(...dataRoom.data.RoomSeet.map(o => +o.posOfColumn))
 
-            console.log("Check maxPosColoumn: ", maxPosColoumn);
+            // console.log("Check maxPosColoumn: ", maxPosColoumn);
 
 
             for (let i = 0; i <= maxPosColoumn; i++) {
@@ -185,31 +188,28 @@ function BookSeet() {
                 numberOfColumn: dataRoom.data.numberOfColumn,
                 numberOfRow: dataRoom.data.numberOfRow,
                 numberSeet: '',
+                totalPrice: totalPrice
                 // selectedColumn: selectedColumn
             }));
 
-            console.log(allValues);
+            //  console.log(allValues);
         }
     }
 
 
     useEffect(() => {
-        console.log("Check data in redux: ", bookingRedux);
+        //   console.log("Check data in redux: ", bookingRedux);
 
         if (!bookingRedux.dataBooking) {
             history.push('/lich-chieu');
             return;
         }
 
-        let movieId = bookingRedux.dataBooking.movieId;
+
         let scheduleId = bookingRedux.dataBooking.showTimeId;
+        let totalPrice = bookingRedux.dataBooking.totalPrice;
 
-        let totalPriceBooking = document.getElementById('totalPriceBooking');
-
-
-        totalPriceBooking.innerHTML = new Intl.NumberFormat('vi-VN').format(bookingRedux.dataBooking.totalPrice) + ' VNĐ';
-
-        fetchDataScheduleById(scheduleId, bookingRedux.dataBooking.combo);
+        fetchDataScheduleById(scheduleId, bookingRedux.dataBooking.combo, totalPrice);
         // fetchDataRoom();
         // fetch data schedule //
 
@@ -234,7 +234,7 @@ function BookSeet() {
 
     useEffect(() => {
 
-        console.log('setUserInfo: ', selectUser.userInfo);
+        //  console.log('setUserInfo: ', selectUser.userInfo);
 
         if (!selectUser.isLoggedInUser) {
             history.push('/login');
@@ -299,63 +299,82 @@ function BookSeet() {
 
     const handleClickSeet = (item1, item2) => {
         let res = allValues.selectSeet;
-        console.log('item1: ', item1);
-        console.log('item2: ', item2);
+        let resTest = allValues.resCheck;
+        let price = allValues.totalPrice;
+        // console.log('item1: ', item1);
+        // console.log('item2: ', item2);
 
         // let nameSeet = allValues.nameSeet;
-
-
-
 
         // Get name seet //
 
 
         if (item2.id >= 0) {
 
+
+
             if (res.some(id => id === item2.id)) {
-                if (item2.typeId === 1)
-                    allValues.countSeetStandard--
-                else
-                    allValues.countSeetVip--
+                (item2.typeId === 1) ? price -= 90000 : price -= 10000
+                // if (item2.typeId === 1)
+                //     allValues.countSeetStandard--
+                // else
+                //     allValues.countSeetVip--
                 res = res.filter(function (item) {
                     return item !== item2.id
+                })
+
+                resTest = resTest.filter(function (item) {
+                    return item.id !== item2.id
                 })
             }
             else {
                 if (item2.typeId === 1) {
                     // Check bao nhieu ghe thuong da co trong mang //
-                    let amoutStandard = bookingRedux.dataBooking.itemsTicket.filter(item => item.typeId == item2.typeId);
-                    console.log(amoutStandard);
-                    if (amoutStandard && amoutStandard[0] && allValues.countSeetStandard < amoutStandard[0].amount) {
-                        console.log("Cho dat")
+                    // let amoutStandard = bookingRedux.dataBooking.itemsTicket.filter(item => item.typeId == item2.typeId);
+                    // console.log(amoutStandard);
+                    // if (amoutStandard && amoutStandard[0] && allValues.countSeetStandard < amoutStandard[0].amount) {
+                    //     console.log("Cho dat")
 
 
-                        allValues.countSeetStandard++;
-                        res.push(item2.id);
-                    } else {
-                        toast.error("Chọn sai loại ghế")
-                    }
+                    //     allValues.countSeetStandard++;
+                    //     res.push(item2.id);
+                    // } else {
+                    //     toast.error("Fail")
+                    // }
+
+                    res.push(item2.id);
+                    resTest.push({
+                        ...item2,
+                        posOfColumn: item1.posOfColumn
+                    });
+                    price += 90000
 
                 }
                 if (item2.typeId === 2) {
-                    let amoutVip = bookingRedux.dataBooking.itemsTicket.filter(item => item.typeId == item2.typeId);
-                    console.log(amoutVip);
-                    if (amoutVip && amoutVip[0] && allValues.countSeetVip < amoutVip[0].amount) {
+                    // let amoutVip = bookingRedux.dataBooking.itemsTicket.filter(item => item.typeId == item2.typeId);
+                    // console.log(amoutVip);
+                    // if (amoutVip && amoutVip[0] && allValues.countSeetVip < amoutVip[0].amount) {
 
-                        console.log("Cho dat")
-                        allValues.countSeetVip++;
-                        res.push(item2.id);
+                    //     console.log("Cho dat")
+                    //     allValues.countSeetVip++;
+                    //     res.push(item2.id);
 
-                    } else {
-                        toast.error("Chọn sai loại ghế")
-                    }
+                    // } else {
+                    //     toast.error("Fail")
+                    // }
+                    res.push(item2.id);
+                    resTest.push({
+                        ...item2,
+                        posOfColumn: item1.posOfColumn
+                    });
+                    price += 100000
                 }
 
             }
 
         }
 
-        console.log('res: ', res);
+        // console.log('res: ', res);
 
         let nameSeet = '';
         allValues.listSeet && allValues.listSeet.map(item => {
@@ -370,32 +389,98 @@ function BookSeet() {
 
         nameSeet = nameSeet.replace(/,\s*$/, "");
 
-        console.log('nameSeet: ', nameSeet);
-
-
 
 
         setAllValues((prevState) => ({
             ...prevState,
             selectSeet: res,
-            nameSeet: nameSeet
+            nameSeet: nameSeet,
+            totalPrice: price,
+            resCheck: resTest
         }));
     }
 
 
+    const findItemSeet = (item, pos) => {
+        let dataSeet = allValues.listSeet;
+
+        // console.log('item: ', item)
+        // console.log('dataSeet: ', dataSeet)
+
+        let test = dataSeet.filter(x => x.posOfColumn == item.posOfColumn)
+
+        // console.log('test: ', test);
+
+
+        let result = test[0];
+
+        // console.log('result: ', result);
+
+        return (result.posOfRow.filter(y => y.pos === pos)[0])
+
+
+    }
+
+
     const handleBookingSeet = async () => {
-        console.log(allValues);
 
-        let bookData = bookingRedux.dataBooking;
-        let amoutVip = bookData.itemsTicket.filter(item => item.typeId == 2);
-        let amoutStandard = bookData.itemsTicket.filter(item => item.typeId == 1);
-        let dataCombo = bookData.combo;
+        // console.log(allValues);
 
+        let resTest = allValues.resCheck;
+        let res = allValues.selectSeet;
 
-        if (allValues.countSeetStandard != amoutStandard[0].amount || allValues.countSeetVip != amoutVip[0].amount) {
-            toast.error('Vui lòng chọn đủ số lượng ghế');
+        if (res.length === 0 || resTest.length === 0) {
+            Swal.fire({
+                showCloseButton: true,
+                icon: 'error',
+                title: 'Thông báo',
+                text: 'Vui lòng chọn ghế',
+
+            })
+
             return;
         }
+
+        // console.log('resTest: ', resTest)
+
+        // check chọn lẻ ghế //
+        for (let i = 0; i < resTest.length; i++) {
+            let item = resTest[i];
+            let preSeet = findItemSeet(item, item.pos - 1);
+            // console.log('preSeet: ', preSeet);
+
+            let testIsBook = res.includes(preSeet.id)
+            // console.log('testIsBook', testIsBook);
+            if (!testIsBook) {
+                let preSeet2 = findItemSeet(item, item.pos - 2);
+                // console.log('preSeet2: ', preSeet2);
+                if (preSeet2) {
+                    let testIsBook2 = res.includes(preSeet2.id)
+                    if (testIsBook2) {
+                        // console.log('LOI');
+                        Swal.fire({
+                            icon: 'error',
+                            showCloseButton: true,
+                            title: 'Thông báo',
+                            html:
+                                'Việc chọn vị trí ghế của bạn không được để trống 1 ghế ở bên trái, giữa hoặc bên phải trên cùng hàng ghế mà bạn vừa chọn',
+                        })
+
+                        return;
+                    }
+                }
+
+            }
+        }
+
+        console.log('OK');
+
+        console.log('allValues: ', allValues);
+
+
+
+        let bookData = bookingRedux.dataBooking;
+        let dataCombo = bookData.combo;
 
 
         let resSeet = []
@@ -430,7 +515,7 @@ function BookSeet() {
             showTimeId: bookData.showTimeId,
             paymentId: null,
             voucherCode: null,
-            price: bookData.totalPrice,
+            price: allValues.totalPrice,
             name: allValues.fullName,
             email: allValues.email,
             phoneNumber: allValues.phoneNumber,
@@ -442,11 +527,12 @@ function BookSeet() {
 
         if (dataBooking && dataBooking.errCode === 0) {
             // save redux //
-            let newBookingRedux = { ...bookingRedux.dataBooking, bookingId: dataBooking.result, nameSeet: allValues.nameSeet };
+            let newBookingRedux = { ...bookingRedux.dataBooking, bookingId: dataBooking.result, nameSeet: allValues.nameSeet, totalPrice: allValues.totalPrice };
             dispatch(updateDataBooking(newBookingRedux));
             history.push('/thanh-toan');
         } else {
             Swal.fire({
+                showCloseButton: true,
                 icon: 'error',
                 title: 'Lỗi đặt ghế',
                 text: 'Ghế đang trong trạng thái chờ thanh toán',
@@ -556,13 +642,21 @@ function BookSeet() {
                                     <div className="ticket-price-total">
                                         <hr />
                                         <p style={{ 'display': 'inline', 'fontSize': '16px', 'fontWeight': 'bold' }}>TỔNG: </p>
-                                        <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '16px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>90.000 VNĐ</span>
+                                        <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '16px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>{allValues.totalPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</span>
 
                                     </div>
                                     <div className='submit-container'>
                                         <div className='button-book-submit'>
-                                            <button className='btn btn-backToPage' onClick={history.goBack} >Quay lại</button>
-                                            <button className='btn btn-book' onClick={() => handleBookingSeet()} >Tiếp tục</button>
+
+                                            <button className='btn btn-backToPage' onClick={history.goBack} >
+                                                <i className='fas fa-arrow-left' style={{ marginRight: '10px' }}></i>
+                                                Quay lại
+                                            </button>
+                                            <button className='btn btn-book' onClick={() => handleBookingSeet()} >
+                                                Tiếp tục
+                                                <i className='fas fa-arrow-right' style={{ marginLeft: '10px' }}></i>
+                                            </button>
+
                                         </div>
                                     </div>
                                 </div>

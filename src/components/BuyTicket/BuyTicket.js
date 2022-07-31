@@ -272,6 +272,7 @@ function BuyTicket() {
             }));
 
             history.push('/dat-ve');
+            // history.push('/dat-ghe');
         }
 
     }

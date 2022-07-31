@@ -274,6 +274,17 @@ function Home() {
 
         }
 
+        let sec = parseInt(window.localStorage.getItem("seconds"))
+        let min = parseInt(window.localStorage.getItem("minutes"))
+
+        if (sec || min) {
+            localStorage.removeItem("seconds");
+            localStorage.removeItem("minutes");
+            dispatch(updateDataBooking(null));
+    
+            return;
+        }
+
 
 
     }, []);

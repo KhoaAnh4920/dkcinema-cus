@@ -18,6 +18,8 @@ import { selectLanguage, updateLanguage, userState } from "../../redux/userSlice
 import { toast } from 'react-toastify';
 import { Button } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
+import { getListVoucherByCustomer } from "../../services/VoucherServices";
+
 
 
 
@@ -44,12 +46,15 @@ function Payment() {
         name: '',
         email: '',
         phoneNumber: '',
-        totalPrice: '',
+        provisional: 0,
+        totalPrice: 0,
+        discount: 0,
         intervalId: '',
         voucherCode: null,
         isShowLoadingVoucher: false,
         isShowLoading: false,
-        cusId: null
+        cusId: null,
+        selectedVoucher: {}
     });
     let history = useHistory();
     const [userInfo, setUserInfo] = useState({
@@ -69,7 +74,7 @@ function Payment() {
 
     async function fetchDataScheduleById(scheduleId, bookingCombo) {
         const dataSchedule = await getScheduleById(scheduleId);
-        console.log("dataSchedule", dataSchedule);
+        // console.log("dataSchedule", dataSchedule);
         if (dataSchedule && dataSchedule.data) {
             let schedule = dataSchedule.data;
             // Fetch room //
@@ -102,13 +107,12 @@ function Payment() {
     }
 
     useEffect(() => {
-        console.log("Check data in redux: ", bookingRedux);
 
 
         if (!bookingRedux.dataBooking) {
-            alert('bi da')
-            // history.push('/lich-chieu');
-            // return;
+            // alert('bi da')
+            history.push('/lich-chieu');
+            return;
         }
 
         let movieId = bookingRedux.dataBooking.movieId;
@@ -117,8 +121,6 @@ function Payment() {
         let totalPriceBooking = document.getElementById('totalPriceBooking');
 
 
-        console.log('totalPriceBooking: ', totalPriceBooking);
-
         totalPriceBooking.innerHTML = new Intl.NumberFormat('vi-VN').format(bookingRedux.dataBooking.totalPrice) + ' VND';
 
         fetchDataScheduleById(scheduleId, bookingRedux.dataBooking.combo);
@@ -126,10 +128,27 @@ function Payment() {
         setAllValues((prevState) => ({
             ...prevState,
             totalPrice: bookingRedux.dataBooking.totalPrice,
+            provisional: bookingRedux.dataBooking.totalPrice,
             bookingId: bookingRedux.dataBooking.bookingId
         }));
 
     }, [bookingRedux]);
+
+    async function fetchDataVoucher(cusId) {
+        let dataVoucher = await getListVoucherByCustomer(cusId)
+
+        // console.log('dataVoucher: ', dataVoucher)
+
+        let listVoucher = buildDataInputSelect(dataVoucher.data);
+
+        // console.log('listVoucher: ', listVoucher)
+        setAllValues((prevState) => ({
+            ...prevState,
+            dataVoucher: listVoucher,
+            originVoucher: dataVoucher.data
+        }));
+
+    }
 
     useEffect(() => {
 
@@ -138,6 +157,9 @@ function Payment() {
             history.push('/login');
             return;
         }
+
+        // call api get voucher //
+        fetchDataVoucher(selectUser.userInfo.id)
 
         setAllValues((prevState) => ({
             ...prevState,
@@ -148,6 +170,22 @@ function Payment() {
         }));
 
     }, [selectUser]);
+
+    const buildDataInputSelect = (inputData) => {
+        let result = [];
+        if (inputData && inputData.length > 0) {
+            inputData.map((item, index) => {
+                let object = {};
+                object.label = item.code + ' - ' + `Giảm ${item.discount.toLocaleString('it-IT')}${(item.discount > 100) ? ` VND` : `%`} giá vé`;
+                object.value = item.id;
+                object.code = item.code
+
+                result.push(object);
+            })
+
+        }
+        return result;
+    }
 
 
     function startTimer(duration, display) {
@@ -188,15 +226,13 @@ function Payment() {
         let sec = parseInt(window.localStorage.getItem("seconds"))
         let min = parseInt(window.localStorage.getItem("minutes"))
 
-        console.log('sec: ', sec);
-
         if (sec || min) {
             localStorage.removeItem("seconds");
             localStorage.removeItem("minutes");
             dispatch(updateDataBooking(null));
-            alert('da 2')
-            // history.push('/lich-chieu');
-            // return;
+
+            history.push('/lich-chieu');
+            return;
         }
 
 
@@ -216,9 +252,18 @@ function Payment() {
         let stateName = name.name; // Lấy tên của select - selectedOption: lấy giá trị đc chọn trên select //
         let stateCopy = { ...allValues };
         stateCopy[stateName] = selectedOption;
-        setAllValues({ ...stateCopy })
 
-        console.log("Check state: ", allValues);
+        if (stateName === 'selectedVoucher') {
+            let detailVoucher = allValues.originVoucher.filter(item => item.id === selectedOption.value)
+            let provisional = allValues.provisional;
+            let discount = detailVoucher[0].discount
+
+            let totalPrice = (discount > 100) ? provisional - discount : provisional - ((discount * provisional) / 100)
+
+            setAllValues({ ...stateCopy, discount: detailVoucher[0].discount, totalPrice: totalPrice })
+        } else setAllValues({ ...stateCopy })
+
+
     }
 
     const changeHandler = e => {
@@ -254,27 +299,10 @@ function Payment() {
 
         }
 
-
-        // dataFinal.cusId = allValues.cusId;
-        // dataFinal.movieId = bookData.movieId;
-        // dataFinal.showTimeId = bookData.showTimeId;
-        // dataFinal.paymentId = allValues.selectedPayment.value || 1;
-        // dataFinal.voucherCode = allValues.voucherCode;
-        // dataFinal.price = allValues.totalPrice;
-        // dataFinal.name = allValues.name;
-        // dataFinal.email = allValues.email;
-        // dataFinal.phoneNumber = allValues.phoneNumber;
-        // dataFinal.seets = bookData.seets;
-        // dataFinal.combo = result;
-
-        // console.log('dataFinal: ', dataFinal)
-
-        // let res = await handleCreateBookingTicket(dataFinal);
-
         let res = await getMomoPaymentLink({
             amount: allValues.totalPrice,
             orderId: bookData.bookingId,
-            voucherCode: allValues.voucherCode,
+            voucherCode: (allValues.selectedVoucher && allValues.selectedVoucher.code) ? allValues.selectedVoucher.code : null,
             nameCus: allValues.name,
             email: allValues.email,
             phoneNumber: allValues.phoneNumber
@@ -316,40 +344,40 @@ function Payment() {
 
     }
 
-    const handleClickVoucher = async () => {
-        let dataVoucher = '';
-        if (allValues.voucherCode) {
-            dataVoucher = await getCustomerVoucher(allValues.voucherCode);
-            console.log('dataVoucher: ', dataVoucher);
+    // const handleClickVoucher = async () => {
+    //     let dataVoucher = '';
+    //     if (allValues.voucherCode) {
+    //         dataVoucher = await getCustomerVoucher(allValues.voucherCode);
+    //         console.log('dataVoucher: ', dataVoucher);
 
-            if (dataVoucher && dataVoucher.data) {
-                console.log('totalPrice: ', allValues.totalPrice);
+    //         if (dataVoucher && dataVoucher.data) {
+    //             console.log('totalPrice: ', allValues.totalPrice);
 
-                if (dataVoucher.data.condition && allValues.totalPrice < dataVoucher.data.condition) {
-                    let con = dataVoucher.data.condition.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
-                    toast.error(`Voucher chỉ áp dụng cho đơn hàng từ ${con} trở lên`);
-                    setAllValues((prevState) => ({
-                        ...prevState,
-                        voucherCode: ''
-                    }));
-                    return
-                }
+    //             if (dataVoucher.data.condition && allValues.totalPrice < dataVoucher.data.condition) {
+    //                 let con = dataVoucher.data.condition.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+    //                 toast.error(`Voucher chỉ áp dụng cho đơn hàng từ ${con} trở lên`);
+    //                 setAllValues((prevState) => ({
+    //                     ...prevState,
+    //                     voucherCode: ''
+    //                 }));
+    //                 return
+    //             }
 
-                let newPrice = (dataVoucher.data.discount > 100) ? allValues.totalPrice - dataVoucher.data.discount : (dataVoucher.data.discount * allValues.totalPrice) / 100
+    //             let newPrice = (dataVoucher.data.discount > 100) ? allValues.totalPrice - dataVoucher.data.discount : (dataVoucher.data.discount * allValues.totalPrice) / 100
 
-                setAllValues((prevState) => ({
-                    ...prevState,
-                    totalPrice: newPrice,
-                    voucherCode: dataVoucher.data.code
-                }));
-            } else {
-                toast.error("Voucher not found")
-            }
-        }
+    //             setAllValues((prevState) => ({
+    //                 ...prevState,
+    //                 totalPrice: newPrice,
+    //                 voucherCode: dataVoucher.data.code
+    //             }));
+    //         } else {
+    //             toast.error("Voucher not found")
+    //         }
+    //     }
 
-        else
-            toast.error("Vui lòng nhập voucher")
-    }
+    //     else
+    //         toast.error("Vui lòng nhập voucher")
+    // }
 
 
 
@@ -433,14 +461,21 @@ function Payment() {
                                 </div>
                                 <div className="form-group col-12">
                                     <label htmlFor="exampleInputEmail1" className='col-3'>Nhập voucher</label>
-                                    <input type="text" className="form-control col-6"
+                                    <Select
+                                        className='select-voucher col-9'
+                                        defaultValue={selectedOption}
+                                        onChange={handleChangeSelect}
+                                        options={allValues.dataVoucher}
+                                        name='selectedVoucher'
+                                    />
+                                    {/* <input type="text" className="form-control col-6"
                                         placeholder="Nhập mã voucher"
                                         value={allValues.voucherCode}
                                         name='voucherCode'
                                         id="voucherCode"
                                         onChange={changeHandler}
-                                    />
-                                    <div className='col-1'></div>
+                                    /> */}
+                                    {/* <div className='col-1'></div>
                                     <Button variant="primary" {...allValues.isShowLoadingVoucher && 'disabled'} className='col-2' onClick={handleClickVoucher} >
                                         {allValues.isShowLoadingVoucher &&
                                             <>
@@ -460,7 +495,7 @@ function Payment() {
                                                 <span className="visually">Áp dụng</span>
                                             </>
                                         }
-                                    </Button>
+                                    </Button> */}
 
 
                                 </div>
@@ -471,8 +506,12 @@ function Payment() {
                                 </div>
                                 <div className="form-group col-12">
                                     <label htmlFor="exampleInputEmail1" className='col-3'></label>
-                                    <div className='col-9'>
-                                        <button className='btn btn-back' onClick={() => handleGoBack()}>Quay lại</button>
+                                    <div className='col-9' style={{ padding: 0 }}>
+
+                                        <button className='btn btn-back' onClick={() => handleGoBack()}>
+                                            <i className='fas fa-arrow-left' style={{ marginRight: '10px' }}></i>
+                                            Quay lại
+                                        </button>
                                         {/* <button className='btn btn-primary btn-payment' onClick={() => handlePayment()} style={{ fontSize: '20px', width: '200px', backgroundColor: 'orange', border: 'none' }}>Thanh toán</button> */}
                                         <Button variant="primary " {...allValues.isShowLoading && 'disabled'} className='btn-payment' onClick={() => handlePayment()} >
                                             {allValues.isShowLoading &&
@@ -518,20 +557,32 @@ function Payment() {
                                 <div className="ticket-detail">
                                     <h2 className="ticket-title upper-text">{(dataSchedule && dataSchedule.ShowtimeMovie) ? dataSchedule.ShowtimeMovie.name : ''}</h2>
                                     <h2 className="ticket-title vn upper-text">{(dataSchedule && dataSchedule.ShowtimeMovie) ? dataSchedule.ShowtimeMovie.transName : ''}</h2>
-                                    {/* <div className="ticket-icon">
-                                        <span><i className="icon-c13" />
-                                            <span className="notice">(*) Phim chỉ dành cho khán giả từ 13 tuổi trở lên</span></span>
-                                    </div> */}
+
                                     <div className="ticket-info"><p><b>Rạp: &nbsp;</b>
                                         {(dataSchedule && dataSchedule.RoomShowTime && dataSchedule.RoomShowTime.MovieTheaterRoom) ? dataSchedule.RoomShowTime.MovieTheaterRoom.tenRap : ''}&nbsp; | {(dataSchedule && dataSchedule.RoomShowTime) ? dataSchedule.RoomShowTime.name : ''}&nbsp;
                                     </p>{/*p*/}{/*  b #{i18n("Ngày")}: &nbsp*/}{/*  | #{sessionInfo.dayOfWeekLabel}, #{sessionInfo.showDate}*/}<p>
                                             <b>Suất chiếu: &nbsp;</b>{(dataSchedule && dataSchedule.startTime) ? moment(dataSchedule.startTime).format("HH:mm") : ''}&nbsp; | {dataSchedule && dataSchedule.formatDate}</p><p className="ng-binding"><b>Combo: &nbsp;</b> <span id='listCombo'>{allCombo.nameCombo}</span> </p><p className="ng-binding"><b>Ghế: &nbsp;</b>{allValues.nameSeet}</p></div>
-                                    <div className="ticket-price-total">
-                                        <hr />
-                                        <p style={{ 'display': 'inline', 'fontSize': '16px', 'fontWeight': 'bold' }}>TỔNG: </p>
-                                        <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '16px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>{allValues.totalPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</span>
+                                    <div className='ticket-footer'>
+                                        <div className="ticket-price-total">
+                                            <hr />
+                                            <p style={{ 'display': 'inline', 'fontSize': '16px', 'fontWeight': 'bold' }}>Tạm tính: </p>
+                                            <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '16px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>{allValues.provisional.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</span>
 
+                                        </div>
+                                        <div className="ticket-price-discount">
+
+                                            <p style={{ 'display': 'inline', 'fontSize': '14px', 'fontWeight': 'bold' }}>Khuyến mãi: </p>
+                                            <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '14px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>{(allValues.discount <= 100) ? allValues.discount + '%' : allValues.discount.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</span>
+
+                                        </div>
+                                        <div className="ticket-price-total">
+
+                                            <p style={{ 'display': 'inline', 'fontSize': '16px', 'fontWeight': 'bold' }}>Tổng: </p>
+                                            <span className="ng-binding" id='totalPriceBooking' style={{ 'color': '#FCAF17', 'fontSize': '16px', 'fontWeight': 'bold', 'marginLeft': '15px' }}>{allValues.totalPrice.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</span>
+
+                                        </div>
                                     </div>
+
 
                                 </div>
                             </div>
