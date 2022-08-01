@@ -142,9 +142,9 @@ function DanhSachPhim() {
 
             <div className='list-movie-container'>
                 <div className='title-list'>
-                    <a name='pdc' className={titleDefault.isShowTitleDangChieu ? 'playing-movie active disable' : 'playing-movie'} onClick={handleClickTitle} >phim đang chiếu</a>
+                    <a name='pdc' className={titleDefault.isShowTitleDangChieu ? 'playing-movie active disable' : 'playing-movie'} onClick={handleClickTitle} ><FormattedMessage id="homeHeader.nowShowing" /></a>
                     <span>|</span>
-                    <a name='psc' className={titleDefault.isShowTitleSapChieu ? 'upcoming-movie active disable' : 'upcoming-movie'} onClick={handleClickTitle}>phim sắp chiếu</a>
+                    <a name='psc' className={titleDefault.isShowTitleSapChieu ? 'upcoming-movie active disable' : 'upcoming-movie'} onClick={handleClickTitle}><FormattedMessage id="homeHeader.commingSoon" /></a>
                 </div>
                 <LoadingOverlay
                     active={allValues.isShowLoading}
@@ -175,7 +175,7 @@ function DanhSachPhim() {
                                                 }
 
                                                 <div className='image__overlay image__overlay--primary'>
-                                                    <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
+                                                    <Button size='md' variant='warning' className='btn__show'><FormattedMessage id="homeHeader.buyTicket" /></Button>
                                                 </div>
 
                                             </div>

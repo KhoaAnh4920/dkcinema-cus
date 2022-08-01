@@ -103,7 +103,7 @@ function ChiTietPhim() {
             }
         ]
     };
-    console.log(trailer);
+
     const { id } = useParams();
     const changeLanguage = (language) => {
         // fire redux event: actions

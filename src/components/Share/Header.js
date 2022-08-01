@@ -105,11 +105,16 @@ export default function Header() {
 
                     </div>
                     <div className='center-content'>
-                        <SearchBar
-                            placeholder={"Tìm tên phim...."}
-                            data={PhimData}
+                        <FormattedMessage id="homeHeader.search" defaultMessage="search">
+                            {placeholder =>
+                                <SearchBar
+                                    placeholder={placeholder}
+                                    data={PhimData}
 
-                        />
+                                />
+                            }
+                        </FormattedMessage>
+
                     </div>
 
                     <div className='right-content'>

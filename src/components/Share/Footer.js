@@ -4,6 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDoubleRight } from '@fortawesome/free-solid-svg-icons';
 import { FacebookProvider, Like } from 'react-facebook';
 import { Link } from 'react-router-dom';
+import { FormattedMessage } from 'react-intl';
+
+
+
 
 export default function Footer() {
     return (
@@ -11,19 +15,19 @@ export default function Footer() {
             <div className='row row-footer'>
                 <div className='col-3 col-footer-1'>
                     <ul>
-                        <li ><h3>giới thiệu</h3></li>
-                        <li><Link to='/ve-chung-toi'><FontAwesomeIcon icon={faAngleDoubleRight} /> về chúng tôi</Link></li>
-                        <li><Link to='/thoa-thuan'><FontAwesomeIcon icon={faAngleDoubleRight} /> thỏa thuận sử dụng</Link></li>
-                        <li><Link to='/quy-che-hoat-dong'><FontAwesomeIcon icon={faAngleDoubleRight} /> quy chế hoạt động</Link></li>
-                        <li><Link to='/chinh-sach'><FontAwesomeIcon icon={faAngleDoubleRight} /> chính sách bảo mật</Link></li>
+                        <li ><h3><FormattedMessage id="footer.introduce" /></h3></li>
+                        <li><Link to='/ve-chung-toi'><FontAwesomeIcon icon={faAngleDoubleRight} /><FormattedMessage id="footer.aboutUs" /></Link></li>
+                        <li><Link to='/thoa-thuan'><FontAwesomeIcon icon={faAngleDoubleRight} /><FormattedMessage id="footer.termsOfUse" /></Link></li>
+                        <li><Link to='/quy-che-hoat-dong'><FontAwesomeIcon icon={faAngleDoubleRight} /><FormattedMessage id="footer.operatingRegulation" /></Link></li>
+                        <li><Link to='/chinh-sach'><FontAwesomeIcon icon={faAngleDoubleRight} /><FormattedMessage id="footer.privacyPolicy" /></Link></li>
                     </ul>
                 </div>
                 <div className='col-3 col-footer-2'>
 
                     <ul>
-                        <li><h3>giới thiệu phim</h3></li>
-                        <li><Link to='/review-phim'> <FontAwesomeIcon icon={faAngleDoubleRight} /> review phim</Link></li>
-                        <li><Link to='/gioi-thieu-phim'> <FontAwesomeIcon icon={faAngleDoubleRight} /> giới thiệu phim</Link></li>
+                        <li><h3><FormattedMessage id="footer.cinemaBlog" /></h3></li>
+                        <li><Link to='/review-phim'> <FontAwesomeIcon icon={faAngleDoubleRight} /><FormattedMessage id="footer.movieReview" /></Link></li>
+                        <li><Link to='/gioi-thieu-phim'> <FontAwesomeIcon icon={faAngleDoubleRight} /><FormattedMessage id="footer.movieBlog" /></Link></li>
                         {/* <li><a href='#'><FontAwesomeIcon icon={faAngleDoubleRight} /> review phim</a></li>
                         <li><a href='#'><FontAwesomeIcon icon={faAngleDoubleRight} /> giới thiệu phim</a></li> */}
                     </ul>
@@ -31,10 +35,10 @@ export default function Footer() {
                 <div className='col-3 col-footer-3'>
 
                     <ul>
-                        <li><h3>hỗ trợ</h3></li>
-                        <li><Link to=''> <FontAwesomeIcon icon={faAngleDoubleRight} /> tuyển dụng</Link></li>
-                        <li><Link to='/phan-hoi'> <FontAwesomeIcon icon={faAngleDoubleRight} /> góp ý</Link></li>
-                        <li><Link to='/ho-tro'> <FontAwesomeIcon icon={faAngleDoubleRight} /> giải đáp</Link></li>
+                        <li><h3><FormattedMessage id="footer.support" /></h3></li>
+                        <li><Link to=''> <FontAwesomeIcon icon={faAngleDoubleRight} /><FormattedMessage id="footer.career" /></Link></li>
+                        <li><Link to='/phan-hoi'> <FontAwesomeIcon icon={faAngleDoubleRight} /><FormattedMessage id="footer.feedback" /></Link></li>
+                        <li><Link to='/ho-tro'> <FontAwesomeIcon icon={faAngleDoubleRight} /><FormattedMessage id="footer.answers" /></Link></li>
 
                         {/* <li><a href='#'><FontAwesomeIcon icon={faAngleDoubleRight} /> tuyển dụng</a></li>
                         <li><a href='#'><FontAwesomeIcon icon={faAngleDoubleRight} /> góp ý</a></li>
@@ -42,7 +46,7 @@ export default function Footer() {
                     </ul>
                 </div>
                 <div className='col-3 col-footer-4'>
-                    <h3>kết nối ngay với dk cinema</h3>
+                    <h3><FormattedMessage id="footer.dkcinema" /></h3>
                     <div className='icon'>
                         <Link to='https://www.facebook.com/'>
                             <i class="fa fa-facebook-square" aria-hidden="true"></i>

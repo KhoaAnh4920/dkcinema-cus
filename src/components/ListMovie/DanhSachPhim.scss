@@ -110,6 +110,10 @@
 
                 .image__overlay--primary {
                     backdrop-filter: blur(2px);
+
+                    button {
+                        font-size: 12px;
+                    }
                 }
             }
 

@@ -7,10 +7,32 @@
         "support": "SUPPORT",
         "login": "Login",
         "register": "Sign up",
-        "search": "Type what you are looking for...",
+        "search": "Search by movie...",
         "reviewFilm": "REVIEW FILM",
         "introFilm": "INTRODUCE FILM",
         "discount": "DISCOUNT",
-        "theater": "THEATER"
+        "theater": "CINEMA",
+        "nowShowing": "NOW SHOWING",
+        "commingSoon": "COMMING SOON",
+        "loadMore": "VIEW MORE",
+        "promotionNews": "PROMOTION NEWS",
+        "movieReview": "MOVIE REVIEW",
+        "movieBlog": "MOVIE BLOG",
+        "detail": "DETAIL"
+    },
+    "footer": {
+        "introduce": "INTRODUCE",
+        "aboutUs": " About Us",
+        "termsOfUse": " Terms of use",
+        "operatingRegulation": " Operating Regulation",
+        "privacyPolicy": " Privacy Policy",
+        "cinemaBlog": "Cinema Blog",
+        "movieReview": " MOVIE REVIEW",
+        "movieBlog": " MOVIE BLOG",
+        "support": "SUPPORT",
+        "career": " Career",
+        "feedback": " Feedback",
+        "answers": " Answers",
+        "dkcinema": "dkcinema"
     }
 }

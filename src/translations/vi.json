@@ -7,10 +7,32 @@
         "support": "HỖ TRỢ",
         "login": "Đăng nhập",
         "register": "Đăng ký",
-        "search": "Nhập nội dung bạn cần tìm...",
+        "search": "Tìm tên phim...",
         "reviewFilm": "ĐÁNH GIÁ PHIM",
         "introFilm": "BLOG ĐIỆN ẢNH",
         "discount": "KHUYẾN MÃI",
-        "theater": "RẠP"
+        "theater": "RẠP",
+        "nowShowing": "PHIM ĐANG CHIẾU",
+        "commingSoon": "PHIM SẮP CHIẾU",
+        "loadMore": "XEM THÊM",
+        "promotionNews": "Thông tin khuyến mãi",
+        "movieReview": "REVIEW PHIM",
+        "movieBlog": "BLOG ĐIỆN ẢNH",
+        "detail": "CHI TIẾT"
+    },
+    "footer": {
+        "introduce": "GIỚI THIỆU",
+        "aboutUs": " Về chúng tôi",
+        "termsOfUse": " Thỏa thuận sử dụng",
+        "operatingRegulation": " Quy chế hoạt động",
+        "privacyPolicy": " Chính sách bảo mật",
+        "cinemaBlog": "Blog điện ảnh",
+        "movieReview": " REVIEW PHIM",
+        "movieBlog": " BLOG ĐIỆN ẢNH",
+        "support": "HỖ TRỢ",
+        "career": " Tuyển dụng",
+        "feedback": " Góp ý",
+        "answers": " Giải đáp",
+        "dkcinema": "Kết nối dkcinema"
     }
 }

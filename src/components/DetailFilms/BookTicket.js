@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ModalVideo from 'react-modal-video'
 //import logo from '../../assets/DKCinema.png';
-import pdc1 from '../../assets/PDC/pdc1.jpg';
-import imgtrail from '../../assets/trailer/t1.jpg';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from "react-redux";
 import { updateLanguage } from "../../redux/userSlice";
@@ -56,6 +54,7 @@ function BookTicketThrough() {
         setOpen(!open);
     }
 
+
     var settings = {
         dots: true,
         infinite: true,
@@ -74,8 +73,6 @@ function BookTicketThrough() {
     }
 
     //Rating component
-    const [rating, setRating] = useState(0);
-    const [rating1, setRating1] = useState(0);
     const [allValues, setAllValues] = useState({
         dateToday: '',
         dataMovie: {},
@@ -85,6 +82,8 @@ function BookTicketThrough() {
         cusId: null,
         isShowLoading: true
     });
+
+
 
 
 
@@ -185,15 +184,15 @@ function BookTicketThrough() {
                     let m2 = moment(item.endTime).format("mm");
 
                     if ((h1 < h || h1 == h && m1 <= m) && (h < h2 || h == h2 && m <= m2)) {
-                        console.log("Dang chieu")
+                        // console.log("Dang chieu")
                         item.status = 1
                     }
                     else if (h < h1) {
-                        console.log("Sap chieu");
+                        // console.log("Sap chieu");
                         item.status = 0
                     } else {
                         item.status = 2
-                        console.log("Da chieu")
+                        // console.log("Da chieu")
                     }
 
                 }
@@ -214,6 +213,7 @@ function BookTicketThrough() {
     async function fetchAllSchedule(movieId, date, movieTheaterId) {
 
         let listSchedule = await getListScheduleByTheater(movieId, date.getTime(), movieTheaterId);
+
         let dataMovie = await getMovieById(movieId);
         let dataMovieTheater = await getListTheater();
         let dataMovieUpcoming = await getListMovieByStatus(1, 1, 6);
@@ -255,7 +255,7 @@ function BookTicketThrough() {
 
             })
 
-            console.log('customSchedule: ', customSchedule)
+            // console.log('customSchedule: ', customSchedule)
 
             let timeNow = moment();
             let res = customSchedule.map((item, index) => {
@@ -268,7 +268,7 @@ function BookTicketThrough() {
                 // time hien tai < start => sap chieu
                 // else => da chieu
                 if (item) {
-                    console.log('item: ', item)
+                    // console.log('item: ', item)
                     var duration = moment.duration(timeNow.diff(moment(item.premiereDate)));
 
                     // console.log("Check duation: ", duration);
@@ -297,15 +297,15 @@ function BookTicketThrough() {
                         let m2 = moment(item.endTime).format("mm");
 
                         if ((h1 < h || h1 == h && m1 <= m) && (h < h2 || h == h2 && m <= m2)) {
-                            console.log("Dang chieu")
+                            //   console.log("Dang chieu")
                             item.status = 1
                         }
                         else if (h < h1) {
-                            console.log("Sap chieu");
+                            //  console.log("Sap chieu");
                             item.status = 0
                         } else {
                             item.status = 2
-                            console.log("Da chieu")
+                            //   console.log("Da chieu")
                         }
 
                     }
@@ -316,11 +316,14 @@ function BookTicketThrough() {
 
             })
 
-            let finalSchedule = res.filter(item => item && item.status === 0);
+
+
+            finalSchedule = res.filter(item => item.status === 0);
 
             finalSchedule = groupBy(finalSchedule, "movieTheaterId");
 
         }
+
 
 
 
@@ -334,6 +337,15 @@ function BookTicketThrough() {
             listMovieTheater: listMovieTheater,
             dataMovieUpcoming: dataMovieUpcoming,
             isShowLoading: false,
+            trailer: {
+                type: "video",
+                sources: [
+                    {
+                        src: dataMovie.data.url,
+                        provider: "youtube"
+                    }
+                ]
+            }
         }))
         document.body.style.overflow = "auto";
         document.body.style.height = "auto";
@@ -342,14 +354,14 @@ function BookTicketThrough() {
 
 
     const handleClickSchedule = (schedule) => {
-        console.log(allValues.isLoginUser)
+        // console.log(allValues.isLoginUser)
         if (!allValues.isLoginUser) {
             toast.error("Vui lòng đăng nhập để đặt vé");
             history.push('/login')
             return;
         }
 
-        console.log('schedule: ', schedule)
+        // console.log('schedule: ', schedule)
 
         if (schedule) {
             dispatch(updateDataBooking({
@@ -370,8 +382,8 @@ function BookTicketThrough() {
     useEffect(() => {
         document.body.style.overflow = "hidden";
         document.body.style.height = "100%";
-        let dateToday = new Date();
-        fetchAllSchedule(id, dateToday, null)
+        // let dateToday = new Date();
+        // fetchAllSchedule(id, dateToday, null)
 
 
     }, []);
@@ -482,15 +494,15 @@ function BookTicketThrough() {
                     let m2 = moment(item.endTime).format("mm");
 
                     if ((h1 < h || h1 == h && m1 <= m) && (h < h2 || h == h2 && m <= m2)) {
-                        console.log("Dang chieu")
+                        //  console.log("Dang chieu")
                         item.status = 1
                     }
                     else if (h < h1) {
-                        console.log("Sap chieu");
+                        //   console.log("Sap chieu");
                         item.status = 0
                     } else {
                         item.status = 2
-                        console.log("Da chieu")
+                        //   console.log("Da chieu")
                     }
 
                 }
@@ -507,14 +519,14 @@ function BookTicketThrough() {
     }
 
 
-    const handleClickDetailFilms = (item) => {
-        history.push(`/chi-tiet-phim/${item.id}`)
-    }
+    // const handleClickDetailFilms = (item) => {
+    //     history.push(`/chi-tiet-phim/${item.id}`)
+    // }
 
-    const handleClickFilms = (item) => {
-        history.push(`/dat-ve-qua-phim/${item.id}`)
-        window.location.reload();
-    }
+    // const handleClickFilms = (item) => {
+    //     history.push(`/dat-ve-qua-phim/${item.id}`)
+    //     window.location.reload();
+    // }
 
 
     return (
@@ -640,6 +652,23 @@ function BookTicketThrough() {
                     <div className='row row-book'>
                         <div className='box col-8 col-left'>
                             <div className='title'>
+                                <h5>nội dung phim</h5>
+                            </div>
+                            <div className='content'>
+                                <p style={{ fontSize: '13px' }}>
+                                    {allValues.dataMovie.description}
+                                </p>
+                                {allValues.trailer &&
+                                    <div className='trailer'>
+                                        <Plyr source={allValues.trailer} />
+                                    </div>
+                                }
+
+                            </div>
+
+
+
+                            <div className='title' style={{ marginTop: '30px' }}>
                                 <h5>lịch chiếu</h5>
                             </div>
                             <div className='combobox-group col-12'>
@@ -706,49 +735,6 @@ function BookTicketThrough() {
                         <InCommingFilms
                             dataMovieUpcoming={allValues.dataMovieUpcoming}
                         />
-                        {/* <div className='col-4 col-right'>
-                        <div className='title'>
-                            <h5>phim đang chiếu</h5>
-                        </div>
-                        <div className='col-image'>
-                            {
-                                allValues.dataMovieUpcoming && allValues.dataMovieUpcoming.length > 0 && allValues.dataMovieUpcoming.map((item, index) => {
-                                    return (
-                                        <>
-                                            <div className='image' onClick={() => handleClickFilms(item)}>
-                                                {
-                                                    item.ImageOfMovie.map((item1, index1) => {
-                                                        if (item1.typeImage === 1) {
-                                                            return (
-                                                                <Image style={{ height: '250px' }} src={item1.url} className='image__img' key={index1} />
-                                                            )
-                                                        }
-                                                    })
-                                                }
-
-                                                <div className='image__overlay image__overlay--primary'>
-                                                    <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
-                                                </div>
-
-                                            </div>
-                                            <div className='text-detail' onClick={() => handleClickDetailFilms(item)}>
-                                                <p className='vn'>{item.name}</p>
-                                                <p className='eng'>{item.transName}</p>
-                                            </div>
-                                        </>
-
-
-                                    )
-
-                                })
-                            }
-
-                            <div className='link-read-more'>
-                  
-                                <Link to="/phim-dang-chieu">Xem thêm</Link>
-                            </div>
-                        </div>
-                    </div> */}
                     </div>
 
                 </div>

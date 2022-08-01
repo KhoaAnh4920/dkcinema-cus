@@ -1,17 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import pdc1 from '../../assets/PDC/pdc1.jpg';
-import km1 from '../../assets/khuyenmai/km1.jpg';
-import km2 from '../../assets/khuyenmai/km2.jpg';
-import km3 from '../../assets/khuyenmai/km3.jpg';
-import km4 from '../../assets/khuyenmai/km4.png';
+import { FormattedMessage } from 'react-intl';
 import './Home.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
-
 import { useDispatch } from "react-redux";
-import { updateLanguage } from "../../redux/userSlice";
-import { useSelector } from "react-redux";
-import { selectLanguage } from "../../redux/userSlice";
 import { getListMovieByStatus } from '../../services/MovieServices';
 import { verifyEmail } from '../../services/UserService';
 import { Image, Button } from 'react-bootstrap';
@@ -281,7 +273,7 @@ function Home() {
             localStorage.removeItem("seconds");
             localStorage.removeItem("minutes");
             dispatch(updateDataBooking(null));
-    
+
             return;
         }
 
@@ -346,10 +338,10 @@ function Home() {
                     <div className='home-button container-fluid'>
                         <div className='row-button'>
                             <button className={buttonDefault.isShowButtonDangChieu ? 'active' : ''} name='phimDangChieu' onClick={handleClickDefaultButton} disabled={buttonDefault.isShowButtonDangChieu}>
-                                Phim đang chiếu
+                                <FormattedMessage id="homeHeader.nowShowing" />
                             </button>
                             <button className={buttonDefault.isShowButtonSapChieu ? 'active' : ''} name='phimSapChieu' onClick={handleClickDefaultButton} disabled={buttonDefault.isShowButtonSapChieu} >
-                                Phim sắp chiếu
+                                <FormattedMessage id="homeHeader.commingSoon" />
                             </button>
                         </div>
                     </div>
@@ -374,7 +366,7 @@ function Home() {
                                                     }
 
                                                     <div className='image__overlay image__overlay--primary'>
-                                                        <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
+                                                        <Button size='md' variant='warning' className='btn__show'><FormattedMessage id="homeHeader.buyTicket" /></Button>
                                                     </div>
 
                                                 </div>
@@ -395,13 +387,13 @@ function Home() {
                 </div>
                 <div className='button-read-more' onClick={() => redirectListFilms()}>
                     <button>
-                        Xem Thêm
+                        <FormattedMessage id="homeHeader.loadMore" />
                     </button>
                 </div>
                 <div className='home-content-discount container-fluid'>
                     <h1 className='text-discount'>
                         <span>
-                            Thông tin khuyến mãi
+                            <FormattedMessage id="homeHeader.promotionNews" />
                         </span>
 
                     </h1>
@@ -413,7 +405,7 @@ function Home() {
                                         <div className='img-discount'>
                                             <Image src={item.thumbnail} className='img' />
                                             <div className='image__overlay image__overlay--primary'>
-                                                <Button size='md' variant='warning' className='btn__show' onClick={() => handleClickDetailPromotion(item.id)}>Chi tiết</Button>
+                                                <Button size='md' variant='warning' className='btn__show' onClick={() => handleClickDetailPromotion(item.id)}><FormattedMessage id="homeHeader.detail" /></Button>
                                             </div>
                                         </div>
                                     )
@@ -424,14 +416,14 @@ function Home() {
 
                     </div>
                     <div className='text-read-more'>
-                        <p><Link to={`/khuyen-mai`}>Xem Thêm</Link></p>
+                        <p><Link to={`/khuyen-mai`}><FormattedMessage id="homeHeader.loadMore" /></Link></p>
                     </div>
 
                 </div>
                 <div className='home-news-content container-fluid' style={{ marginBottom: '50px' }}>
                     <div className='row row-news'>
                         <div className='col-6 col-left'>
-                            <h1 className='text-review'> review phim</h1>
+                            <h1 className='text-review'><FormattedMessage id="homeHeader.movieReview" /></h1>
                             {allReviewMovie && allReviewMovie.map((item, index) => {
                                 if (index < 4) {
                                     return (
@@ -453,7 +445,7 @@ function Home() {
 
                         </div>
                         <div className='col-6 col-right'>
-                            <h1 className='text-intro'>Blog điện ảnh</h1>
+                            <h1 className='text-intro'><FormattedMessage id="homeHeader.movieBlog" /></h1>
                             {allInComingMovie && allInComingMovie.map((item, index) => {
                                 if (index < 4) {
                                     return (
