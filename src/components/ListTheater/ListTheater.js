@@ -27,6 +27,8 @@ import { testFunction } from '../Share/useLocationForm';
 import axios from 'axios';
 import LoadingOverlay from 'react-loading-overlay'
 import ClipLoader from 'react-spinners/ClipLoader'
+import { FormattedMessage } from 'react-intl';
+
 
 
 
@@ -541,10 +543,10 @@ function ListTheater() {
                         <div className='breadcrumb list-bread'>
                             <ol>
                                 <li className='breadcrumb-item'>
-                                    <Link to='#' className='link' aria-current='page'>Trang Chủ</Link>
+                                    <Link to='#' className='link' aria-current='page'><FormattedMessage id="cinema.home" /></Link>
                                 </li>
                                 <li className='breadcrumb-item'>
-                                    <Link to='#' className='link' aria-current='page'>Rạp chiếu phim</Link>
+                                    <Link to='#' className='link' aria-current='page'><FormattedMessage id="cinema.cinema" /></Link>
                                 </li>
                                 <li className='breadcrumb-item active'>
                                     <Link to='#' className='link' aria-current='page' style={{ fontWeight: '700', color: '#000' }}>{allValues.tenRap}</Link>
@@ -567,7 +569,7 @@ function ListTheater() {
                     <div className='row row-film'>
                         <div className='col-6 col-film-left'>
                             <div className='row row-title-1'>
-                                <h5>phim đang chiếu</h5>
+                                <h5><FormattedMessage id="cinema.nowShowing" /></h5>
                             </div>
                             <div className='combobox-group'>
                                 <div className='row row-combobox'>
@@ -637,7 +639,7 @@ function ListTheater() {
 
                             {allValues.listSchedule && allValues.listSchedule.length === 0 &&
                                 <div className='row row-theater-cal' >
-                                    Lịch chiếu đang cập nhật...
+                                    <FormattedMessage id="cinema.notify-error" />
                                 </div>
 
                             }
@@ -646,7 +648,7 @@ function ListTheater() {
                         <div className='col-1'></div>
                         <div className='col-5 col-film-right'>
                             <div className='row-title-2'>
-                                <h5>thông tin chi tiết</h5>
+                                <h5><FormattedMessage id="cinema.detail" /></h5>
                             </div>
                             <div className='info-theater'>
                                 <span>Địa chỉ: {allValues.address}</span>

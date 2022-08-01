@@ -626,9 +626,9 @@ function AccountProfile() {
                                             <td>{item.BookingTicket[0].TicketShowtime.RoomShowTime.MovieTheaterRoom.tenR}</td>
                                             <td>{item.BookingTicket[0].TicketShowtime.ShowtimeMovie.name}</td>
                                             <td>{item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
-                                            <td>
+                                            {/* <td>
                                                 <Link to="/dat-ghe">Chi Tiết</Link>
-                                            </td>
+                                            </td> */}
                                         </tr>
                                     )
                                 })}

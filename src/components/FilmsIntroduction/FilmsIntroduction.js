@@ -1,21 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../../assets/DKCinema.png';
-import doctor_review from '../../assets/doctor_review.jpg';
 import './FilmsIntroduction.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
-import { FormattedMessage } from 'react-intl';
-import { useDispatch } from "react-redux";
-import { updateLanguage } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
-import { selectLanguage } from "../../redux/userSlice";
-import { LANGUAGES } from '../../utils/constant';
-import Pagination from 'react-bootstrap/Pagination';
-import { FacebookProvider, Like } from 'react-facebook';
 import { Link, useHistory } from "react-router-dom";
 import Footer from '../Share/Footer';
 import Header from '../Share/Header';
-import FilmShowing from '../Share/FilmShowing';
 import { getNewsByType } from '../../services/NewsServices';
 import Ratings from '../Share/Rating';
 import { toast } from 'react-toastify';
@@ -24,7 +13,7 @@ import { getListMovieByStatus } from '../../services/MovieServices';
 import InCommingFilms from '../Share/InCommingFilms';
 import LoadingOverlay from 'react-loading-overlay'
 import ClipLoader from 'react-spinners/ClipLoader'
-
+import { FormattedMessage } from 'react-intl';
 
 
 
@@ -212,7 +201,7 @@ function FilmsIntroduction() {
                     <div className='row row-review'>
                         <div className='col-8 col-left'>
                             <div className='title'>
-                                <h5>Blog điện ảnh</h5>
+                                <h5><FormattedMessage id="homeHeader.movieBlog" /></h5>
                             </div>
                             <div className='list-films'>
                                 {

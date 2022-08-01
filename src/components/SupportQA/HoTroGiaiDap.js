@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Phim1 from '../../assets/Phim1.jpg';
-import Phim2 from '../../assets/Phim2.png';
-import pdc1 from '../../assets/PDC/pdc1.jpg';
-import logo from '../../assets/DKCinema.png';
-import { Carousel } from 'react-responsive-carousel';
 import { FormattedMessage } from 'react-intl';
-import { LANGUAGES } from '../../utils/constant';
 import { updateLanguage } from "../../redux/userSlice";
 import { useDispatch } from "react-redux";
 import { selectLanguage } from "../../redux/userSlice";
@@ -15,9 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getListMovieByStatus } from '../../services/MovieServices';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
-import FilmShowing from '../Share/FilmShowing';
 import { useHistory } from "react-router-dom";
 import InCommingFilms from '../Share/InCommingFilms';
+
+
 
 
 function HoTroGiaiDap() {
@@ -78,19 +73,19 @@ function HoTroGiaiDap() {
                     <div className='col-8 col-left'>
                         <div className='title-tab'>
                             <ul>
-                                <li><a>tuyển dụng</a></li>
-                                <li><a onClick={redirectFeedBack}>góp ý</a></li>
-                                <li><a>giải đáp</a></li>
+                                <li><a><FormattedMessage id="footer.career" /></a></li>
+                                <li><a onClick={redirectFeedBack}><FormattedMessage id="footer.feedback" /></a></li>
+                                <li><a><FormattedMessage id="footer.answers" /></a></li>
                             </ul>
                         </div>
                         <div className="accordion" id="accordionExample">
                             <div className="card">
-                                <div className="card-header" id="headingOne" style={{ backgroundColor: "#e6e8eb", }}>
-                                    <h5 className="mb-0">
+                                <div className="card-header" id="headingOne">
+                                    <h6 className="mb-0">
                                         <div className='title' style={{ width: "100%", cursor: "pointer" }} data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
                                             <i className='icon'></i> làm sao để đặt vé online
                                         </div>
-                                    </h5>
+                                    </h6>
                                 </div>
                                 <div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                                     <div className="card-body">
@@ -117,14 +112,14 @@ function HoTroGiaiDap() {
                                     </div>
                                 </div>
                             </div>
-                            <hr />
+                            {/* <hr /> */}
                             <div className="card">
-                                <div className="card-header" id="heading2" style={{ backgroundColor: "#e6e8eb", }}>
-                                    <h5 className="mb-0 t">
+                                <div className="card-header" id="heading2">
+                                    <h6 className="mb-0 t">
                                         <div className='title' style={{ width: "100%", cursor: "pointer" }} data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
                                             <i className='icon'></i>&nbsp;Tôi có thể hủy hoặc thay đổi thông tin của vé đã mua online được không?
                                         </div>
-                                    </h5>
+                                    </h6>
                                 </div>
                                 <div id="collapse2" className="collapse" aria-labelledby="heading2" data-parent="#accordionExample">
                                     <div className="card-body">
@@ -134,14 +129,14 @@ function HoTroGiaiDap() {
                                     </div>
                                 </div>
                             </div>
-                            <hr />
+                            {/* <hr /> */}
                             <div className="card">
-                                <div className="card-header" id="heading3" style={{ backgroundColor: "#e6e8eb", }}>
-                                    <h5 className="mb-0">
+                                <div className="card-header" id="heading3">
+                                    <h6 className="mb-0">
                                         <div className='title' style={{ width: "100%", cursor: "pointer" }} data-toggle="collapse" data-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
                                             <i className='icon'></i>&nbsp;Khi mua vé online tôi có được tích điểm hay không?
                                         </div>
-                                    </h5>
+                                    </h6>
                                 </div>
                                 <div id="collapse3" className="collapse" aria-labelledby="heading3" data-parent="#accordionExample">
                                     <div className='card-body'>
@@ -151,34 +146,34 @@ function HoTroGiaiDap() {
                                     </div>
                                 </div>
                             </div>
-                            <hr />
+                            {/* <hr /> */}
                             <div className="card">
-                                <div className="card-header" id="heading4" style={{ backgroundColor: "#e6e8eb", }}>
-                                    <h5 className="mb-0">
+                                <div className="card-header" id="heading4">
+                                    <h6 className="mb-0">
                                         <div className='title' style={{ width: "100%", cursor: "pointer" }} data-toggle="collapse" data-target="#collapse4" aria-expanded="false" aria-controls="collapse4">
                                             <i className='icon'></i>&nbsp;thông tin liên hệ
                                         </div>
-                                    </h5>
+                                    </h6>
                                 </div>
                                 <div id="collapse4" className="collapse" aria-labelledby="heading4" data-parent="#accordionExample">
                                     <div className="card-body">
-                                        <h3 style={{ textTransform: "capitalize" }}>tổng công ty cổ phần phim đa vũ trụ</h3>
+                                        <h6 style={{ textTransform: "capitalize" }}>tổng công ty cổ phần phim đa vũ trụ</h6>
                                         <ul>
-                                            <li style={{ textTransform: "capitalize", fontSize: "13pt" }}>địa chỉ: tầng 82, tòa nhà landmark, 208 nguyễn hữu cảnh, phường 22, quận bình thạnh, thành phố hồ chí minh</li>
-                                            <li style={{ textTransform: "capitalize", fontSize: "13pt" }}>điện thoại: (+84) 3900 8900</li>
-                                            <li style={{ textTransform: "capitalize", fontSize: "13pt" }}>fax: (+84) 8900 6599</li>
+                                            <li style={{ textTransform: "capitalize", fontSize: "10pt" }}>địa chỉ: tầng 82, tòa nhà landmark, 208 nguyễn hữu cảnh, phường 22, quận bình thạnh, thành phố hồ chí minh</li>
+                                            <li style={{ textTransform: "capitalize", fontSize: "10pt" }}>điện thoại: (+84) 3900 8900</li>
+                                            <li style={{ textTransform: "capitalize", fontSize: "10pt" }}>fax: (+84) 8900 6599</li>
                                         </ul>
                                     </div>
                                 </div>
                             </div>
-                            <hr />
+                            {/* <hr /> */}
                             <div className="card">
-                                <div className="card-header" id="heading5" style={{ backgroundColor: "#e6e8eb", }}>
-                                    <h5 className="mb-0">
+                                <div className="card-header" id="heading5">
+                                    <h6 className="mb-0">
                                         <div className='title' style={{ width: "100%", cursor: "pointer" }} data-toggle="collapse" data-target="#collapse5" aria-expanded="false" aria-controls="collapse5">
                                             <i className='icon'></i>&nbsp;Thanh toán online đã bị trừ tiền nhưng không nhận được mã đặt vé?
                                         </div>
-                                    </h5>
+                                    </h6>
                                 </div>
                                 <div id="collapse5" className="collapse" aria-labelledby="heading5" data-parent="#accordionExample">
                                     <div className="card-body">

@@ -18,7 +18,10 @@
         "promotionNews": "Thông tin khuyến mãi",
         "movieReview": "REVIEW PHIM",
         "movieBlog": "BLOG ĐIỆN ẢNH",
-        "detail": "CHI TIẾT"
+        "detail": "CHI TIẾT",
+        "comment": "Bình luận",
+        "chooseStar": "Chọn số sao",
+        "submit": "Gửi"
     },
     "footer": {
         "introduce": "GIỚI THIỆU",
@@ -34,5 +37,12 @@
         "feedback": " Góp ý",
         "answers": " Giải đáp",
         "dkcinema": "Kết nối dkcinema"
+    },
+    "cinema": {
+        "home": "Trang Chủ",
+        "cinema": "Rạp chiếu phim",
+        "nowShowing": "PHIM ĐANG CHIẾU",
+        "detail": "THÔNG TIN CHI TIẾT",
+        "notify-error": "Lịch chiếu đang cập nhật..."
     }
 }

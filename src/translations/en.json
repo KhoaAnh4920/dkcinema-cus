@@ -18,7 +18,10 @@
         "promotionNews": "PROMOTION NEWS",
         "movieReview": "MOVIE REVIEW",
         "movieBlog": "MOVIE BLOG",
-        "detail": "DETAIL"
+        "detail": "DETAIL",
+        "comment": "COMMENT",
+        "chooseStar": "Choose star",
+        "submit": "Submit"
     },
     "footer": {
         "introduce": "INTRODUCE",
@@ -34,5 +37,12 @@
         "feedback": " Feedback",
         "answers": " Answers",
         "dkcinema": "dkcinema"
+    },
+    "cinema": {
+        "home": "Home",
+        "cinema": "Cinema",
+        "nowShowing": "NOW SHOWING",
+        "detail": "DETAIL INFORMATION",
+        "notify-error": "Showtimes are updating..."
     }
 }

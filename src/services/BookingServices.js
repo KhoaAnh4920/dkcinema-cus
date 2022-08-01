@@ -13,6 +13,10 @@ const getValidateSignature = (data) => {
 }
 
 
+const handleBookingPayment = (data) => {
+    return axios.post(`/api/handle-booking`, data)
+}
+
 
 const getSeetWasBooking = (scheduleId) => {
     return axios.get('/booking-seet', { params: { scheduleId: scheduleId } })
@@ -33,5 +37,6 @@ export {
     getSeetWasBooking,
     getCustomerVoucher,
     getMomoPaymentLink,
-    handleDeleteBooking
+    handleDeleteBooking,
+    handleBookingPayment
 }

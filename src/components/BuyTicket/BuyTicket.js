@@ -105,12 +105,30 @@ function BuyTicket() {
 
 
     useEffect(() => {
+
+        let sec = parseInt(window.localStorage.getItem("seconds"))
+        let min = parseInt(window.localStorage.getItem("minutes"))
+
+        if (sec || min) {
+            localStorage.removeItem("seconds");
+            localStorage.removeItem("minutes");
+            dispatch(updateDataBooking(null));
+        }
+
         fetchDataMovie(1);
         fetchDataTheater();
         // fetchDataSchedule(5, 1);
     }, [])
 
     useEffect(() => {
+        let sec = parseInt(window.localStorage.getItem("seconds"))
+        let min = parseInt(window.localStorage.getItem("minutes"))
+
+        if (sec || min) {
+            localStorage.removeItem("seconds");
+            localStorage.removeItem("minutes");
+            dispatch(updateDataBooking(null));
+        }
 
         if (!selectUser.isLoggedInUser) {
             setAllValues((prevState) => ({

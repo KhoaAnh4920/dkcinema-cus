@@ -113,8 +113,6 @@ function Home() {
         }
         else
             toast.error("Thông tin không hợp lệ")
-        localStorage.removeItem("seconds");
-        localStorage.removeItem("minutes");
     }
     async function fetchDataBanner() {
         const dataBanner = await getAllBanner();
@@ -180,9 +178,16 @@ function Home() {
 
         fetchDataPost();
 
-        // fetchDataPost(1);
-        // fetchDataPost(2);
-        // fetchDataPost(3);
+        let sec = parseInt(window.localStorage.getItem("seconds"))
+        let min = parseInt(window.localStorage.getItem("minutes"))
+
+        if (sec || min) {
+            localStorage.removeItem("seconds");
+            localStorage.removeItem("minutes");
+            dispatch(updateDataBooking(null));
+
+            return;
+        }
 
         // Check thanh toán //
         let url = window.location.href;
@@ -205,6 +210,12 @@ function Home() {
 
                 if (resultCode != 0) {
                     toast.error(message);
+
+                    const queryParams = ""
+                    history.replace({
+                        search: queryParams,
+                    })
+
                     return;
                 }
                 // partnerCode=MOMO&orderId=MOMO1656834097867&requestId=MOMO1656834097867&amount=220000&orderInfo=pay with MoMo&orderType=momo_wallet&transId=2696246745&resultCode=0&message=Successful.&payType=qr&responseTime=1656834220502&
@@ -266,16 +277,7 @@ function Home() {
 
         }
 
-        let sec = parseInt(window.localStorage.getItem("seconds"))
-        let min = parseInt(window.localStorage.getItem("minutes"))
 
-        if (sec || min) {
-            localStorage.removeItem("seconds");
-            localStorage.removeItem("minutes");
-            dispatch(updateDataBooking(null));
-
-            return;
-        }
 
 
 

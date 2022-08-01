@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../../assets/DKCinema.png';
-import doctor_review from '../../assets/doctor_review.jpg';
 import './ReviewFilms.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
-import { Carousel } from 'react-responsive-carousel';
-import { FormattedMessage } from 'react-intl';
-import { useDispatch } from "react-redux";
-import { updateLanguage } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
-import { selectLanguage } from "../../redux/userSlice";
-import { LANGUAGES } from '../../utils/constant';
-import Pagination from 'react-bootstrap/Pagination';
-import { FacebookProvider, Like } from 'react-facebook';
 import { Link, useHistory } from "react-router-dom";
 import Footer from '../Share/Footer';
 import Header from '../Share/Header';
@@ -25,7 +15,7 @@ import InCommingFilms from '../Share/InCommingFilms';
 import LoadingOverlay from 'react-loading-overlay'
 import ClipLoader from 'react-spinners/ClipLoader'
 import { votePostRatingService } from '../../services/NewsServices';
-
+import { FormattedMessage } from 'react-intl';
 
 
 
@@ -226,7 +216,7 @@ function ReviewFilms() {
                     <div className='row row-review'>
                         <div className='col-8 col-left'>
                             <div className='title'>
-                                <h5>Review Phim</h5>
+                                <h5><FormattedMessage id="homeHeader.movieReview" /></h5>
                             </div>
                             <div className='list-films'>
                                 {

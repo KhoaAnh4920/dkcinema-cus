@@ -447,37 +447,33 @@ function BookSeet() {
         for (let i = 0; i < resTest.length; i++) {
             let item = resTest[i];
             let preSeet = findItemSeet(item, item.pos - 1);
-            // console.log('preSeet: ', preSeet);
+            console.log('preSeet: ', preSeet);
 
-            let testIsBook = res.includes(preSeet.id)
-            // console.log('testIsBook', testIsBook);
-            if (!testIsBook) {
-                let preSeet2 = findItemSeet(item, item.pos - 2);
-                // console.log('preSeet2: ', preSeet2);
-                if (preSeet2) {
-                    let testIsBook2 = res.includes(preSeet2.id)
-                    if (testIsBook2) {
-                        // console.log('LOI');
-                        Swal.fire({
-                            icon: 'error',
-                            showCloseButton: true,
-                            title: 'Thông báo',
-                            html:
-                                'Việc chọn vị trí ghế của bạn không được để trống 1 ghế ở bên trái, giữa hoặc bên phải trên cùng hàng ghế mà bạn vừa chọn',
-                        })
+            if (preSeet) {
+                let testIsBook = res.includes(preSeet.id)
+                // console.log('testIsBook', testIsBook);
+                if (!testIsBook) {
+                    let preSeet2 = findItemSeet(item, item.pos - 2);
+                    // console.log('preSeet2: ', preSeet2);
+                    if (preSeet2) {
+                        let testIsBook2 = res.includes(preSeet2.id)
+                        if (testIsBook2) {
+                            // console.log('LOI');
+                            Swal.fire({
+                                icon: 'error',
+                                showCloseButton: true,
+                                title: 'Thông báo',
+                                html:
+                                    'Việc chọn vị trí ghế của bạn không được để trống 1 ghế ở bên trái, giữa hoặc bên phải trên cùng hàng ghế mà bạn vừa chọn',
+                            })
 
-                        return;
+                            return;
+                        }
                     }
-                }
 
+                }
             }
         }
-
-        console.log('OK');
-
-        console.log('allValues: ', allValues);
-
-
 
         let bookData = bookingRedux.dataBooking;
         let dataCombo = bookData.combo;

@@ -10,7 +10,7 @@ import Select from 'react-select';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
 import { getScheduleById } from "../../services/ScheduleService";
-import { getMomoPaymentLink, getCustomerVoucher, handleDeleteBooking } from "../../services/BookingServices";
+import { getMomoPaymentLink, handleBookingPayment, handleDeleteBooking } from "../../services/BookingServices";
 import { dataBookingRedux, updateDataBooking } from "../../redux/BookingSlice";
 import moment from 'moment';
 import { useHistory, useParams } from "react-router-dom";
@@ -260,7 +260,7 @@ function Payment() {
 
             let totalPrice = (discount > 100) ? provisional - discount : provisional - ((discount * provisional) / 100)
 
-            setAllValues({ ...stateCopy, discount: detailVoucher[0].discount, totalPrice: totalPrice })
+            setAllValues({ ...stateCopy, discount: detailVoucher[0].discount, totalPrice: (totalPrice < 0) ? 0 : totalPrice })
         } else setAllValues({ ...stateCopy })
 
 
@@ -285,6 +285,26 @@ function Payment() {
         }
 
         let bookData = bookingRedux.dataBooking;
+
+        if (allValues.totalPrice === 0) {
+            let res = await handleBookingPayment({
+                resultCode: 0,
+                type: 1,
+                extraData: bookData.bookingId,
+                voucherCode: (allValues.selectedVoucher && allValues.selectedVoucher.code) ? allValues.selectedVoucher.code : null
+            })
+
+            if (res) {
+                clearInterval(allValues.intervalId);
+                localStorage.removeItem("seconds");
+                localStorage.removeItem("minutes");
+                history.push('/');
+                toast.success("Thanh toán thành công");
+                return;
+            }
+        }
+
+
         let dataFinal = {}
 
         let result = [];
@@ -311,7 +331,7 @@ function Payment() {
         console.log('res: ', res);
 
         if (res && res.statusCode === 200 && res.data) {
-            console.log('res data: ', res.data);
+            // console.log('res data: ', res.data);
 
             try {
 
@@ -460,7 +480,7 @@ function Payment() {
 
                                 </div>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Nhập voucher</label>
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Chọn voucher</label>
                                     <Select
                                         className='select-voucher col-9'
                                         defaultValue={selectedOption}

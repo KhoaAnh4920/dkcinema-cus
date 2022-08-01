@@ -16,7 +16,7 @@ import InCommingFilms from '../Share/InCommingFilms';
 import { getListMovieByStatus } from '../../services/MovieServices';
 import LoadingOverlay from 'react-loading-overlay'
 import ClipLoader from 'react-spinners/ClipLoader'
-
+import { FormattedMessage } from 'react-intl';
 
 
 
@@ -225,17 +225,17 @@ function DetailReviewFilm() {
                                 <>
                                     <div className='comment-film'>
                                         <div className='title-cmt'>
-                                            <h5>bình luận phim</h5>
+                                            <h5><FormattedMessage id="homeHeader.comment" /></h5>
                                         </div>
                                         <div className='form-cmt'>
                                             <textarea className='area-51 form-control animated' name='cusCmt' onChange={changeHandler} value={allValuesDetail.cusCmt} placeholder='Bình luận của bạn...' cols="50"></textarea>
                                         </div>
                                         <div className='bottom-cmt'>
                                             <div className='row rating-cmt'>
-                                                Chọn số sao:&nbsp;<Ratings checkClick={voteRatingComment} />
+                                                <FormattedMessage id="homeHeader.chooseStar" />&nbsp;&nbsp;<Ratings checkClick={voteRatingComment} />
                                             </div>
                                             <div className='btn-send'>
-                                                <button className='btn btn-light' onClick={() => handleComment()}>Gửi</button>
+                                                <button className='btn btn-light' onClick={() => handleComment()}><FormattedMessage id="homeHeader.submit" /></button>
                                             </div>
                                         </div>
 

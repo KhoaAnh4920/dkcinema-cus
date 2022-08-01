@@ -42,11 +42,19 @@
 
             .accordion {
                 .card {
+                    margin: 20px;
+                    -webkit-box-shadow: none;
+                    box-shadow: none;
+
                     .card-header {
-                        h5 {
+
+                        background-color: #fafafa;
+                        border-color: #eeeeee;
+
+                        h6 {
                             .title {
                                 text-transform: capitalize;
-                                font-size: 13pt;
+                                font-size: 10pt;
                                 font-weight: 400;
 
                                 .icon {
@@ -62,7 +70,7 @@
                         .card-body {
                             p {
                                 text-align: justify;
-                                font-size: 13pt;
+                                font-size: 11pt;
                             }
 
                             ul {

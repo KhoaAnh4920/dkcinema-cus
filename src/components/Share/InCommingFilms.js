@@ -3,6 +3,8 @@ import './InCommingFilms.scss';
 import { Image, Button } from 'react-bootstrap';
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { FormattedMessage } from 'react-intl';
+
 
 
 
@@ -22,7 +24,7 @@ export default function InCommingFilms(props) {
     return (
         <div className='col-4 col-right'>
             <div className='title'>
-                <h5>phim đang chiếu</h5>
+                <h5><FormattedMessage id="homeHeader.nowShowing" /></h5>
             </div>
             <div className='col-image'>
                 {
@@ -41,7 +43,7 @@ export default function InCommingFilms(props) {
                                     }
 
                                     <div className='image__overlay image__overlay--primary'>
-                                        <Button size='md' variant='warning' className='btn__show'>Đặt vé</Button>
+                                        <Button size='md' variant='warning' className='btn__show'><FormattedMessage id="homeHeader.buyTicket" /></Button>
                                     </div>
 
                                 </div>
@@ -59,7 +61,7 @@ export default function InCommingFilms(props) {
 
                 <div className='link-read-more'>
                     {/* <a href='#'>Xem Thêm</a> */}
-                    <Link to="/phim-dang-chieu">Xem thêm</Link>
+                    <Link to="/phim-dang-chieu"><FormattedMessage id="homeHeader.loadMore" /></Link>
                 </div>
             </div>
         </div>
