@@ -351,11 +351,8 @@ function BuyTicket() {
                                                                         <div className="title-movie"><p className="upper-text ng-binding">{item.name}</p><p className="vn upper-text ng-binding">{item.transName}</p></div>
                                                                     </div>
                                                                 </li>
-
-
                                                             }
                                                         </>
-
                                                     )
                                                 })
                                             }
@@ -394,7 +391,6 @@ function BuyTicket() {
                                                                 }
 
                                                             </>
-
                                                         )
                                                     })
                                                 }

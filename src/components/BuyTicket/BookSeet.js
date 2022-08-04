@@ -56,33 +56,6 @@ function BookSeet() {
     const [dataSchedule, setDataSchedule] = useState([])
 
 
-    // const dispatch = useDispatch();
-
-
-    // const changeLanguage = (language) => {
-    //     // fire redux event: actions
-
-    //     console.log(language);
-    //     dispatch(updateLanguage(language));
-    // }
-
-
-    // async function fetchDataScheduleById(scheduleId) {
-    //     const dataSchedule = await getScheduleById(scheduleId);
-    //     console.log("dataSchedule", dataSchedule);
-    //     if (dataSchedule && dataSchedule.data) {
-    //         let schedule = dataSchedule.data;
-    //         let formatDate = moment(schedule.premiereDate).format("DD/MM/YYYY")
-    //         let now = new Date(schedule.premiereDate).toLocaleDateString('vi-VN', { weekday: "long" });
-    //         formatDate = now + ', ' + formatDate
-    //         schedule.formatDate = formatDate;
-
-
-    //         setDataSchedule(dataSchedule.data)
-    //     }
-    // }
-
-
     async function fetchDataScheduleById(scheduleId, bookingCombo, totalPrice) {
         const dataSchedule = await getScheduleById(scheduleId);
         const seetWasBooking = await getSeetWasBooking(scheduleId);
@@ -218,16 +191,6 @@ function BookSeet() {
     }, [bookingRedux]);
 
 
-
-    // async function fetchDataCombo() {
-    //     const dataCombos = await getAllCombo();
-    //     console.log("data Combo", dataCombos);
-    //     if (dataCombos && dataCombos.dataCombo) {
-    //         setAllCombo({
-    //             listCombo: dataCombos.dataCombo
-    //         })
-    //     }
-    // }
     useEffect(() => {
         // fetchDataCombo();
     }, []);
@@ -254,49 +217,6 @@ function BookSeet() {
 
 
 
-
-    // const handleBookTicket = () => {
-    //     // Get combo //
-    //     let quantity = document.getElementsByClassName("quantityCombo");
-    //     let items = [];
-    //     let sum = 0;
-    //     for (let a = 0; a < quantity.length; a++) {
-    //         let obj = {};
-    //         if (+quantity[a].value !== 0) {
-
-
-    //             obj.comboId = +quantity[a].id;
-    //             obj.amount = +quantity[a].value;
-
-    //             allCombo.listCombo.map(item => {
-    //                 if (item.id === obj.comboId) {
-    //                     sum += (obj.amount * item.price);
-    //                 }
-    //             })
-
-    //             items.push(obj);
-    //         }
-    //     }
-
-
-
-    //     // Get ticket //
-    //     let quantityTicket = document.getElementsByClassName("quantityTicket")[0];
-
-    //     sum += 90000 * +quantityTicket.value
-
-
-    //     // save redux //
-    //     let newBookingRedux = { ...bookingRedux.dataBooking, 'combo': items, quantityTicket: +quantityTicket.value, totalPrice: sum }
-
-    //     dispatch(updateDataBooking(newBookingRedux));
-
-    //     console.log('newBookingRedux: ', newBookingRedux);
-
-
-    // }
-
-
     const handleClickSeet = (item1, item2) => {
         let res = allValues.selectSeet;
         let resTest = allValues.resCheck;
@@ -311,10 +231,8 @@ function BookSeet() {
 
         if (item2.id >= 0) {
 
-
-
             if (res.some(id => id === item2.id)) {
-                (item2.typeId === 1) ? price -= 90000 : price -= 10000
+                (item2.typeId === 1) ? price -= 90000 : price -= 100000
                 // if (item2.typeId === 1)
                 //     allValues.countSeetStandard--
                 // else

@@ -44,5 +44,43 @@
         "nowShowing": "PHIM ĐANG CHIẾU",
         "detail": "THÔNG TIN CHI TIẾT",
         "notify-error": "Lịch chiếu đang cập nhật..."
+    },
+    "loginPage": {
+        "login": "ĐĂNG NHẬP",
+        "enterEmail": "Nhập email",
+        "enterPassword": "Nhập mật khẩu",
+        "forgotPass": "Quên mật khẩu ?",
+        "submitLogin": "Đăng nhập",
+        "register": "ĐĂNG KÝ",
+        "fullName": "Họ và tên",
+        "password": "Mật khẩu",
+        "retypePassword": "Nhập lại mật khẩu",
+        "phoneNumber": "Số điện thoại",
+        "gender": "Giới tính",
+        "male": "Nam",
+        "female": "Nữ",
+        "birthday": "Ngày sinh",
+        "addressContract": "Địa chỉ liên hệ",
+        "city": "Tỉnh / Thành phố",
+        "district": "Quận / Huyện",
+        "ward": "Phường / Xã",
+        "address": "Số nhà và tên đường",
+        "enterFullname": "Nhập họ tên",
+        "enterRePass": "Nhập lại mật khẩu",
+        "enterPhone": "Nhập số điện thoại",
+        "enterCity": "Tỉnh/Thành",
+        "enterDistrict": "Quận/Huyện",
+        "enterWard": "Phường/Xã",
+        "enterAddress": "Nhập địa chỉ nhà"
+    },
+    "moviePage": {
+        "producer": "Nhà sản xuất",
+        "director": "Đạo diễn",
+        "type": "Thể loại",
+        "country": "Quốc gia",
+        "releaseDate": "Ngày khởi chiếu",
+        "movieContent": "Nội dung phim",
+        "schedule": "Lịch chiếu",
+        "actor": "Diễn viên"
     }
 }

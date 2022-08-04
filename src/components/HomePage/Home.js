@@ -186,7 +186,7 @@ function Home() {
             localStorage.removeItem("minutes");
             dispatch(updateDataBooking(null));
 
-            return;
+            //  return;
         }
 
         // Check thanh toán //
@@ -276,8 +276,6 @@ function Home() {
             }
 
         }
-
-
 
 
 

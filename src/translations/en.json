@@ -44,5 +44,43 @@
         "nowShowing": "NOW SHOWING",
         "detail": "DETAIL INFORMATION",
         "notify-error": "Showtimes are updating..."
+    },
+    "loginPage": {
+        "login": "LOGIN",
+        "enterEmail": "Enter email",
+        "enterPassword": "Enter password",
+        "forgotPass": "Forgot password ?",
+        "submitLogin": "LOGIN",
+        "register": "REGISTER",
+        "fullName": "Fullname",
+        "password": "Password",
+        "retypePassword": "Retype password",
+        "phoneNumber": "Phone number",
+        "gender": "Gender",
+        "male": "Male",
+        "female": "Female",
+        "birthday": "Birthday",
+        "addressContract": "ADDRESS CONTRACT",
+        "city": "City",
+        "district": "District",
+        "ward": "Ward",
+        "address": "Address",
+        "enterFullname": "Enter fullname",
+        "enterRePass": "Enter the password",
+        "enterPhone": "Enter phone number",
+        "enterCity": "City",
+        "enterDistrict": "District",
+        "enterWard": "Ward",
+        "enterAddress": "Enter address"
+    },
+    "moviePage": {
+        "producer": "Producer",
+        "director": "Director",
+        "type": "Type",
+        "country": "Country",
+        "releaseDate": "Release Date",
+        "movieContent": "Movie content",
+        "schedule": "Schedule",
+        "actor": "Actor"
     }
 }
