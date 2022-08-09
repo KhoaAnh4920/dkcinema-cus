@@ -19,7 +19,7 @@
                     .btn-show {
 
                         position        : absolute;
-                        top             : 50% !important;
+                        top             : 75% !important;
                         left            : 50% !important;
                         transform       : translate(-50%, 50%);
                         background-color: transparent;
@@ -302,7 +302,7 @@
                         position    : absolute;
                         display     : block;
                         //left      : 13px;
-                        width       : 10%;
+                        width       : 20% !important;
                         height      : 3px;
                         background  : #fcaf17;
                     }
@@ -336,7 +336,7 @@
                             position    : absolute;
                             display     : block;
                             //left      : 13px;
-                            width       : 15%;
+                            width       : 20% !important;
                             height      : 3px;
                             background  : #fcaf17;
                         }
@@ -413,9 +413,9 @@
                 .btn-show {
 
                     position        : absolute;
-                    top             : 55%;
-                    left            : 26%;
-                    transform       : translate(-50%, 50%);
+                    top             : 70%;
+                    left            : 25%;
+                    transform       : translate(-50%, -50%);
                     background-color: transparent;
 
                     .icon-show {
@@ -537,6 +537,7 @@
                 }
 
                 .row-info {
+
                     .row-info-detail {
                         width: 100%;
 
@@ -676,7 +677,7 @@
 
 .content-film {
     .row-content {
-        padding-top: 30px;
+        padding-top: 50px;
 
         .col-left {
             width        : 70%;
@@ -696,7 +697,7 @@
                     position    : absolute;
                     display     : block;
                     //left      : 13px;
-                    width       : 10%;
+                    width       : 5%;
                     height      : 3px;
                     background  : #fcaf17;
                 }
@@ -728,7 +729,7 @@
                         position    : absolute;
                         display     : block;
                         //left      : 13px;
-                        width       : 15%;
+                        width       : 5%;
                         height      : 3px;
                         background  : #fcaf17;
                     }
