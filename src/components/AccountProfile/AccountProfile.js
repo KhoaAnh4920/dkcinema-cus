@@ -351,9 +351,9 @@ function AccountProfile() {
             address: allValues.address,
             avatar: allValues.avatar,
             fileName: allValues.fileName,
-            cityCode: selectedCity.value,
-            districtCode: selectedDistrict.value,
-            wardCode: selectedWard.value,
+            cityCode: (selectedCity && selectedCity.value) ? selectedCity.value : null,
+            districtCode: (selectedDistrict && selectedDistrict.value) ? selectedDistrict.value : null,
+            wardCode: (selectedWard && selectedWard.value) ? selectedWard.value : null,
             externalid: selectUser.userInfo.externalid,
             roleId: 4,
         })
@@ -380,7 +380,8 @@ function AccountProfile() {
 
         setAllValues({
             ...allValues,
-            isShowLoading: false
+            isShowLoading: false,
+            isShowLoadingButton: false
         })
     }
 

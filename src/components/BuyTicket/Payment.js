@@ -281,6 +281,10 @@ function Payment() {
 
         if (!allValues.name || !allValues.email || !allValues.phoneNumber || !allValues.selectedPayment) {
             toast.error("Vui lòng điền đầy đủ thông tin");
+            setAllValues((prevState) => ({
+                ...prevState,
+                isShowLoading: false
+            }));
             return;
         }
 
