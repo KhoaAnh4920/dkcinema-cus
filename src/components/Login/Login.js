@@ -424,69 +424,99 @@ function Login() {
                             <form onSubmit={handleSubmit2(handleSignInCustomer)}>
                                 <h4 className='title-register'><FormattedMessage id="loginPage.register" /></h4>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Họ và tên</label>
-                                    <input type="text" className="form-control col-9"
-                                        placeholder="Nhập họ và tên" name='fullName'
-                                        required
-                                        value={allValues.fullName}
-                                        {...register2("fullName", {
-                                            onChange: changeHandler
-                                        })}
-                                    />
+                                    <label htmlFor="exampleInputEmail1" className='col-3'><FormattedMessage id="loginPage.fullName" /></label>
+                                    <FormattedMessage id="loginPage.enterFullname">
+                                        {placeholder =>
+                                            <input type="text" className="form-control col-9"
+                                                placeholder={placeholder}
+                                                name='fullName'
+                                                required
+                                                value={allValues.fullName}
+                                                {...register2("fullName", {
+                                                    onChange: changeHandler
+                                                })}
+                                            />
+                                        }
+                                    </FormattedMessage>
+
+
 
                                 </div>
 
                                 <div className="form-group col-12">
                                     <label htmlFor="exampleInputEmail1" className='col-3'>Email</label>
-                                    <input type="email" className="form-control col-9"
-                                        placeholder="Nhập email" name='email'
-                                        value={allValues.email}
-                                        required
-                                        {...register2("email", {
-                                            onChange: changeHandler
-                                        })}
-                                    />
+                                    <FormattedMessage id="loginPage.enterEmail">
+                                        {placeholder =>
+                                            <input type="email" className="form-control col-9"
+                                                placeholder={placeholder} name='email'
+                                                value={allValues.email}
+                                                required
+                                                {...register2("email", {
+                                                    onChange: changeHandler
+                                                })}
+                                            />
+                                        }
+                                    </FormattedMessage>
+
 
                                 </div>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>Mật khẩu</label>
-                                    <input type="password" className="form-control col-input"
-                                        placeholder="Nhập mật khẩu" name='password'
-                                        value={allValues.password}
-                                        required
-                                        {...register2("password", {
-                                            onChange: changeHandler
-                                        })}
-                                    />
+                                    <label htmlFor="exampleInputEmail1" className='col-label'><FormattedMessage id="loginPage.password" /></label>
+                                    <FormattedMessage id="loginPage.enterPassword">
+                                        {placeholder =>
+                                            <input type="password" className="form-control col-input"
+                                                placeholder={placeholder} name='password'
+                                                value={allValues.password}
+                                                required
+                                                {...register2("password", {
+                                                    onChange: changeHandler
+                                                })}
+                                            />
+                                        }
+                                    </FormattedMessage>
+
+
 
                                 </div>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>Nhập lại mật khẩu</label>
-                                    <input type="password" className="form-control col-input"
-                                        placeholder="Nhập lại mật khẩu" name='rePassword'
-                                        value={allValues.rePassword}
-                                        required
-                                        onChange={changeHandler}
-                                    />
+                                    <label htmlFor="exampleInputEmail1" className='col-label'><FormattedMessage id="loginPage.retypePassword" /></label>
+                                    <FormattedMessage id="loginPage.retypePassword">
+                                        {placeholder =>
+                                            <input type="password" className="form-control col-input"
+                                                placeholder={placeholder} name='rePassword'
+                                                value={allValues.rePassword}
+                                                required
+                                                onChange={changeHandler}
+                                            />
+                                        }
+                                    </FormattedMessage>
+
+
                                     {/* {allValues.errPass && allValues.errPass !== '' &&
                                     <span className='error-pass'>{allValues.errPass}</span>
                                 } */}
 
                                 </div>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>Số điện thoại</label>
-                                    <input type="text" className="form-control col-input"
-                                        placeholder="Nhập số điện thoại" name='phone'
-                                        required
-                                        value={allValues.phone}
-                                        {...register2("phone", {
-                                            onChange: changeHandler
-                                        })}
-                                    />
+                                    <label htmlFor="exampleInputEmail1" className='col-label'><FormattedMessage id="loginPage.phoneNumber" /></label>
+                                    <FormattedMessage id="loginPage.enterPhone">
+                                        {placeholder =>
+                                            <input type="text" className="form-control col-input"
+                                                placeholder={placeholder} name='phone'
+                                                required
+                                                value={allValues.phone}
+                                                {...register2("phone", {
+                                                    onChange: changeHandler
+                                                })}
+                                            />
+                                        }
+                                    </FormattedMessage>
+
+
 
                                 </div>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>Giới tính</label>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'><FormattedMessage id="loginPage.gender" /></label>
                                     <div className='col-input' style={{ padding: 0 }}>
                                         <div class="form-check form-check-inline" style={{ marginRight: '50px' }}>
                                             <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" defaultChecked={allValues.gender} name="selectedGender" id="inlineRadio1" value='male' />
@@ -500,7 +530,7 @@ function Login() {
 
                                 </div>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>Ngày sinh</label>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'><FormattedMessage id="loginPage.birthday" /></label>
                                     <DatePicker
                                         onChange={handleOnChangeDatePicker}
                                         className="form-control col-input"
@@ -511,7 +541,7 @@ function Login() {
                                 </div>
 
                                 <div className="form-group col-12" style={{ padding: '10px 0px' }}>
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>ĐỊA CHỈ LIÊN HỆ</label>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'><FormattedMessage id="loginPage.addressContract" /></label>
                                     <div className='strikethrough col-input'>
                                         <span className='line'></span>
                                     </div>
@@ -519,7 +549,7 @@ function Login() {
                                 </div>
 
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>Tỉnh / Thành Phố</label>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'><FormattedMessage id="loginPage.city" /></label>
                                     {/* <Select
                                     className='select-gender col-9'
                                     defaultValue={selectedOption}
@@ -540,7 +570,7 @@ function Login() {
                                 </div>
 
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>Quận / Huyện</label>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'><FormattedMessage id="loginPage.district" /></label>
                                     {/* <Select
                                     className='select-gender col-9'
                                     defaultValue={selectedOption}
@@ -562,7 +592,7 @@ function Login() {
                                 </div>
 
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>Phường / Xã</label>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'><FormattedMessage id="loginPage.ward" /></label>
 
                                     <Select
                                         className='select-gender col-input'
@@ -578,13 +608,19 @@ function Login() {
                                 </div>
 
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>Số nhà và tên đường</label>
-                                    <input type="text" className="form-control col-input"
-                                        onChange={changeHandler}
-                                        placeholder="Nhập địa chỉ nhà"
-                                        name='address'
-                                        value={allValues.address}
-                                    />
+                                    <label htmlFor="exampleInputEmail1" className='col-label'><FormattedMessage id="loginPage.address" /></label>
+                                    <FormattedMessage id="loginPage.enterAddress">
+                                        {placeholder =>
+                                            <input type="text" className="form-control col-input"
+                                                onChange={changeHandler}
+                                                placeholder={placeholder}
+                                                name='address'
+                                                value={allValues.address}
+                                            />
+                                        }
+                                    </FormattedMessage>
+
+
 
                                 </div>
 

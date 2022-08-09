@@ -30,7 +30,9 @@
             border: none;
             margin: 0px;
             width: 100%;
-            border-bottom: 1px solid #DDD;
+            //border-bottom: 1px solid #DDD;
+            border-bottom: none;
+            background-color: transparent;
 
             >li {
                 margin-right: 2px;
