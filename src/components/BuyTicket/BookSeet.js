@@ -437,7 +437,7 @@ function BookSeet() {
             combo: result
         });
 
-        //   console.log('dataBooking: ', dataBooking);
+
 
         if (dataBooking && dataBooking.errCode === 0) {
             // save redux //
