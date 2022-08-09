@@ -1,5 +1,6 @@
 .con-about {
     max-width: 1400px;
+    padding: 20px 150px;
 
     .row-about {
         margin-top: 40px;
@@ -8,34 +9,36 @@
             padding-right: 40px;
 
             .list {
-                margin-top : -10px;
+                margin-top: -10px;
                 margin-left: -55px;
+                padding-bottom: 0;
 
                 ol {
-                    display        : flex;
+                    display: flex;
                     list-style-type: none;
 
                     li {
                         .link-about {
-                            color      : black;
-                            font-size  : 12pt;
+                            color: black;
+                            font-size: 12pt;
                             font-weight: 300;
                         }
                     }
                 }
             }
 
-            h3 {
+            h5 {
                 text-transform: uppercase;
+                margin-bottom: 30px;
             }
 
             .content-about {
                 p {
-                    font-size : 12pt;
+                    font-size: 13px;
                     text-align: justify;
 
                     .link-lich-chieu {
-                        color      : coral;
+                        color: coral;
                         font-weight: 700;
                     }
                 }

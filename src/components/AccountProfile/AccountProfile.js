@@ -179,6 +179,9 @@ function AccountProfile() {
             startTime: (allValues.startTime) ? new Date(allValues.startTime).getTime() : null,
             endTime: new Date(endTime).getTime(),
         });
+
+
+
         setAllValues({ ...allValues, isShowLoading: false, endTime: date[0], listBooking: (resDataTicket && resDataTicket.data) ? resDataTicket.data : [] })
     }
 
@@ -623,8 +626,8 @@ function AccountProfile() {
                                             <td>{moment(item.createdAt).format('DD-MM-YYYY HH:mm')}</td>
                                             <td>{item.id}</td>
                                             <td>{item.BookingTicket.length}</td>
-                                            <td>{item.BookingTicket[0].TicketShowtime.RoomShowTime.MovieTheaterRoom.tenR}</td>
-                                            <td>{item.BookingTicket[0].TicketShowtime.ShowtimeMovie.name}</td>
+                                            <td>{(item.BookingTicket[0].TicketShowtime) ? item.BookingTicket[0].TicketShowtime.RoomShowTime.MovieTheaterRoom.tenR : ''}</td>
+                                            <td>{(item.BookingTicket[0].TicketShowtime) ? item.BookingTicket[0].TicketShowtime.ShowtimeMovie.name : ''}</td>
                                             <td>{item.price.toLocaleString('it-IT', { style: 'currency', currency: 'VND' })}</td>
                                             {/* <td>
                                                 <Link to="/dat-ghe">Chi Tiết</Link>

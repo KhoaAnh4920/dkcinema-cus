@@ -4,20 +4,13 @@ import './Login.scss';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from "react-redux";
-import { updateLanguage } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
-import { selectLanguage } from "../../redux/userSlice";
-import { LANGUAGES } from '../../utils/constant';
 import { Link } from 'react-router-dom';
 import DatePicker from '../Share/DatePicker';
 import Slider from "react-slick";
 // Import css files
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import quang_cao_1 from '../../assets/1.jpg';
-import quang_cao_2 from '../../assets/2.jpg';
-import quang_cao_3 from '../../assets/3.jpg';
-import quang_cao_4 from '../../assets/4.jpg';
 import Header from '../Share/Header';
 import Footer from '../Share/Footer';
 import { hanedleLoginUser, signUpNewUser, sendMailResetPassServices } from '../../services/UserService';
@@ -32,15 +25,10 @@ import ModalForgotPass from './ModalForgotPass';
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { getNewsByType } from '../../services/NewsServices';
 
 
 
-
-
-const options = [
-    { value: 0, label: 'Nữ' },
-    { value: 1, label: 'Nam' },
-];
 
 const schema = yup.object().shape({
     emailLogin: yup
@@ -97,9 +85,6 @@ function Login() {
         mode: "onBlur",
     });
 
-    const language = useSelector(selectLanguage);
-    const [birthday, setBirthday] = useState(null);
-    const [errMessage, setErrMessage] = useState('');
     const [allValues, setAllValues] = useState({
         email: '',
         password: '',
@@ -113,6 +98,7 @@ function Login() {
         address: '',
         errors: {},
         errPass: '',
+        allPromotionPost: null,
         gender: true,
         isShowLoadingLogin: false,
         isShowLoadingSignIn: false
@@ -145,12 +131,6 @@ function Login() {
         slidesToScroll: 1,
     };
 
-    // const changeLanguage = (language) => {
-    //     // fire redux event: actions
-
-    //     console.log(language);
-    //     dispatch(updateLanguage(language));
-    // }
 
     const toggleForgotPassModal = () => {
         setOpenModalForgotPass(isOpenModalForgotPass => !isOpenModalForgotPass)
@@ -160,12 +140,29 @@ function Login() {
         setAllValues({ ...allValues, birthday: date[0] })
     }
 
+    async function fetchDataPost() {
+
+        const dataPost = await getNewsByType(3);
+
+        console.log('dataPost: ', dataPost);
+
+        setAllValues((prevState) => ({
+            ...prevState,
+            allPromotionPost: dataPost.data,
+            isShowLoadingLogin: false
+        }));
+
+    }
+
+
 
     useEffect(() => {
 
         if (selectUser.isLoggedInUser) {
             history.push('/');
         }
+
+        fetchDataPost()
     }, []);
 
 
@@ -198,7 +195,7 @@ function Login() {
             // Lấy mã lỗi // 
             if (e.response) {
                 if (e.response.data) {
-                    setErrMessage(e.response.data);
+                    toast.error(e.response.data);
                 }
                 setAllValues((prevState) => ({
                     ...prevState,
@@ -342,21 +339,26 @@ function Login() {
                 <div className='row col-12'>
                     <div className='login-cus'>
                         <div className='form-login'>
-                            <h4 className='title-login'>Đăng nhập</h4>
+                            <h4 className='title-login'><FormattedMessage id="loginPage.login" /></h4>
                             <form onSubmit={handleSubmit(handleLogin)}>
                                 <div className="form-group">
-                                    <input
-                                        type="email"
-                                        className="form-control"
-                                        placeholder="Enter email"
-                                        name="emailLogin"
-                                        id="emailLogin"
-                                        onChange={changeHandler}
-                                        required
-                                        {...register("emailLogin", {
-                                            onChange: changeHandler
-                                        })}
-                                    />
+                                    <FormattedMessage id="loginPage.enterEmail">
+                                        {placeholder =>
+                                            <input
+                                                type="email"
+                                                className="form-control"
+                                                placeholder={placeholder}
+                                                name="emailLogin"
+                                                id="emailLogin"
+                                                onChange={changeHandler}
+                                                required
+                                                {...register("emailLogin", {
+                                                    onChange: changeHandler
+                                                })}
+                                            />
+                                        }
+                                    </FormattedMessage>
+
                                     {errors.emailLogin && errors.emailLogin.message &&
                                         <span className='errorInput'>{errors.emailLogin.message}</span>
                                     }
@@ -365,26 +367,32 @@ function Login() {
 
 
                                 <div className="form-group">
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        placeholder="Enter Password"
-                                        name="passwordLogin"
-                                        id="passwordLogin"
-                                        onChange={changeHandler}
-                                        onKeyDown={(e) => checkKeyDown(e)}
-                                        required
-                                        {...register("passwordLogin", {
-                                            onChange: changeHandler
-                                        })}
-                                    />
+                                    <FormattedMessage id="loginPage.enterPassword">
+                                        {placeholder =>
+                                            <input
+                                                type="password"
+                                                className="form-control"
+                                                placeholder={placeholder}
+                                                name="passwordLogin"
+                                                id="passwordLogin"
+                                                onChange={changeHandler}
+                                                onKeyDown={(e) => checkKeyDown(e)}
+                                                required
+                                                {...register("passwordLogin", {
+                                                    onChange: changeHandler
+                                                })}
+                                            />
+                                        }
+                                    </FormattedMessage>
+
+
                                     {errors.passwordLogin && errors.passwordLogin.message &&
                                         <span className='errorInput'>{errors.passwordLogin.message}</span>
                                     }
 
                                 </div>
 
-                                <Link className="link-forgot-pass" onClick={() => setOpenModalForgotPass(true)}>Quên mật khẩu ?</Link>
+                                <Link className="link-forgot-pass" onClick={() => setOpenModalForgotPass(true)}><FormattedMessage id="loginPage.forgotPass" /></Link>
                                 <div className='submit-container'>
                                     <div className='button-login-submit'>
                                         <Button {...allValues.isShowLoadingLogin && 'disabled'} className="btn btn-login" type='submit' >
@@ -403,7 +411,7 @@ function Login() {
                                             }
                                             {!allValues.isShowLoadingLogin &&
                                                 <>
-                                                    <span className="visually">Đăng nhập</span>
+                                                    <span className="visually"><FormattedMessage id="loginPage.login" /></span>
                                                 </>
                                             }
                                         </Button>
@@ -416,10 +424,10 @@ function Login() {
                     <div className='register-cus'>
                         <div className='form-register'>
                             <form onSubmit={handleSubmit2(handleSignInCustomer)}>
-                                <h4 className='title-register'>Đăng ký tài khoản</h4>
+                                <h4 className='title-register'><FormattedMessage id="loginPage.register" /></h4>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>Họ và tên</label>
-                                    <input type="text" className="form-control col-input"
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Họ và tên</label>
+                                    <input type="text" className="form-control col-9"
                                         placeholder="Nhập họ và tên" name='fullName'
                                         required
                                         value={allValues.fullName}
@@ -431,8 +439,8 @@ function Login() {
                                 </div>
 
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-label'>Email</label>
-                                    <input type="email" className="form-control col-input"
+                                    <label htmlFor="exampleInputEmail1" className='col-3'>Email</label>
+                                    <input type="email" className="form-control col-9"
                                         placeholder="Nhập email" name='email'
                                         value={allValues.email}
                                         required
@@ -484,11 +492,11 @@ function Login() {
                                     <div className='col-input' style={{ padding: 0 }}>
                                         <div class="form-check form-check-inline" style={{ marginRight: '50px' }}>
                                             <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" defaultChecked={allValues.gender} name="selectedGender" id="inlineRadio1" value='male' />
-                                            <label class="form-check-label" style={{ marginBottom: 0 }} for="inlineRadio1">Nam</label>
+                                            <label class="form-check-label" style={{ marginBottom: 0 }} for="inlineRadio1"><FormattedMessage id="loginPage.male" /></label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" name="selectedGender" defaultChecked={!allValues.gender} id="inlineRadio2" value='female' />
-                                            <label class="form-check-label" style={{ marginBottom: 0 }} for="inlineRadio2">Nữ</label>
+                                            <label class="form-check-label" style={{ marginBottom: 0 }} for="inlineRadio2"><FormattedMessage id="loginPage.female" /></label>
                                         </div>
                                     </div>
 
@@ -601,8 +609,8 @@ function Login() {
 
                                 <div className='submit-container'>
                                     <div className='col-3'></div>
-                                    <div className='button-register-submit col-9'>
-                                        <Button variant="primary" {...allValues.isShowLoadingSignIn && 'disabled'} className="btn btn-register" type='submit' >
+                                    <div className='button-register-submit col-label'>
+                                        <Button variant="primary" {...allValues.isShowLoadingSignIn && 'disabled'} className="btn btn-register col-input" type='submit' >
                                             {allValues.isShowLoadingSignIn &&
                                                 <>
                                                     <Spinner
@@ -635,30 +643,23 @@ function Login() {
 
             <div className='khuyen-mai-container'>
                 <div className='advertising-title'>
-                    <h3>Thông tin khuyến mãi</h3>
+                    <h3><FormattedMessage id="homeHeader.promotionNews" />  </h3>
                 </div>
 
                 <div className='advertising-body'>
                     <Slider {...settings}>
-                        <div>
-                            <img src={quang_cao_1} />
-                        </div>
-                        <div>
-                            <img src={quang_cao_2} />
-                        </div>
-                        <div>
-                            <img src={quang_cao_3} />
-                        </div>
-                        <div>
-                            <img src={quang_cao_4} />
-                        </div>
-                        <div>
-                            <img src={quang_cao_2} />
-                        </div>
-                        <div>
-                            <img src={quang_cao_1} />
-                        </div>
+                        {allValues.allPromotionPost && allValues.allPromotionPost.length > 0 &&
+                            allValues.allPromotionPost.map((item, index) => {
+                                if (index < 5) {
+                                    return (
+                                        <div>
+                                            <img src={item.thumbnail} className='img' />
+                                        </div>
+                                    )
+                                }
+                            })
 
+                        }
 
                     </Slider>
                 </div>

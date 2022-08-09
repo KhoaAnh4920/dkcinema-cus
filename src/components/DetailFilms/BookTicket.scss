@@ -420,8 +420,10 @@
                 width: 75%;
 
                 .row-title {
+
                     .detail {
-                        width: 100%;
+                        width         : 100%;
+                        flex-direction: column !important;
 
                         ul {
                             list-style-type: none;

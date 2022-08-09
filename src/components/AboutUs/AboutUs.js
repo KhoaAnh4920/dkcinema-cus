@@ -1,10 +1,43 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Share/Header';
 import Footer from '../../components/Share/Footer';
 import FilmShowing from '../../components/Share/FilmShowing';
 import { Link } from 'react-router-dom';
 import "./AboutUs.scss";
+import InCommingFilms from '../Share/InCommingFilms';
+import { getListMovieByStatus } from '../../services/MovieServices';
+
+
+
 function AboutUs() {
+    const [allValues, setAllValues] = useState({
+        dataMovieUpcoming: null
+    });
+
+    useEffect(() => {
+        fetchDataMovie()
+
+
+    }, []);
+
+
+    async function fetchDataMovie() {
+        let dataMovieUpcoming = await getListMovieByStatus(1, 1, 6);
+
+        if (dataMovieUpcoming && dataMovieUpcoming.data && dataMovieUpcoming.data.length > 0) {
+            dataMovieUpcoming = dataMovieUpcoming.data.slice(0, 3)
+        } else
+            dataMovieUpcoming = []
+
+        setAllValues((prevState) => ({
+            ...prevState,
+            dataMovieUpcoming: dataMovieUpcoming,
+            isShowLoading: false,
+        }))
+    }
+
+
+
     return (
         <>
             <Header />
@@ -22,7 +55,7 @@ function AboutUs() {
                             </ol>
                         </div>
                         <div className='title-about'>
-                            <h3>về chúng tôi</h3>
+                            <h5>về chúng tôi</h5>
                         </div>
                         <div className='content-about'>
                             <p>
@@ -39,7 +72,10 @@ function AboutUs() {
                             </p>
                         </div>
                     </div>
-                    <FilmShowing />
+                    {/* <FilmShowing /> */}
+                    <InCommingFilms
+                        dataMovieUpcoming={allValues.dataMovieUpcoming}
+                    />
                 </div>
             </div>
             <Footer />

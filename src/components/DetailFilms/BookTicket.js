@@ -15,7 +15,6 @@ import { faAngleDoubleRight, faPlayCircle, faStar } from '@fortawesome/free-soli
 import Plyr from 'plyr-react'
 import 'plyr-react/dist/plyr.css'
 import "react-modal-video/scss/modal-video.scss";
-import { FacebookProvider, Like } from 'react-facebook';
 import './BookTicket.scss';
 // Import css files
 import "slick-carousel/slick/slick.css";
@@ -201,7 +200,6 @@ function BookTicketThrough() {
             })
 
             finalSchedule = res.filter(item => item.status === 0);
-
             finalSchedule = groupBy(finalSchedule, "movieTheaterId");
         }
 
@@ -311,12 +309,7 @@ function BookTicketThrough() {
                     }
                     return item;
                 }
-
-
-
             })
-
-
 
             finalSchedule = res.filter(item => item.status === 0);
 
@@ -432,6 +425,8 @@ function BookTicketThrough() {
             ...provided,
             marginTop: 2,
         }),
+        menuPortal: provided => ({ ...provided, zIndex: 9999 }),
+        menu: provided => ({ ...provided, zIndex: 9999 })
     };
 
 
@@ -604,29 +599,29 @@ function BookTicketThrough() {
                                     <div className='row row-info-detail'>
                                         <ul>
                                             <li>
-                                                <div className='info-left'>Nhà sản xuất</div>
+                                                <div className='info-left'><FormattedMessage id="moviePage.producer" /></div>
                                                 <div className='info-right'>{(allValues.dataMovie && allValues.dataMovie.brand) ? allValues.dataMovie.brand : ''}</div>
                                             </li>
                                             <li>
-                                                <div className='info-left'>Đạo diễn</div>
+                                                <div className='info-left'><FormattedMessage id="moviePage.director" /></div>
                                                 <div className='info-right'>{(allValues.dataMovie && allValues.dataMovie.director) ? allValues.dataMovie.director : ''}</div>
                                             </li>
                                             <li>
-                                                <div className='info-left'>Thể loại</div>
+                                                <div className='info-left'><FormattedMessage id="moviePage.type" /></div>
                                                 <div className='info-right'>
                                                     {(allValues.dataMovie && allValues.dataMovie.type) ? allValues.dataMovie.type : ''}
                                                 </div>
                                             </li>
                                             <li>
-                                                <div className='info-left'>Diễn viên</div>
+                                                <div className='info-left'><FormattedMessage id="moviePage.actor" /></div>
                                                 <div className='info-right'>{(allValues.dataMovie && allValues.dataMovie.cast) ? allValues.dataMovie.cast : ''}</div>
                                             </li>
                                             <li>
-                                                <div className='info-left'>Quốc gia</div>
+                                                <div className='info-left'><FormattedMessage id="moviePage.country" /></div>
                                                 <div className='info-right'>{(allValues.dataMovie && allValues.dataMovie.country) ? allValues.dataMovie.country : ''}</div>
                                             </li>
                                             <li>
-                                                <div className='info-left'>Ngày khởi chiếu</div>
+                                                <div className='info-left'><FormattedMessage id="moviePage.releaseDate" /></div>
                                                 <div className='info-right'>{(allValues.dataMovie && allValues.dataMovie.releaseTime) ? moment(allValues.dataMovie.releaseTime).format('DD/MM/YYYY') : ''}</div>
                                             </li>
                                         </ul>
@@ -652,7 +647,7 @@ function BookTicketThrough() {
                     <div className='row row-book'>
                         <div className='box col-left'>
                             <div className='title'>
-                                <h5>nội dung phim</h5>
+                                <h5><FormattedMessage id="moviePage.movieContent" /></h5>
                             </div>
                             <div className='content'>
                                 <p style={{ fontSize: '13px' }}>
@@ -669,7 +664,7 @@ function BookTicketThrough() {
 
 
                             <div className='title' style={{ marginTop: '30px' }}>
-                                <h5>lịch chiếu</h5>
+                                <h5><FormattedMessage id="moviePage.schedule" /></h5>
                             </div>
                             <div className='combobox-group col-12'>
                                 <div className='row row-combobox'>

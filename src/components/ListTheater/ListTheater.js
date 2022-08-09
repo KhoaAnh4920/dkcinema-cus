@@ -345,7 +345,8 @@ function ListTheater() {
         let address = '';
         let phoneNumber = '';
         let tenRap = '';
-
+        let lat = null;
+        let lng = null;
         let listMovieTheater = [];
 
         if (dataMovieTheater && dataMovieTheater.movie) {
@@ -358,6 +359,11 @@ function ListTheater() {
             address = dataMovieTheater.movie[0].address + ', ' + location.selectedWard.label + ', ' + location.selectedDistrict.label + ', ' + location.selectedCity.label;
             phoneNumber = dataMovieTheater.movie[0].soDienThoai;
             tenRap = dataMovieTheater.movie[0].tenRap;
+
+            // gg map //
+
+
+
         }
 
 
@@ -437,6 +443,7 @@ function ListTheater() {
         // console.log('finalSchedule: ', finalSchedule);
 
 
+        console.log('lat lng: ', lat, lng)
 
         setAllValues((prevState) => ({
             ...prevState,
@@ -449,12 +456,30 @@ function ListTheater() {
             address,
             phoneNumber,
             tenRap,
-            arrImage: (dataMovieTheater && dataMovieTheater.movie && dataMovieTheater.movie[0].MovieTheaterImage.length > 0) ? dataMovieTheater.movie[0].MovieTheaterImage : []
+            arrImage: (dataMovieTheater && dataMovieTheater.movie && dataMovieTheater.movie[0].MovieTheaterImage.length > 0) ? dataMovieTheater.movie[0].MovieTheaterImage : [],
         }))
 
+
+        console.log('address: ', address)
+
+
+        axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyC50PpD45fzUWVnBECoMjjYrmfOJluOlAY`)
+            .then(res => {
+                if (res.data && res.data.results) {
+                    console.log('res: ', res.data.results)
+                    lat = res.data.results[0].geometry.location.lat;
+                    lng = res.data.results[0].geometry.location.lng;
+                }
+                setAllValues((prevState) => ({
+                    ...prevState,
+                    lat: lat,
+                    lng: lng
+                }))
+
+            })
+            .catch(error => console.log(error));
+
     }
-
-
 
 
 
