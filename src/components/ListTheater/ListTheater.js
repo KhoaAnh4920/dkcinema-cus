@@ -14,9 +14,7 @@ import { FaRegClock } from "react-icons/fa";
 import { getListScheduleByTheater } from '../../services/ScheduleService';
 import { useSelector } from "react-redux";
 import { userState } from "../../redux/userSlice";
-import { getMovieById } from '../../services/MovieServices';
 import { getListTheater } from '../../services/MovieTheaterServices';
-import { getListMovieByStatus } from '../../services/MovieServices';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { useHistory } from "react-router-dom";
@@ -217,15 +215,15 @@ function ListTheater() {
                     let m2 = moment(item.endTime).format("mm");
 
                     if ((h1 < h || h1 == h && m1 <= m) && (h < h2 || h == h2 && m <= m2)) {
-                        console.log("Dang chieu")
+                        //   console.log("Dang chieu")
                         item.status = 1
                     }
                     else if (h < h1) {
-                        console.log("Sap chieu");
+                        //   console.log("Sap chieu");
                         item.status = 0
                     } else {
                         item.status = 2
-                        console.log("Da chieu")
+                        //  console.log("Da chieu")
                     }
 
                 }
@@ -313,15 +311,15 @@ function ListTheater() {
                     let m2 = moment(item.endTime).format("mm");
 
                     if ((h1 < h || h1 == h && m1 <= m) && (h < h2 || h == h2 && m <= m2)) {
-                        console.log("Dang chieu")
+                        //  console.log("Dang chieu")
                         item.status = 1
                     }
                     else if (h < h1) {
-                        console.log("Sap chieu");
+                        //   console.log("Sap chieu");
                         item.status = 0
                     } else {
                         item.status = 2
-                        console.log("Da chieu")
+                        //  console.log("Da chieu")
                     }
 
                 }
@@ -419,15 +417,15 @@ function ListTheater() {
                     let m2 = moment(item.endTime).format("mm");
 
                     if ((h1 < h || h1 == h && m1 <= m) && (h < h2 || h == h2 && m <= m2)) {
-                        console.log("Dang chieu")
+                        //   console.log("Dang chieu")
                         item.status = 1
                     }
                     else if (h < h1) {
-                        console.log("Sap chieu");
+                        //  console.log("Sap chieu");
                         item.status = 0
                     } else {
                         item.status = 2
-                        console.log("Da chieu")
+                        //   console.log("Da chieu")
                     }
 
                 }
@@ -439,11 +437,6 @@ function ListTheater() {
 
             finalSchedule = groupBy(finalSchedule, "movieId");
         }
-
-        // console.log('finalSchedule: ', finalSchedule);
-
-
-        console.log('lat lng: ', lat, lng)
 
         setAllValues((prevState) => ({
             ...prevState,
@@ -460,13 +453,9 @@ function ListTheater() {
         }))
 
 
-        console.log('address: ', address)
-
-
         axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=AIzaSyC50PpD45fzUWVnBECoMjjYrmfOJluOlAY`)
             .then(res => {
                 if (res.data && res.data.results) {
-                    console.log('res: ', res.data.results)
                     lat = res.data.results[0].geometry.location.lat;
                     lng = res.data.results[0].geometry.location.lng;
                 }
@@ -512,7 +501,7 @@ function ListTheater() {
 
 
     const handleClickSchedule = (schedule, movie) => {
-        console.log('movie: ', movie)
+        //  console.log('movie: ', movie)
         if (!allValues.isLoginUser) {
             toast.error("Vui lòng đăng nhập để đặt vé");
             history.push('/login')

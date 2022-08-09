@@ -23,19 +23,7 @@ import { FormattedMessage } from 'react-intl';
 function ReviewFilms() {
     let history = useHistory();
     let selectUser = useSelector(userState);
-    // const redirectReview = () => {
-    //     history.push("/review-phim");
-    // }
-    // const language = useSelector(selectLanguage);
-    // const dispatch = useDispatch();
 
-
-    // const changeLanguage = (language) => {
-    //     // fire redux event: actions
-
-    //     console.log(language);
-    //     dispatch(updateLanguage(language));
-    // }
 
 
     const [allNews, setAllNews] = useState({
@@ -82,26 +70,11 @@ function ReviewFilms() {
             ...prevState,
             id: item.id
         }))
-        // console.log('hovering: ', hovering);
     }
 
 
-    const handleMouseLeave = (indexNews) => {
-        console.log('Leave chay: ', indexNews)
-        let res = hovering.map((item, index) => {
-            if (item.indexInit === indexNews) {
-                console.log('item: ', item)
-                console.log(item.isShow)
-                console.log('AAA: ', !item.isShow);
-                item.isShow = !item.isShow;
-                return item;
-            }
-
-        })
 
 
-        setHovering(res);
-    }
     const getDetailReview = (id) => {
         history.push(`/chi-tiet-review/${id}`);
     }
@@ -148,7 +121,6 @@ function ReviewFilms() {
                 isLoginUser: selectUser.isLoggedInUser,
             }))
         } else {
-            console.log('else')
             setAllNews((prevState) => ({
                 ...prevState,
                 isLoginUser: selectUser.isLoggedInUser,
@@ -162,8 +134,6 @@ function ReviewFilms() {
 
     const votePostRating = async (data) => {
 
-        console.log(allNews)
-
         if (!allNews.isLoginUser) {
             toast.warning('Vui lòng đăng nhập để thực hiện')
             return
@@ -176,10 +146,8 @@ function ReviewFilms() {
             newsId: allNews.id
         })
 
-        console.log('res: ', res)
-
         if (res && res.errCode === 0) {
-            toast.success("Thank you")
+            toast.success("Cám ơn bạn đã vote")
 
         } else {
             toast.error(res.errMessage);
@@ -246,7 +214,6 @@ function ReviewFilms() {
                                                             </li>
                                                             <li><button className='btn btn-warning btn-review' onClick={() => handleMouseOver(index, item)}>Đánh giá</button></li>
                                                             {
-                                                                // console.log('hovering[index]: ', (hovering[index] && hovering[index].isShow) ? hovering[index].isShow : false)
                                                                 hovering[index] && hovering[index].isShow && <Ratings checkClick={votePostRating} />
                                                             }
                                                         </ul>
@@ -257,32 +224,6 @@ function ReviewFilms() {
                                     })
 
                                 }
-                                {/* <div className='blog'>
-                                <div className='movie-thumb'>
-                                    <img src={doctor_review} className="img-review" data-was-processed="true" />
-                                </div>
-                                <div className='content-title' style={{ flexDirection: 'column' }}>
-                                    <h5>
-                                        <Link to='/chi-tiet-review' className='link'> [Review] Doctor Strange 2: Strange Đối Đầu Kẻ Ác Mạnh Nhất MCU?</Link>
-                                    </h5>
-                                    <div className='summary'>
-                                        kkkk
-                                    </div>
-                                    <div className='row row-fc'>
-                                        <ul className='list-fc'>
-                                            <li><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li>
-                                            <li>
-                                                <div class="rating-movie rating-home">
-                                                    <span class="rating-value">
-                                                        <strong class="review-home ng-binding" style={{ fontSize: '12pt' }}>9.5/10</strong>
-                                                    </span>
-                                                </div>
-                                            </li>
-                                            <li><button className='btn btn-warning btn-review'>Đánh giá</button></li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div> */}
                             </div>
                         </div>
 

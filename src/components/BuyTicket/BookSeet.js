@@ -365,7 +365,7 @@ function BookSeet() {
         for (let i = 0; i < resTest.length; i++) {
             let item = resTest[i];
             let preSeet = findItemSeet(item, item.pos - 1);
-            console.log('preSeet: ', preSeet);
+            //  console.log('preSeet: ', preSeet);
 
             if (preSeet) {
                 let testIsBook = res.includes(preSeet.id)
@@ -419,8 +419,8 @@ function BookSeet() {
 
         }
 
-        console.log('resSeet: ', resSeet);
-        console.log('result: ', result);
+        // console.log('resSeet: ', resSeet);
+        // console.log('result: ', result);
 
         // call api save booking //
         let dataBooking = await handleCreateBookingTicket({
@@ -437,7 +437,7 @@ function BookSeet() {
             combo: result
         });
 
-        console.log('dataBooking: ', dataBooking);
+        //   console.log('dataBooking: ', dataBooking);
 
         if (dataBooking && dataBooking.errCode === 0) {
             // save redux //

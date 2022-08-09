@@ -328,7 +328,7 @@ function Payment() {
             phoneNumber: allValues.phoneNumber
         })
 
-        console.log('res: ', res);
+        //  console.log('res: ', res);
 
         if (res && res.statusCode === 200 && res.data) {
             // console.log('res data: ', res.data);
@@ -402,13 +402,13 @@ function Payment() {
 
 
     const handleGoBack = async () => {
-        console.log(allValues);
+        //  console.log(allValues);
         // CALL API DELETE BOOKING //
         clearInterval(allValues.intervalId);
         localStorage.removeItem("seconds");
         localStorage.removeItem("minutes");
         let res = await handleDeleteBooking(allValues.bookingId);
-        console.log("res: ", res);
+        //  console.log("res: ", res);
         if (res && res.errCode === 0) {
             dispatch(updateDataBooking(null));
             history.push('/lich-chieu');

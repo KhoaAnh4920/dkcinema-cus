@@ -125,7 +125,7 @@ function DetailReviewFilm() {
             newsId: id
         })
 
-        console.log('res: ', res)
+        // console.log('res: ', res)
 
         if (res && res.errCode === 0) {
             toast.success("Thank you")
@@ -137,7 +137,7 @@ function DetailReviewFilm() {
     }
 
     const voteRatingComment = (data) => {
-        console.log("Check vote comment: ", data);
+        //  console.log("Check vote comment: ", data);
 
         setAllValuesDetail((prevState) => ({
             ...prevState,

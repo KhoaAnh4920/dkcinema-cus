@@ -15,21 +15,6 @@ function SearchBar({ placeholder, data }) {
     const [keyEnter, setKeyEntr] = useState("");
     const [isShowLoading, setIsShowLoading] = useState(false)
 
-    const handleFilter = async (e) => {
-
-        const kw = e.target.value;
-        console.log('kw:', kw);
-
-        setKeyEntr(kw);
-
-        let dataMovie = await getSearchMovie(keyEnter);
-
-        console.log('dataMovie: ', dataMovie)
-
-
-
-
-    };
 
 
 
@@ -64,14 +49,9 @@ function SearchBar({ placeholder, data }) {
 
 
 
-    const clearCmm = () => {
-        setFilterData([]);
-        setKeyEntr("");
-    };
-
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
-            console.log('key: ', keyEnter);
+            //  console.log('key: ', keyEnter);
 
             history.push(`/tim-kiem?keyword=${keyEnter}`)
             // window.location.reload();
@@ -100,7 +80,6 @@ function SearchBar({ placeholder, data }) {
                             filterData.length === 0 ? (
                                 <FaSearch />
                             ) : (
-                                //<FaPlus className='clearBtn' onClick={clearCmm} />
                                 <FaSearch />
                             )}
                     </div>

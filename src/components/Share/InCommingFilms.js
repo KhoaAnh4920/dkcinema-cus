@@ -52,8 +52,6 @@ export default function InCommingFilms(props) {
                                     <p className='eng'>{item.transName}</p>
                                 </div>
                             </>
-
-
                         )
 
                     })

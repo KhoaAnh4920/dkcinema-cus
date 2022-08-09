@@ -149,7 +149,7 @@ function BuyTicket() {
 
 
     const handleClickFilms = (id) => {
-        console.log(id);
+        // console.log(id);
 
         if (allValues.listSchedule.length > 0) {
             setAllValues((prevState) => ({
@@ -200,7 +200,7 @@ function BuyTicket() {
 
                 let testSchedule = sortedActivities;
 
-                console.log('testSchedule: ', testSchedule)
+                // console.log('testSchedule: ', testSchedule)
 
                 let timeNow = moment();
                 let res = testSchedule.map((item, index) => {
@@ -242,15 +242,15 @@ function BuyTicket() {
                         let m2 = moment(item.endTime).format("mm");
 
                         if ((h1 < h || h1 == h && m1 <= m) && (h < h2 || h == h2 && m <= m2)) {
-                            console.log("Dang chieu")
+                            // console.log("Dang chieu")
                             item.status = 1
                         }
                         else if (h < h1) {
-                            console.log("Sap chieu");
+                            //  console.log("Sap chieu");
                             item.status = 0
                         } else {
                             item.status = 2
-                            console.log("Da chieu")
+                            //  console.log("Da chieu")
                         }
 
                     }
@@ -262,7 +262,7 @@ function BuyTicket() {
 
                 let listSchedule = groupBy(finalSchedule, "premiereDate");
 
-                console.log('listSchedule: ', listSchedule)
+                // console.log('listSchedule: ', listSchedule)
 
                 setAllValues((prevState) => ({
                     ...prevState,

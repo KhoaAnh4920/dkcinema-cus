@@ -144,7 +144,7 @@ function Login() {
 
         const dataPost = await getNewsByType(3);
 
-        console.log('dataPost: ', dataPost);
+        //  console.log('dataPost: ', dataPost);
 
         setAllValues((prevState) => ({
             ...prevState,
@@ -222,24 +222,22 @@ function Login() {
 
 
     const onGenderChanged = e => {
-        console.log(e.target.value);
+        //  console.log(e.target.value);
         let gender = true;
         (e.target.value === 'male') ? gender = true : gender = false;
 
-        console.log(gender);
 
-
-        // setAllValues((preState) => ({
-        //     ...preState,
-        //     gender: e.currentTarget.value
-        // }))
+        setAllValues((preState) => ({
+            ...preState,
+            gender: e.currentTarget.value
+        }))
     }
 
 
 
     const handleSignInCustomer = async () => {
 
-        console.log(allValues);
+        //  console.log(allValues);
         if (allValues.password !== allValues.rePassword) {
             toast.error("Mật khẩu không trùng khớp");
             return;
@@ -309,7 +307,7 @@ function Login() {
 
 
     const handleSendMailResetPass = async (data) => {
-        console.log("Check data from modal: ", data);
+        //   console.log("Check data from modal: ", data);
         if (data) {
             let res = await sendMailResetPassServices({
                 email: data.email
