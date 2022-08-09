@@ -340,7 +340,7 @@ function Login() {
 
             <div className='loginPage-container'>
                 <div className='row col-12'>
-                    <div className='login-cus col-5'>
+                    <div className='login-cus'>
                         <div className='form-login'>
                             <h4 className='title-login'>Đăng nhập</h4>
                             <form onSubmit={handleSubmit(handleLogin)}>
@@ -413,13 +413,13 @@ function Login() {
                             </form>
                         </div>
                     </div>
-                    <div className='register-cus col-7'>
+                    <div className='register-cus'>
                         <div className='form-register'>
                             <form onSubmit={handleSubmit2(handleSignInCustomer)}>
                                 <h4 className='title-register'>Đăng ký tài khoản</h4>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Họ và tên</label>
-                                    <input type="text" className="form-control col-9"
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>Họ và tên</label>
+                                    <input type="text" className="form-control col-input"
                                         placeholder="Nhập họ và tên" name='fullName'
                                         required
                                         value={allValues.fullName}
@@ -431,8 +431,8 @@ function Login() {
                                 </div>
 
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Email</label>
-                                    <input type="email" className="form-control col-9"
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>Email</label>
+                                    <input type="email" className="form-control col-input"
                                         placeholder="Nhập email" name='email'
                                         value={allValues.email}
                                         required
@@ -443,8 +443,8 @@ function Login() {
 
                                 </div>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Mật khẩu</label>
-                                    <input type="password" className="form-control col-9"
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>Mật khẩu</label>
+                                    <input type="password" className="form-control col-input"
                                         placeholder="Nhập mật khẩu" name='password'
                                         value={allValues.password}
                                         required
@@ -455,8 +455,8 @@ function Login() {
 
                                 </div>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Nhập lại mật khẩu</label>
-                                    <input type="password" className="form-control col-9"
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>Nhập lại mật khẩu</label>
+                                    <input type="password" className="form-control col-input"
                                         placeholder="Nhập lại mật khẩu" name='rePassword'
                                         value={allValues.rePassword}
                                         required
@@ -468,8 +468,8 @@ function Login() {
 
                                 </div>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Số điện thoại</label>
-                                    <input type="text" className="form-control col-9"
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>Số điện thoại</label>
+                                    <input type="text" className="form-control col-input"
                                         placeholder="Nhập số điện thoại" name='phone'
                                         required
                                         value={allValues.phone}
@@ -480,8 +480,8 @@ function Login() {
 
                                 </div>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Giới tính</label>
-                                    <div className='col-9' style={{ padding: 0 }}>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>Giới tính</label>
+                                    <div className='col-input' style={{ padding: 0 }}>
                                         <div class="form-check form-check-inline" style={{ marginRight: '50px' }}>
                                             <input class="form-check-input" onClick={(e) => onGenderChanged(e)} type="radio" defaultChecked={allValues.gender} name="selectedGender" id="inlineRadio1" value='male' />
                                             <label class="form-check-label" style={{ marginBottom: 0 }} for="inlineRadio1">Nam</label>
@@ -494,10 +494,10 @@ function Login() {
 
                                 </div>
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Ngày sinh</label>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>Ngày sinh</label>
                                     <DatePicker
                                         onChange={handleOnChangeDatePicker}
-                                        className="form-control"
+                                        className="form-control col-input"
                                         name="birthday"
                                         value={allValues.birthday}
                                     />
@@ -505,15 +505,15 @@ function Login() {
                                 </div>
 
                                 <div className="form-group col-12" style={{ padding: '10px 0px' }}>
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>ĐỊA CHỈ LIÊN HỆ</label>
-                                    <div className='strikethrough col-9'>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>ĐỊA CHỈ LIÊN HỆ</label>
+                                    <div className='strikethrough col-input'>
                                         <span className='line'></span>
                                     </div>
 
                                 </div>
 
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Tỉnh / Thành Phố</label>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>Tỉnh / Thành Phố</label>
                                     {/* <Select
                                     className='select-gender col-9'
                                     defaultValue={selectedOption}
@@ -521,7 +521,7 @@ function Login() {
                                     options={options}
                                 /> */}
                                     <Select
-                                        className='select-gender col-9'
+                                        className='select-gender col-input'
                                         name="cityId"
                                         key={`cityId_${selectedCity?.value}`}
                                         isDisabled={cityOptions.length === 0}
@@ -534,7 +534,7 @@ function Login() {
                                 </div>
 
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Quận / Huyện</label>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>Quận / Huyện</label>
                                     {/* <Select
                                     className='select-gender col-9'
                                     defaultValue={selectedOption}
@@ -543,7 +543,7 @@ function Login() {
                                 /> */}
 
                                     <Select
-                                        className='select-gender col-9'
+                                        className='select-gender col-input'
                                         name="districtId"
                                         key={`districtId_${selectedDistrict?.value}`}
                                         isDisabled={districtOptions.length === 0}
@@ -556,10 +556,10 @@ function Login() {
                                 </div>
 
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Phường / Xã</label>
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>Phường / Xã</label>
 
                                     <Select
-                                        className='select-gender col-9'
+                                        className='select-gender col-input'
                                         name="wardId"
                                         key={`wardId_${selectedWard?.value}`}
                                         isDisabled={wardOptions.length === 0}
@@ -572,8 +572,8 @@ function Login() {
                                 </div>
 
                                 <div className="form-group col-12">
-                                    <label htmlFor="exampleInputEmail1" className='col-3'>Số nhà và tên đường</label>
-                                    <input type="text" className="form-control col-9"
+                                    <label htmlFor="exampleInputEmail1" className='col-label'>Số nhà và tên đường</label>
+                                    <input type="text" className="form-control col-input"
                                         onChange={changeHandler}
                                         placeholder="Nhập địa chỉ nhà"
                                         name='address'

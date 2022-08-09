@@ -1,12 +1,324 @@
+@media only screen and (max-width:480px) {
+    .con-theater {
+        padding: 0 !important;
+        width  : 100% !important;
+
+        .slick-next {
+            background: url('https://www.galaxycine.vn/website/images/ic_next.png') center center no-repeat !important;
+            height    : 100%;
+            width     : 12%;
+            display   : block;
+
+            &::before {
+                display: none;
+            }
+        }
+
+        .slick-prev {
+
+            z-index    : 100;
+            background : url('https://www.galaxycine.vn/website/images/ic_prev.png') center center no-repeat !important;
+            height     : 100%;
+            width      : 3%;
+            display    : block;
+            margin-left: 50px;
+
+            &::before {
+                display: none;
+            }
+        }
+
+        .row-bread {
+            display    : flex;
+            margin-left: 0 !important;
+            margin-top : 10px;
+
+            .list-bread {
+                font-weight: lighter;
+
+                ol {
+
+                    display        : flex;
+                    list-style-type: none;
+
+                    a {
+                        color: #a0a3a7;
+                    }
+
+
+                }
+            }
+
+        }
+
+        .row-slider {
+            //padding-top: 10px;
+            display: flex;
+            padding: 0 10px 0 10px !important;
+
+            .slick-slider {
+                //padding-top: 30px;
+                width : 100% !important;
+                margin: 0 auto;
+
+                .slick-arrow {
+                    background-color: rgb(154, 154, 154);
+                    border-radius   : 10px;
+                }
+
+                .slick-list {
+                    text-align: center;
+
+                    .slick-track {
+                        img {
+                            margin: auto;
+                            width : 90%;
+                            height: 200px;
+                        }
+
+                    }
+                }
+            }
+
+            .slick-dots {
+                //bottom: -45px;
+
+                li button {
+                    //margin-top: 10px;
+                    display: none;
+
+                    &::before {
+                        color    : #fff;
+                        font-size: 10px;
+                    }
+                }
+            }
+
+        }
+
+        .row-film {
+            margin-top    : 30px;
+            //padding-left: 100px;
+            margin-left   : 0 !important;
+            flex-direction: column !important;
+            width         : 100% !important;
+
+            .col-film-left {
+                width  : 100% !important;
+                padding: 20px;
+
+                .row-title-1 {
+                    margin-bottom: 30px;
+
+                    h5 {
+                        position      : relative;
+                        text-transform: uppercase;
+                        font-size     : 13pt;
+                        color         : #000000;
+                        font-weight   : bold;
+                    }
+
+                    &:after {
+                        content   : "";
+                        position  : absolute;
+                        display   : block;
+                        margin-top: 21px;
+                        width     : 15%;
+                        height    : 3px;
+                        background: #fcaf17;
+                    }
+                }
+
+                .row-input {
+                    margin-left: -25px;
+
+                    .date-input {
+                        .form-coltrol {
+                            height    : 55px;
+                            text-align: center;
+                        }
+                    }
+
+                    .select-input {
+                        .form-coltrol {
+                            height: 55px;
+                        }
+                    }
+                }
+
+                .row-theater-cal {
+                    width     : 100%;
+                    margin-top: 20px;
+
+                    .__image-theater {
+                        width: 20%;
+
+                        img {
+                            width : 100px;
+                            height: 150px;
+                        }
+                    }
+
+                    .infor-film {
+                        width: 80%;
+
+                        .title {
+                            margin-left  : 10px;
+                            font-size    : 15px;
+                            font-weight  : bold;
+                            margin-bottom: 10px;
+                        }
+
+                        .date-time {
+                            font-size    : 12px;
+                            margin-bottom: 10px;
+
+                            .date {
+                                margin-left: 10px;
+
+                            }
+
+                            .time {
+                                margin-left: 50px;
+
+                            }
+                        }
+
+                        .type-show {
+                            display    : flex;
+                            align-items: mi;
+
+                            padding-left: 10px;
+                            width       : 100%;
+                            padding-top : 10px;
+
+                            span {
+                                width: 20%;
+
+                            }
+
+                            .btn-group {
+                                display  : flex;
+                                gap      : 15px;
+                                flex-wrap: wrap;
+                                padding  : 0px 0px 0px 10px;
+
+                                button {
+
+                                    // background-color: #fff;
+                                    // border: 1px solid #c4c4c4;
+                                    // margin: 20px;
+                                    padding         : 3px 3px;
+                                    border          : none;
+                                    outline         : none;
+                                    background-color: #fff04b;
+                                    min-width       : 75px;
+                                    font-size       : 11px;
+                                    border-radius   : 3px;
+                                    font-weight     : 600;
+                                    color           : #333;
+
+                                    &:hover {
+                                        background-color: #ebcf93;
+                                        color           : #000;
+                                    }
+
+                                }
+
+                                .btn-vie {
+                                    min-width: 75px;
+                                }
+                            }
+                        }
+
+
+
+                        // .schedule {
+                        //     button {
+                        //         margin: 10px;
+                        //         border: 1px solid #000000;
+                        //         width: 60px;
+                        //         height: 40px;
+                        //         border-radius: 10px;
+                        //         background-color: #ffffff;
+
+                        //         &:hover {
+                        //             background-color: #fcaf17;
+                        //             color: #ffffff;
+                        //         }
+                        //     }
+                        // }
+                    }
+                }
+
+                .combobox-group {
+                    .row-combobox {
+
+                        .date {
+                            display     : flex;
+                            padding-left: 0px;
+
+                            input {
+                                width        : 100%;
+                                align-items  : center;
+                                border       : 1px solid #c4c4c4;
+                                border-radius: 5px;
+                                height       : 36px;
+                            }
+
+                            .flatpickr-input {
+                                height: 37px;
+
+                            }
+                        }
+                    }
+                }
+            }
+
+            .col-film-right {
+                width  : 100% !important;
+                padding: 20px;
+
+                .row-title-2 {
+                    h5 {
+                        position      : relative;
+                        text-transform: uppercase;
+                        font-size     : 13pt;
+                        color         : #000000;
+                        font-weight   : bold;
+                        margin-bottom : 0;
+                    }
+
+                    &:after {
+                        content      : "";
+                        position     : absolute;
+                        display      : block;
+                        // margin-top: 21px;
+                        width        : 25%;
+                        height       : 3px;
+                        background   : #fcaf17;
+                        margin-bottom: 10px;
+                    }
+                }
+
+                .info-theater {
+                    margin-top   : 30px;
+                    margin-bottom: 30px;
+                }
+            }
+        }
+    }
+}
+
 .con-theater {
-    padding: 10px 70px;
+    padding  : 10px 70px;
     max-width: 1400px;
 
     .slick-next {
         background: url('https://www.galaxycine.vn/website/images/ic_next.png') center center no-repeat !important;
-        height: 100%;
-        width: 12%;
-        display: block;
+        height    : 100%;
+        width     : 12%;
+        display   : block;
 
         &::before {
             display: none;
@@ -15,11 +327,11 @@
 
     .slick-prev {
 
-        z-index: 100;
-        background: url('https://www.galaxycine.vn/website/images/ic_prev.png') center center no-repeat !important;
-        height: 100%;
-        width: 3%;
-        display: block;
+        z-index    : 100;
+        background : url('https://www.galaxycine.vn/website/images/ic_prev.png') center center no-repeat !important;
+        height     : 100%;
+        width      : 3%;
+        display    : block;
         margin-left: 50px;
 
         &::before {
@@ -28,16 +340,16 @@
     }
 
     .row-bread {
-        display: flex;
+        display    : flex;
         margin-left: 13px;
-        margin-top: 10px;
+        margin-top : 10px;
 
         .list-bread {
             font-weight: lighter;
 
             ol {
 
-                display: flex;
+                display        : flex;
                 list-style-type: none;
 
                 a {
@@ -56,12 +368,12 @@
 
         .slick-slider {
             //padding-top: 30px;
-            width: 90%;
+            width : 90%;
             margin: 0 auto;
 
             .slick-arrow {
                 background-color: rgb(154, 154, 154);
-                border-radius: 10px;
+                border-radius   : 10px;
             }
 
             .slick-list {
@@ -70,7 +382,7 @@
                 .slick-track {
                     img {
                         margin: auto;
-                        width: 90%;
+                        width : 90%;
                         height: 200px;
                     }
 
@@ -86,7 +398,7 @@
                 display: none;
 
                 &::before {
-                    color: #fff;
+                    color    : #fff;
                     font-size: 10px;
                 }
             }
@@ -95,29 +407,32 @@
     }
 
     .row-film {
-        margin-top: 30px;
+        margin-top    : 30px;
         //padding-left: 100px;
-        margin-left: 80px;
+        margin-left   : 80px;
 
         .col-film-left {
+            width  : 50%;
+            padding: 20px;
+
             .row-title-1 {
                 margin-bottom: 30px;
 
                 h5 {
-                    position: relative;
+                    position      : relative;
                     text-transform: uppercase;
-                    font-size: 13pt;
-                    color: #000000;
-                    font-weight: bold;
+                    font-size     : 13pt;
+                    color         : #000000;
+                    font-weight   : bold;
                 }
 
                 &:after {
-                    content: "";
-                    position: absolute;
-                    display: block;
+                    content   : "";
+                    position  : absolute;
+                    display   : block;
                     margin-top: 21px;
-                    width: 15%;
-                    height: 3px;
+                    width     : 15%;
+                    height    : 3px;
                     background: #fcaf17;
                 }
             }
@@ -127,7 +442,7 @@
 
                 .date-input {
                     .form-coltrol {
-                        height: 55px;
+                        height    : 55px;
                         text-align: center;
                     }
                 }
@@ -140,14 +455,14 @@
             }
 
             .row-theater-cal {
-                width: 100%;
+                width     : 100%;
                 margin-top: 20px;
 
                 .__image-theater {
                     width: 20%;
 
                     img {
-                        width: 100px;
+                        width : 100px;
                         height: 150px;
                     }
                 }
@@ -156,14 +471,14 @@
                     width: 80%;
 
                     .title {
-                        margin-left: 10px;
-                        font-size: 15px;
-                        font-weight: bold;
+                        margin-left  : 10px;
+                        font-size    : 15px;
+                        font-weight  : bold;
                         margin-bottom: 10px;
                     }
 
                     .date-time {
-                        font-size: 12px;
+                        font-size    : 12px;
                         margin-bottom: 10px;
 
                         .date {
@@ -178,12 +493,12 @@
                     }
 
                     .type-show {
-                        display: flex;
+                        display    : flex;
                         align-items: mi;
 
                         padding-left: 10px;
-                        width: 100%;
-                        padding-top: 10px;
+                        width       : 100%;
+                        padding-top : 10px;
 
                         span {
                             width: 20%;
@@ -191,29 +506,29 @@
                         }
 
                         .btn-group {
-                            display: flex;
-                            gap: 15px;
+                            display  : flex;
+                            gap      : 15px;
                             flex-wrap: wrap;
-                            padding: 0px 0px 0px 10px;
+                            padding  : 0px 0px 0px 10px;
 
                             button {
 
                                 // background-color: #fff;
                                 // border: 1px solid #c4c4c4;
                                 // margin: 20px;
-                                padding: 3px 3px;
-                                border: none;
-                                outline: none;
+                                padding         : 3px 3px;
+                                border          : none;
+                                outline         : none;
                                 background-color: #fff04b;
-                                min-width: 75px;
-                                font-size: 11px;
-                                border-radius: 3px;
-                                font-weight: 600;
-                                color: #333;
+                                min-width       : 75px;
+                                font-size       : 11px;
+                                border-radius   : 3px;
+                                font-weight     : 600;
+                                color           : #333;
 
                                 &:hover {
                                     background-color: #ebcf93;
-                                    color: #000;
+                                    color           : #000;
                                 }
 
                             }
@@ -248,15 +563,15 @@
                 .row-combobox {
 
                     .date {
-                        display: flex;
+                        display     : flex;
                         padding-left: 0px;
 
                         input {
-                            width: 100%;
-                            align-items: center;
-                            border: 1px solid #c4c4c4;
+                            width        : 100%;
+                            align-items  : center;
+                            border       : 1px solid #c4c4c4;
                             border-radius: 5px;
-                            height: 36px;
+                            height       : 36px;
                         }
 
                         .flatpickr-input {
@@ -269,32 +584,33 @@
         }
 
         .col-film-right {
-
+            width  : 50%;
+            padding: 20px;
 
             .row-title-2 {
                 h5 {
-                    position: relative;
+                    position      : relative;
                     text-transform: uppercase;
-                    font-size: 13pt;
-                    color: #000000;
-                    font-weight: bold;
-                    margin-bottom: 0;
+                    font-size     : 13pt;
+                    color         : #000000;
+                    font-weight   : bold;
+                    margin-bottom : 0;
                 }
 
                 &:after {
-                    content: "";
-                    position: absolute;
-                    display: block;
+                    content      : "";
+                    position     : absolute;
+                    display      : block;
                     // margin-top: 21px;
-                    width: 25%;
-                    height: 3px;
-                    background: #fcaf17;
+                    width        : 25%;
+                    height       : 3px;
+                    background   : #fcaf17;
                     margin-bottom: 10px;
                 }
             }
 
             .info-theater {
-                margin-top: 30px;
+                margin-top   : 30px;
                 margin-bottom: 30px;
             }
         }

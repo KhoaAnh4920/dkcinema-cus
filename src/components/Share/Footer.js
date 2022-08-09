@@ -13,7 +13,7 @@ export default function Footer() {
     return (
         <div className='home-footer container-fluid'>
             <div className='row row-footer'>
-                <div className='col-3 col-footer-1'>
+                <div className='col-footer-1'>
                     <ul>
                         <li ><h3><FormattedMessage id="footer.introduce" /></h3></li>
                         <li><Link to='/ve-chung-toi'><FontAwesomeIcon icon={faAngleDoubleRight} /><FormattedMessage id="footer.aboutUs" /></Link></li>
@@ -22,7 +22,7 @@ export default function Footer() {
                         <li><Link to='/chinh-sach'><FontAwesomeIcon icon={faAngleDoubleRight} /><FormattedMessage id="footer.privacyPolicy" /></Link></li>
                     </ul>
                 </div>
-                <div className='col-3 col-footer-2'>
+                <div className='col-footer-2'>
 
                     <ul>
                         <li><h3><FormattedMessage id="footer.cinemaBlog" /></h3></li>
@@ -32,7 +32,7 @@ export default function Footer() {
                         <li><a href='#'><FontAwesomeIcon icon={faAngleDoubleRight} /> giới thiệu phim</a></li> */}
                     </ul>
                 </div>
-                <div className='col-3 col-footer-3'>
+                <div className='col-footer-3'>
 
                     <ul>
                         <li><h3><FormattedMessage id="footer.support" /></h3></li>
@@ -45,7 +45,7 @@ export default function Footer() {
                         <li><a href='#'><FontAwesomeIcon icon={faAngleDoubleRight} /> giải đáp</a></li> */}
                     </ul>
                 </div>
-                <div className='col-3 col-footer-4'>
+                <div className='col-footer-4'>
                     <h3><FormattedMessage id="footer.dkcinema" /></h3>
                     <div className='icon'>
                         <Link to='https://www.facebook.com/'>

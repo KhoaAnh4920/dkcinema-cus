@@ -70,7 +70,7 @@ function DiscountList() {
             >
                 <div className='container con-dis'>
                     <div className='row row-dis'>
-                        <div className='col-8 col-list-dis'>
+                        <div className='col-list-dis'>
                             <div className='title-discount'>
                                 <h5><FormattedMessage id="homeHeader.promotionNews" /></h5>
                             </div>

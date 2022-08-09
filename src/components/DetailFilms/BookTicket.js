@@ -548,7 +548,7 @@ function BookTicketThrough() {
                     <div className='container box'>
                         <div className='row row-detail'>
 
-                            <div className='col-3 col-left'>
+                            <div className='col-left'>
                                 {
                                     allValues.dataMovie && allValues.dataMovie.ImageOfMovie && allValues.dataMovie.ImageOfMovie.map((item1, index1) => {
                                         if (item1.typeImage === 2) {
@@ -570,7 +570,7 @@ function BookTicketThrough() {
                                     onClose={() => setOpen(false)}
                                 />
                             </div>
-                            <div className='col-9 col-right'>
+                            <div className=' col-right'>
                                 <div className='row row-title'>
                                     <div className='row detail'>
                                         <ul>
@@ -650,7 +650,7 @@ function BookTicketThrough() {
                 </div >
                 <div className='content-calendar container'>
                     <div className='row row-book'>
-                        <div className='box col-8 col-left'>
+                        <div className='box col-left'>
                             <div className='title'>
                                 <h5>nội dung phim</h5>
                             </div>

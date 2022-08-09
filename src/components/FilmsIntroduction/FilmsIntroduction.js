@@ -197,9 +197,9 @@ function FilmsIntroduction() {
                 }}
             >
 
-                <div className='container-fluid review-con'>
-                    <div className='row row-review'>
-                        <div className='col-8 col-left'>
+                <div className='container-fluid con-intro'>
+                    <div className='row row-intro'>
+                        <div className=' col-intro-left'>
                             <div className='title'>
                                 <h5><FormattedMessage id="homeHeader.movieBlog" /></h5>
                             </div>
@@ -219,8 +219,8 @@ function FilmsIntroduction() {
                                                     <div className='summary'>
                                                         {item.tomTat}
                                                     </div>
-                                                    <div className='row row-fc'>
-                                                        <ul className='list-fc'>
+                                                    <div className='row row-intro-detail'>
+                                                        <ul className='list-intro  '>
                                                             {/* <li><div class="fb-like" data-href="https://developers.facebook.com/docs/plugins/" data-width="" data-layout="button_count" data-action="like" data-size="small" data-share="false"></div></li> */}
                                                             <li>
                                                                 <div class="rating-movie rating-home">
