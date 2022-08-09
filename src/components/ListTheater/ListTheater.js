@@ -581,7 +581,7 @@ function ListTheater() {
                         </Slider>
                     </div>
                     <div className='row row-film'>
-                        <div className='col-6 col-film-left'>
+                        <div className=' col-film-left'>
                             <div className='row row-title-1'>
                                 <h5><FormattedMessage id="cinema.nowShowing" /></h5>
                             </div>
@@ -659,8 +659,7 @@ function ListTheater() {
                             }
 
                         </div>
-                        <div className='col-1'></div>
-                        <div className='col-5 col-film-right'>
+                        <div className=' col-film-right'>
                             <div className='row-title-2'>
                                 <h5><FormattedMessage id="cinema.detail" /></h5>
                             </div>

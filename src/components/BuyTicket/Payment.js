@@ -424,7 +424,7 @@ function Payment() {
 
             <div className='paymentContainer'>
                 <div className='row'>
-                    <div className='col-6'>
+                    <div className='col-pay-left'>
                         <div className='payment-wrapper'>
                             <div className='payment-header'>
                                 <div className='text-countdown'>Vui lòng thanh toán trong</div>
@@ -560,8 +560,8 @@ function Payment() {
 
                         </div>
                     </div>
-                    <div className='col-2'></div>
-                    <div className='col-4'>
+                    <div className='col-none'></div>
+                    <div className='col-pay-right'>
                         <div className='ticket-header'>
                             <div style={{ textAlign: 'center' }} class="col-12">
                                 {dataSchedule && dataSchedule.ShowtimeMovie && dataSchedule.ShowtimeMovie.ImageOfMovie.length > 0 && dataSchedule.ShowtimeMovie.ImageOfMovie.map((item, index) => {

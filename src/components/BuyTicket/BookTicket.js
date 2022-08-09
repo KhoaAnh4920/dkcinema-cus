@@ -333,7 +333,7 @@ function BookTicket() {
 
             <div className='bookingDetailController'>
                 <div className='row'>
-                    <div className='col-8'>
+                    <div className='col-tk-left'>
                         <div className='ticket-wrapper'>
                             {/* <div className='book-ticket'>
                                 <div className='title-book'>Chọn loại vé</div>
@@ -418,7 +418,7 @@ function BookTicket() {
                                             && allCombo.listCombo.map((item, index) => {
                                                 return (
                                                     <tr key={index}>
-                                                        <td style={{ display: 'flex' }}>
+                                                        <td className='info-1st' style={{ display: 'flex' }}>
                                                             <img style={{ width: '100px', height: '67px', marginRight: '10px' }} src={item.image} />
                                                             <div className='info-item'>
                                                                 <p style={{ fontWeight: '700', marginBottom: '3px' }}>{item.name}</p>
@@ -500,7 +500,7 @@ function BookTicket() {
                             </div>
                         </div>
                     </div>
-                    <div className='col-4'>
+                    <div className='col-tk-right'>
                         <div className='ticket-header'>
                             <div style={{ textAlign: 'center' }} class="col-12">
                                 {dataSchedule && dataSchedule.ShowtimeMovie && dataSchedule.ShowtimeMovie.ImageOfMovie.length > 0 && dataSchedule.ShowtimeMovie.ImageOfMovie.map((item, index) => {

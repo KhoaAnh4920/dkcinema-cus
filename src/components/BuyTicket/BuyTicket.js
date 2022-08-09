@@ -304,8 +304,8 @@ function BuyTicket() {
                 <div className='col-12'>
                     <div className='tab-movies'>
                         <div className='tab_showmovie col-12'>
-                            <div className='row'>
-                                <div className='col-4'>
+                            <div className='row row-item'>
+                                <div className='col-item-1 '>
                                     <div className='panel panel-default'>
                                         <div className="panel-heading">
                                             <h4 className="panel-title">Chọn phim</h4>
@@ -360,7 +360,7 @@ function BuyTicket() {
                                     </div>
                                 </div>
 
-                                <div className='col-4'>
+                                <div className='col-item-2'>
                                     <div className='panel panel-default'>
                                         <div className="panel-heading">
                                             <h4 className="panel-title">Chọn rạp</h4>
@@ -410,7 +410,7 @@ function BuyTicket() {
                                     </div>
                                 </div>
 
-                                <div className='col-4'>
+                                <div className='col-item-3'>
                                     <div className='panel panel-default'>
                                         <div className="panel-heading">
                                             <h4 className="panel-title">Chọn suất</h4>

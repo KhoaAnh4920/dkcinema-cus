@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Footer from '../Share/Footer';
 import Header from '../Share/Header';
-import FilmShowing from '../Share/FilmShowing';
 import { getNewsByType } from '../../services/NewsServices';
 import Ratings from '../Share/Rating';
 import { toast } from 'react-toastify';
@@ -182,7 +181,7 @@ function ReviewFilms() {
             >
                 <div className='container-fluid review-con'>
                     <div className='row row-review'>
-                        <div className='col-8 col-left'>
+                        <div className='col-left'>
                             <div className='title'>
                                 <h5><FormattedMessage id="homeHeader.movieReview" /></h5>
                             </div>

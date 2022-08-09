@@ -192,7 +192,7 @@ function DetailReviewFilm() {
             >
                 <div className='container con-de'>
                     <div className='row row-de'>
-                        <div className='col-8 col-de-left'>
+                        <div className='col-de-left'>
                             <div className='row row-de-1'>
                                 <p>
                                     {allValuesDetail.title}

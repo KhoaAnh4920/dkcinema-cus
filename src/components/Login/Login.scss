@@ -1,30 +1,282 @@
+@media only screen and (max-width:480px) {
+    body {
+        font-family: Arial;
+
+        .loginPage-container {
+            width    : 100%;
+            // height: 900px;
+            display  : flex;
+            padding  : 0 !important;
+
+            .login-cus {
+
+                width  : 100% !important;
+                padding: 0 !important;
+
+                .form-login {
+                    left     : 50%;
+                    right    : 50%;
+                    transform: translate(5%, 0%);
+                    width    : 100% !important;
+                    height   : 100% !important;
+                    padding  : 20px 0px 0px 0px !important;
+
+                    .title-login {
+                        margin-bottom : 30px;
+                        text-transform: uppercase;
+                    }
+
+                    .form-group {
+                        label {
+                            color        : #000;
+                            font-weight  : 700;
+                            margin-bottom: 10px;
+
+                        }
+
+                        input {
+                            height: fit-content;
+                            width : 100% !important;
+
+                        }
+
+                        .errorInput {
+                            color    : red;
+                            font-size: 12px;
+                        }
+                    }
+
+                    .link-forgot-pass {
+                        color      : #a0a3a7;
+                        font-size  : 15px;
+                        font-weight: 700;
+                    }
+
+                    .submit-container {
+                        padding-top: 20px;
+                        display    : flex;
+                        height     : 70px;
+
+                        .button-login-submit {
+                            width: 100%;
+
+
+                            .btn-login {
+                                background-color: #FCAF17;
+                                padding         : 10px;
+                                width           : 100%;
+                                height          : 40px;
+                                font-weight     : 700;
+                                color           : #fff;
+                                text-transform  : uppercase;
+                                border          : none;
+                                font-size       : 15px;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .register-cus {
+                width  : 100% !important;
+                padding: 20px;
+
+                .form-register {
+                    width    : 100%;
+                    height   : 100%;
+                    padding  : 20px 0 0 0 !important;
+                    left     : 50%;
+                    right    : 50%;
+                    transform: translate(5%, 0%);
+
+                    .title-register {
+                        margin-bottom : 30px;
+                        text-transform: uppercase;
+                    }
+
+                    .col-label {
+                        width: 30% !important;
+                    }
+
+                    .col-input {
+                        width: 100% !important;
+                    }
+
+                    .error-container {
+                        margin-top: 10px;
+                        border    : 1px dashed lightgray;
+                        padding   : 1rem;
+                        width     : 100%;
+                    }
+
+                    ul {
+                        list-style-position: inside;
+                        color              : lightcoral;
+                    }
+
+                    .form-group {
+                        display: flex;
+                        padding: 0;
+
+                        label {
+                            color        : #000;
+                            font-weight  : 700;
+                            margin-bottom: 10px;
+                            padding      : 0;
+                            font-size    : 14px;
+                        }
+
+                        input {
+                            height: fit-content;
+                        }
+
+                        input[type="radio"] {
+                            -ms-transform    : scale(1.5);
+                            /* IE 9 */
+                            -webkit-transform: scale(1.5);
+                            /* Chrome, Safari, Opera */
+                            transform        : scale(1.3);
+                        }
+
+                        .select-gender {
+                            padding: 0;
+                        }
+
+                        .select-birthday {
+                            padding: 0;
+                        }
+
+                        .strikethrough {
+                            .line {
+                                height          : 1px;
+                                display         : block;
+                                margin-top      : 10px;
+                                background-color: #000;
+                            }
+                        }
+
+                        .error-pass {
+                            color      : red;
+                            font-size  : 12px;
+                            padding-top: 10px;
+                        }
+                    }
+
+                    .link-forgot-pass {
+                        color      : #a0a3a7;
+                        font-size  : 15px;
+                        font-weight: 700;
+                    }
+
+                    .submit-container {
+                        padding-top: 20px;
+                        display    : flex;
+                        height     : 70px;
+
+                        .button-register-submit {
+                            width  : 100%;
+                            padding: 0;
+
+                            .btn-register {
+                                background-color: #FCAF17;
+                                padding         : 10px;
+                                width           : 100%;
+                                height          : 40px;
+                                font-weight     : 700;
+                                color           : #fff;
+                                text-transform  : uppercase;
+                                font-size       : 15px;
+                                border          : none;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .khuyen-mai-container {
+            width           : 100%;
+            height          : fit-content !important;
+            background-color: #000;
+
+            .advertising-title {
+                width : 100%;
+                height: auto;
+
+                h3 {
+                    padding-top: 20px;
+                    color      : #fff;
+                    text-align : center;
+                    font-size  : 25px;
+                    font-weight: 700;
+                }
+            }
+
+            .advertising-body {
+                padding-top: 10px;
+                display    : flex;
+
+                .slick-slider {
+                    padding-top: 10px !important;
+                    width      : 90%;
+                    margin     : 0 auto;
+
+                    .slick-list {
+                        text-align: center;
+
+                        .slick-track {
+                            img {
+                                margin: 0 auto;
+                                width : 70px !important;
+                            }
+                        }
+                    }
+                }
+
+                .slick-dots {
+                    bottom: -45px;
+
+                    li button {
+                        margin-top: 10px;
+
+                        &::before {
+                            color    : #fff;
+                            font-size: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 body {
     font-family: Arial;
 
     .loginPage-container {
-        width: 100%;
+        width    : 100%;
         // height: 900px;
-        display: flex;
-        padding: 20px 150px;
+        display  : flex;
+        padding  : 20px 150px;
 
         .login-cus {
-            width: 100%;
+            width  : 40%;
             padding: 20px;
 
             .form-login {
-                width: 100%;
-                height: 100%;
+                width  : 100%;
+                height : 100%;
                 padding: 20px;
 
                 .title-login {
-                    margin-bottom: 30px;
+                    margin-bottom : 30px;
                     text-transform: uppercase;
                 }
 
                 .form-group {
                     label {
-                        color: #000;
-                        font-weight: 700;
+                        color        : #000;
+                        font-weight  : 700;
                         margin-bottom: 10px;
 
                     }
@@ -35,21 +287,21 @@ body {
                     }
 
                     .errorInput {
-                        color: red;
+                        color    : red;
                         font-size: 12px;
                     }
                 }
 
                 .link-forgot-pass {
-                    color: #a0a3a7;
-                    font-size: 15px;
+                    color      : #a0a3a7;
+                    font-size  : 15px;
                     font-weight: 700;
                 }
 
                 .submit-container {
                     padding-top: 20px;
-                    display: flex;
-                    height: 70px;
+                    display    : flex;
+                    height     : 70px;
 
                     .button-login-submit {
                         width: 100%;
@@ -57,14 +309,14 @@ body {
 
                         .btn-login {
                             background-color: #FCAF17;
-                            padding: 10px;
-                            width: 100%;
-                            height: 40px;
-                            font-weight: 700;
-                            color: #fff;
-                            text-transform: uppercase;
-                            border: none;
-                            font-size: 15px;
+                            padding         : 10px;
+                            width           : 100%;
+                            height          : 40px;
+                            font-weight     : 700;
+                            color           : #fff;
+                            text-transform  : uppercase;
+                            border          : none;
+                            font-size       : 15px;
                         }
                     }
                 }
@@ -72,29 +324,37 @@ body {
         }
 
         .register-cus {
-            width: 100%;
+            width  : 60%;
             padding: 20px;
 
             .form-register {
-                width: 100%;
-                height: 100%;
+                width  : 100%;
+                height : 100%;
                 padding: 20px 60px;
 
                 .title-register {
-                    margin-bottom: 30px;
+                    margin-bottom : 30px;
                     text-transform: uppercase;
+                }
+
+                .col-label {
+                    width: 25%;
+                }
+
+                .col-input {
+                    width: 75%;
                 }
 
                 .error-container {
                     margin-top: 10px;
-                    border: 1px dashed lightgray;
-                    padding: 1rem;
-                    width: 100%;
+                    border    : 1px dashed lightgray;
+                    padding   : 1rem;
+                    width     : 100%;
                 }
 
                 ul {
                     list-style-position: inside;
-                    color: lightcoral;
+                    color              : lightcoral;
                 }
 
                 .form-group {
@@ -102,11 +362,11 @@ body {
                     padding: 0;
 
                     label {
-                        color: #000;
-                        font-weight: 700;
+                        color        : #000;
+                        font-weight  : 700;
                         margin-bottom: 10px;
-                        padding: 0;
-                        font-size: 14px;
+                        padding      : 0;
+                        font-size    : 14px;
                     }
 
                     input {
@@ -114,11 +374,11 @@ body {
                     }
 
                     input[type="radio"] {
-                        -ms-transform: scale(1.5);
+                        -ms-transform    : scale(1.5);
                         /* IE 9 */
                         -webkit-transform: scale(1.5);
                         /* Chrome, Safari, Opera */
-                        transform: scale(1.3);
+                        transform        : scale(1.3);
                     }
 
                     .select-gender {
@@ -131,45 +391,45 @@ body {
 
                     .strikethrough {
                         .line {
-                            height: 1px;
-                            display: block;
-                            margin-top: 10px;
+                            height          : 1px;
+                            display         : block;
+                            margin-top      : 10px;
                             background-color: #000;
                         }
                     }
 
                     .error-pass {
-                        color: red;
-                        font-size: 12px;
+                        color      : red;
+                        font-size  : 12px;
                         padding-top: 10px;
                     }
                 }
 
                 .link-forgot-pass {
-                    color: #a0a3a7;
-                    font-size: 15px;
+                    color      : #a0a3a7;
+                    font-size  : 15px;
                     font-weight: 700;
                 }
 
                 .submit-container {
                     padding-top: 20px;
-                    display: flex;
-                    height: 70px;
+                    display    : flex;
+                    height     : 70px;
 
                     .button-register-submit {
-                        width: 100%;
+                        width  : 100%;
                         padding: 0;
 
                         .btn-register {
                             background-color: #FCAF17;
-                            padding: 10px;
-                            width: 100%;
-                            height: 40px;
-                            font-weight: 700;
-                            color: #fff;
-                            text-transform: uppercase;
-                            font-size: 15px;
-                            border: none;
+                            padding         : 10px;
+                            width           : 100%;
+                            height          : 40px;
+                            font-weight     : 700;
+                            color           : #fff;
+                            text-transform  : uppercase;
+                            font-size       : 15px;
+                            border          : none;
                         }
                     }
                 }
@@ -178,31 +438,31 @@ body {
     }
 
     .khuyen-mai-container {
-        width: 100%;
-        height: 650px;
+        width           : 100%;
+        height          : 650px;
         background-color: #000;
 
         .advertising-title {
-            width: 100%;
+            width : 100%;
             height: auto;
 
             h3 {
                 padding-top: 20px;
-                color: #fff;
-                text-align: center;
-                font-size: 25px;
+                color      : #fff;
+                text-align : center;
+                font-size  : 25px;
                 font-weight: 700;
             }
         }
 
         .advertising-body {
             padding-top: 10px;
-            display: flex;
+            display    : flex;
 
             .slick-slider {
                 padding-top: 30px;
-                width: 90%;
-                margin: 0 auto;
+                width      : 90%;
+                margin     : 0 auto;
 
                 .slick-list {
                     text-align: center;
@@ -210,7 +470,7 @@ body {
                     .slick-track {
                         img {
                             margin: 0 auto;
-                            width: 300px;
+                            width : 300px;
                         }
                     }
                 }
@@ -223,7 +483,7 @@ body {
                     margin-top: 10px;
 
                     &::before {
-                        color: #fff;
+                        color    : #fff;
                         font-size: 10px;
                     }
                 }

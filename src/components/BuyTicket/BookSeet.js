@@ -464,7 +464,7 @@ function BookSeet() {
 
             <div className='bookingSeetController'>
                 <div className='row'>
-                    <div className='room-main col-8'>
+                    <div className='room-main col-room'>
                         <p className='title-select-seet'>Chọn ghế: {allValues.nameSeet}</p>
                         <div className='room-seet'>
                             { /* EXAMPLE MAP INTERGRATE*/}
@@ -529,7 +529,7 @@ function BookSeet() {
                             </div>
                         </div>
                     </div>
-                    <div className='col-4'>
+                    <div className='col-ticket'>
                         <div className='ticket-header'>
                             <div style={{ textAlign: 'center' }} className="col-12">
                                 {dataSchedule && dataSchedule.ShowtimeMovie && dataSchedule.ShowtimeMovie.ImageOfMovie.length > 0 && dataSchedule.ShowtimeMovie.ImageOfMovie.map((item, index) => {

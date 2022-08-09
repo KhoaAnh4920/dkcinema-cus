@@ -240,7 +240,7 @@ function ChiTietPhim() {
 
                     <div className='row row-detail'>
 
-                        <div className='col-3 col-left'>
+                        <div className='col-left'>
                             {
                                 allValues.typeImage.map((item1, index1) => {
                                     if (item1.typeImage === 2) {
@@ -263,7 +263,7 @@ function ChiTietPhim() {
                                 onClose={() => setOpen(false)}
                             />
                         </div>
-                        <div className='col-9 col-right'>
+                        <div className='col-right'>
                             <div className='row row-title'>
                                 <div className='row detail'>
                                     <ul>
@@ -343,7 +343,7 @@ function ChiTietPhim() {
             </div >
             <div className='content-film container'>
                 <div className='row row-content'>
-                    <div className='col-8 col-left'>
+                    <div className='col-left'>
                         <div className='title'>
                             <h5>nội dung phim</h5>
                         </div>

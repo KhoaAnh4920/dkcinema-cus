@@ -49,7 +49,22 @@ export default function Header() {
         dispatch(updateDataBooking(null));
         history.push('/');
     }
-    //search    
+
+
+    //Hamburger  
+
+    const [active, setActive] = useState("nav__menu");
+    const [icon, setIcon] = useState("nav__toggler");
+    const navToggle = () => {
+        if (active === "nav__menu") {
+            setActive("nav__menu nav__active");
+        } else setActive("nav__menu");
+
+        // Icon Toggler
+        if (icon === "nav__toggler") {
+            setIcon("nav__toggler toggle");
+        } else setIcon("nav__toggler");
+    };
 
 
 
@@ -155,20 +170,22 @@ export default function Header() {
                         <div className={language === LANGUAGES.VI ? 'language-vi active' : 'language-vi'}><span onClick={() => changeLanguage(LANGUAGES.VI)}>VN</span> </div>
                         <span className='dash-language'>|</span>
                         <div className={language === LANGUAGES.EN ? 'language-en active' : 'language-en'}><span onClick={() => changeLanguage(LANGUAGES.EN)}>EN</span></div>
+                        <div onClick={navToggle} className={icon}>
+                            <div className="line1"></div>
+                            <div className="line2"></div>
+                            <div className="line3"></div>
+                        </div>
                     </div>
                 </div>
 
             </div>
-            <div className='home-header-content-bottom'>
+            {/* <div className='home-header-content-bottom'>
                 <nav className="navbar navbar-expand-md navbar-light">
-                    {/* <a className="navbar-brand" href="/">
-                        <img src="/img/frontpage/logotest.png">logo
-                    </a> */}
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                    <button style={{ backgroundColor: 'red' }} className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse d-flex justify-content-center" id="navbarsExampleDefault">
-                        <ul className="navbar-nav ">
+                        <ul className="navbar-nav">
                             <li className="nav-item ">
                                 <Link to="/" className='nav-link'><FormattedMessage id="homeHeader.home" /></Link>
                             </li>
@@ -205,7 +222,76 @@ export default function Header() {
                     </div>
                 </nav>
 
-            </div>
+            </div> */}
+            <nav className='nav home-header-content-bottom'>
+                <ul className={active}>
+                    <li className='nav__item item__first'>
+                        <Link to="/" className='nav__link'><FormattedMessage id="homeHeader.home" /></Link>
+                    </li>
+                    <li className='nav__item'>
+                        <Link to="/lich-chieu" className='nav-link'><FormattedMessage id="homeHeader.buyTicket" /></Link>
+                    </li>
+                    <li className='nav__item'>
+                        <Link to="/phim-dang-chieu" className='nav-link'><FormattedMessage id="homeHeader.movie" /></Link>
+                    </li>
+                    <li className="nav__item ">
+                        <Link to="#" className='nav-link'><FormattedMessage id="homeHeader.news" /></Link>
+                        <div className="drop-down-menu">
+                            <ul className="sub-navbar-nav">
+                                <li className="sub-nav-item" >
+                                    <Link to="/review-phim" className='sub-nav-link'><FormattedMessage id="homeHeader.reviewFilm" /></Link>
+                                </li>
+                                <li className="sub-nav-item">
+                                    <Link to="/gioi-thieu-phim" className='sub-nav-link'><FormattedMessage id="homeHeader.introFilm" /></Link>
+                                </li>
+                                <li className="sub-nav-item">
+                                    <Link to="/khuyen-mai" className='sub-nav-link'><FormattedMessage id="homeHeader.discount" /></Link>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </li>
+                    <li className='nav__item'>
+                        <Link to="/danh-sach-rap" className='nav-link'><FormattedMessage id="homeHeader.theater" /></Link>
+                    </li>
+                    {/* {
+                        icon === "nav__toggler" ? "" : <li className='nav__item'>
+                            <Link to="/login" className='nav-link' style={{ textTransform: "uppercase" }}><FormattedMessage id="homeHeader.login" /></Link>
+                        </li>
+                    } */}
+                    {
+                        selectUser.isLoggedInUser == true && icon != "nav__toggler" &&
+                        <>
+                            <li className='nav__item'>
+                                <div className="dropdown dropdown-userinfo">
+                                    <div id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" className='row'>
+                                        <img className='avatar-user' src={selectUser.userInfo.avatar ? selectUser.userInfo.avatar : avatar} />
+                                        <span className='user-fullname'>{selectUser.userInfo.fullName}</span>
+                                    </div>
+                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a className="dropdown-item" onClick={redirectAccountProfile}>Tài khoản</a>
+                                        <a className="dropdown-item" onClick={redirectChangePassword}>Đổi mật khẩu</a>
+                                        <a className="dropdown-item" onClick={handleLogout}>Đăng xuất</a>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </>
+                    }
+                    {
+                        selectUser.isLoggedInUser == false && icon != "nav__toggler" &&
+                        <>
+                            <li className='nav__item'>
+                                <Link to="/login" className='nav-link' style={{ textTransform: "uppercase" }}><FormattedMessage id="homeHeader.login" /></Link>
+                            </li>
+                        </>
+                    }
+                    <li className='nav__item item__last'>
+                        <Link to="/ho-tro" className='nav-link'><FormattedMessage id="homeHeader.support" /></Link>
+                    </li>
+                </ul>
+
+            </nav>
         </>
     )
 }

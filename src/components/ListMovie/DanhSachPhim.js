@@ -139,7 +139,7 @@ function DanhSachPhim() {
                                 allValues.listMovie && allValues.listMovie.length > 0 &&
                                 allValues.listMovie.map((item, index) => {
                                     return (
-                                        <div className='col-4 col-image' key={index} >
+                                        <div className='col-image' key={index} >
                                             <div className='image' onClick={() => handleClickFilms(item)}>
                                                 {
                                                     item.ImageOfMovie.map((item1, index1) => {

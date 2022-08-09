@@ -1,11 +1,199 @@
+@media only screen and (max-width:480px) {
+    .con-intro {
+        max-width: 1230px;
+
+        .row-intro {
+            margin-top: 40px;
+
+            .col-intro-left {
+                padding: 20px;
+                width  : 100% !important;
+
+                .title {
+                    h5 {
+                        position      : relative;
+                        text-transform: uppercase;
+                        font-size     : 13pt;
+                        color         : #000000;
+                        font-weight   : bold;
+                    }
+
+                    &:after {
+                        content   : "";
+                        position  : absolute;
+                        display   : block;
+                        width     : 30% !important;
+                        height    : 3px;
+                        margin-top: -5px;
+                        background: #fcaf17;
+                        float     : left;
+                    }
+                }
+
+                .list-films {
+                    padding-top: 20px;
+
+                    .blog {
+                        margin-bottom : 40px;
+                        display       : flex;
+                        flex-direction: column !important;
+
+                        .movie-thumb {
+                            .img-review {
+                                width     : 100% !important;
+                                display   : block;
+                                object-fit: contain;
+                            }
+                        }
+
+                        .content-title {
+
+                            margin-top    : 20px;
+                            margin-left   : 0 !important;
+                            flex-direction: column;
+                            text-align    : justify;
+
+                            h5 {
+                                .link {
+                                    font-size: 16px;
+                                    color    : #000000;
+
+
+                                    &:hover {
+                                        color: #fcaf17;
+                                    }
+                                }
+                            }
+
+                            .list-intro {
+                                list-style-type: none;
+                                display        : flex;
+
+                                .fb-like {
+                                    margin-left: -40px;
+
+                                    span {
+
+
+                                        iframe {
+                                            width: 160px !important;
+
+                                        }
+                                    }
+                                }
+                            }
+
+                            .summary {
+                                color             : #a0a3a7;
+                                display           : block;
+                                display           : -webkit-box;
+                                max-width         : 100%;
+                                -webkit-line-clamp: 3;
+                                -webkit-box-orient: vertical;
+                                overflow          : hidden;
+                                text-overflow     : ellipsis;
+                                font-size         : 14px;
+                                margin            : 10px 0;
+                                font-weight       : lighter;
+                                max-height        : 63px;
+                                text-align        : justify;
+
+                            }
+
+                            .row-intro-detail {
+                                // margin-top: 20px;
+
+                                .list-intro {
+                                    padding        : 0;
+                                    list-style-type: none;
+                                    display        : flex;
+
+                                    .btn-review {
+                                        text-transform: uppercase;
+                                        height        : 25px;
+                                        font-size     : 10px;
+                                    }
+
+                                    .fb-like {
+                                        span {
+                                            //margin-right: 40px;
+                                            margin-top: 5px;
+
+                                            iframe {
+                                                width: 160px !important;
+
+                                            }
+                                        }
+                                    }
+
+                                    li {
+                                        margin     : 0px 20px 0px 10px;
+                                        line-height: 40px;
+                                    }
+
+                                    .rating-movie.rating-home {
+                                        background-size: 15px;
+                                        height         : 30px;
+                                        padding-left   : 24px;
+                                        margin-left    : 10px;
+                                    }
+
+                                    .rating-movie {
+                                        font-size          : 20px;
+                                        height             : 40px;
+                                        background         : url(../../assets/ic_star_yellow.png) no-repeat;
+                                        background-size    : 30px;
+                                        padding-left       : 30px;
+                                        background-position: left center;
+                                        display            : table-cell;
+                                        vertical-align     : middle;
+                                    }
+                                }
+                            }
+                        }
+
+
+                    }
+                }
+            }
+        }
+    }
+}
+
 .con-intro {
-    max-width: 1400px;
+    max-width: 1230px;
 
     .row-intro {
         margin-top: 40px;
 
         .col-intro-left {
+            padding: 20px;
+            width  : 70%;
+
+            .title {
+                h5 {
+                    position      : relative;
+                    text-transform: uppercase;
+                    font-size     : 13pt;
+                    color         : #000000;
+                    font-weight   : bold;
+                }
+
+                &:after {
+                    content   : "";
+                    position  : absolute;
+                    display   : block;
+                    width     : 10%;
+                    height    : 3px;
+                    margin-top: -5px;
+                    background: #fcaf17;
+                    float     : left;
+                }
+            }
+
             .list-films {
+                padding-top: 20px;
+
                 .blog {
                     margin-bottom: 40px;
                     display      : flex;
@@ -18,21 +206,19 @@
                         }
                     }
 
-                    .row-intro-detail {
+                    .content-title {
                         margin-top    : 20px;
                         margin-left   : 20px;
                         flex-direction: column;
 
                         h5 {
-                            font-size     : 18px;
-                            text-transform: capitalize;
-                            max-width     : 100%;
-
                             .link {
-                                color: #43464b;
+                                font-size: 16px;
+                                color    : #000000;
+
 
                                 &:hover {
-                                    color: #FCAF17;
+                                    color: #fcaf17;
                                 }
                             }
                         }
@@ -54,7 +240,77 @@
                                 }
                             }
                         }
+
+                        .summary {
+                            color             : #a0a3a7;
+                            display           : block;
+                            display           : -webkit-box;
+                            max-width         : 100%;
+                            -webkit-line-clamp: 3;
+                            -webkit-box-orient: vertical;
+                            overflow          : hidden;
+                            text-overflow     : ellipsis;
+                            font-size         : 14px;
+                            margin            : 10px 0;
+                            font-weight       : lighter;
+                            max-height        : 63px;
+                            text-align        : justify;
+
+                        }
+
+                        .row-intro-detail {
+                            // margin-top: 20px;
+
+                            .list-intro {
+                                padding        : 0;
+                                list-style-type: none;
+                                display        : flex;
+
+                                .btn-review {
+                                    text-transform: uppercase;
+                                    height        : 25px;
+                                    font-size     : 10px;
+                                }
+
+                                .fb-like {
+                                    span {
+                                        //margin-right: 40px;
+                                        margin-top: 5px;
+
+                                        iframe {
+                                            width: 160px !important;
+
+                                        }
+                                    }
+                                }
+
+                                li {
+                                    margin     : 0px 20px 0px 10px;
+                                    line-height: 40px;
+                                }
+
+                                .rating-movie.rating-home {
+                                    background-size: 15px;
+                                    height         : 30px;
+                                    padding-left   : 24px;
+                                    margin-left    : 10px;
+                                }
+
+                                .rating-movie {
+                                    font-size          : 20px;
+                                    height             : 40px;
+                                    background         : url(../../assets/ic_star_yellow.png) no-repeat;
+                                    background-size    : 30px;
+                                    padding-left       : 30px;
+                                    background-position: left center;
+                                    display            : table-cell;
+                                    vertical-align     : middle;
+                                }
+                            }
+                        }
                     }
+
+
                 }
             }
         }

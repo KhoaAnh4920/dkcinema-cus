@@ -125,32 +125,31 @@ function ForgetPassword() {
             <div className='container-fluid box-forget' >
                 <div className='container con-forget'>
                     <div className='row row-forget'>
-                        <div className='col-7 col-left'>
+                        <div className='col-left'>
                             <div className="form-group col-12" >
-                                <label htmlFor="exampleInputEmail" className='col-3'>nhập mật khẩu mới</label>
-                                <input type="password" className="form-control col-9"
+                                <label htmlFor="exampleInputEmail" className='col-label'>nhập mật khẩu mới</label>
+                                <input type="password" className="form-control col-input"
                                     value={allValues.password}
                                     onChange={changeHandler}
                                     placeholder="" name='password'
                                     id='exampleInputEmail' />
                             </div>
                             <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail" className='col-3'>nhập lại mật khẩu</label>
-                                <input type="password" className="form-control col-9"
+                                <label htmlFor="exampleInputEmail" className='col-label'>nhập lại mật khẩu</label>
+                                <input type="password" className="form-control col-input"
                                     placeholder="" name='rePassword'
                                     value={allValues.rePassword}
                                     onChange={changeHandler}
                                     id='exampleInputEmail' />
                             </div>
                             <div className="form-group col-12 capcha-form">
-                                <div className='col-3'></div>
-                                <Captcha />
+                                <Captcha className='col-cap__' />
                             </div>
 
                             <div className="form-group col-12">
-                                <div className='col-3'></div>
+                                <div className='col-label'></div>
                                 {/* <button className='col-9 btn-change'></button> */}
-                                <Button variant="primary" {...allValues.isShowLoading && 'disabled'} className="col-9 btn-change" onClick={() => handleSubmit()}>
+                                <Button variant="primary" {...allValues.isShowLoading && 'disabled'} className="col-input btn-change" onClick={() => handleSubmit()}>
                                     {allValues.isShowLoading &&
                                         <>
                                             <Spinner
@@ -173,7 +172,7 @@ function ForgetPassword() {
                             </div>
 
                         </div>
-                        <div className='col-5 col-right' >
+                        <div className='col-right' >
                             <img src={imageRight} />
                         </div>
                     </div>

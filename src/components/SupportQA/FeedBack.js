@@ -131,7 +131,7 @@ function FeedBack() {
             <Header />
             <div className='support-content container-fluid' style={{ maxWidth: '1400px' }}>
                 <div className='row row-support'>
-                    <div className='col-8 col-left'>
+                    <div className='col-left-sp'>
                         <div className='title-tab'>
                             <ul>
                                 <li><a>tuyển dụng</a></li>
@@ -143,12 +143,12 @@ function FeedBack() {
                             <p><FontAwesomeIcon icon={faMessage} /> &nbsp;supports@dkcinema.com.vn</p>
                             <p><FontAwesomeIcon icon={faPhone} /> &nbsp;19002224</p>
                         </div>
-                        <div className='form-feedback' style={{ marginLeft: '60px' }}>
+                        <div className='form-feedback'>
                             <h5 className='title'>
                                 Bạn có gì muốn nhắn nhủ DK Cinema?
                             </h5>
                             <div className='row row-feed'>
-                                <div className='col-6 col-feed-left'>
+                                <div className='col-feed-left'>
                                     <div className="form-group col-12">
                                         <label htmlFor="exampleInputEmail1" className='col-12'>họ và tên</label>
                                         <input type="text" className="form-control col-12"
@@ -183,7 +183,7 @@ function FeedBack() {
                                     </div>
 
                                 </div>
-                                <div className='col-6 col-feed-right'>
+                                <div className='col-feed-right'>
                                     <div className="form-group col-12">
                                         <label htmlFor="exampleInputEmail4" className='col-12'>nội dung phản hồi</label>
                                         <textarea className="form-control col-12" placeholder="Nội dung" name='content'

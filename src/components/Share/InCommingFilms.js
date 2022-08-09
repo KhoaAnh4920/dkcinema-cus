@@ -22,7 +22,7 @@ export default function InCommingFilms(props) {
 
 
     return (
-        <div className='col-4 col-right'>
+        <div className='col-right'>
             <div className='title'>
                 <h5><FormattedMessage id="homeHeader.nowShowing" /></h5>
             </div>

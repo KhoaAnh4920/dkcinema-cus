@@ -85,26 +85,26 @@ function ChangePassword() {
             <div className='container-fluid box-change' >
                 <div className='container con-change'>
                     <div className='row row-input-change'>
-                        <div className='col-7 col-left'>
+                        <div className='col-left'>
                             <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail" className='col-3'>Nhập mật khẩu hiện tại</label>
-                                <input type="password" className="form-control col-9"
+                                <label htmlFor="exampleInputEmail" className='col-label'>Nhập mật khẩu hiện tại</label>
+                                <input type="password" className="form-control col-input"
                                     onChange={changeHandler}
                                     value={allValues.currentPassword}
                                     placeholder="" name='currentPassword'
                                     id='exampleInputEmail' />
                             </div>
                             <div className="form-group col-12" >
-                                <label htmlFor="exampleInputEmail" className='col-3'>nhập mật khẩu mới</label>
-                                <input type="password" className="form-control col-9"
+                                <label htmlFor="exampleInputEmail" className='col-label'>nhập mật khẩu mới</label>
+                                <input type="password" className="form-control col-input"
                                     onChange={changeHandler}
                                     value={allValues.newPassword}
                                     placeholder="" name='newPassword'
                                     id='exampleInputEmail' />
                             </div>
                             <div className="form-group col-12">
-                                <label htmlFor="exampleInputEmail" className='col-3'>nhập lại mật khẩu</label>
-                                <input type="password" className="form-control col-9"
+                                <label htmlFor="exampleInputEmail" className='col-label'>nhập lại mật khẩu</label>
+                                <input type="password" className="form-control col-input"
                                     placeholder="" name='prePassword'
                                     onChange={changeHandler}
                                     value={allValues.prePassword}
@@ -112,8 +112,8 @@ function ChangePassword() {
                             </div>
 
                             <div className="form-group col-12">
-                                <div className='col-3'></div>
-                                <Button variant="primary" {...allValues.isShowLoadingButton && 'disabled'} className="col-9 btn-change" onClick={hanldeSubmitPass} >
+                                <div className='col-label'></div>
+                                <Button variant="primary" {...allValues.isShowLoadingButton && 'disabled'} className="col-input btn-change" onClick={hanldeSubmitPass} >
                                     {allValues.isShowLoadingButton &&
                                         <>
                                             <Spinner
@@ -137,7 +137,7 @@ function ChangePassword() {
                             </div>
 
                         </div>
-                        <div className='col-5 col-right' >
+                        <div className=' col-right' >
                             <img src={imageChange} />
                         </div>
                     </div>

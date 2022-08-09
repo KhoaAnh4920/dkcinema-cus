@@ -70,7 +70,7 @@ function HoTroGiaiDap() {
 
             <div className='support-content container-fluid' style={{ maxWidth: '1400px' }}>
                 <div className='row row-support'>
-                    <div className='col-8 col-left'>
+                    <div className='col-left'>
                         <div className='title-tab'>
                             <ul>
                                 <li><a><FormattedMessage id="footer.career" /></a></li>

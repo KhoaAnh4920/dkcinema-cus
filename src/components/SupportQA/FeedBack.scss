@@ -1,9 +1,145 @@
+@media only screen and (max-width:480px) {
+    * {
+        margin-right: 0;
+    }
+
+    .support-content {
+        margin-top: 40px;
+
+        .row-support {
+            width: 100% !important;
+
+            .col-left-sp {
+                width: 100% !important;
+
+                .title-tab {
+                    ul {
+                        width  : 100% !important;
+                        display: flex;
+
+                        li {
+                            list-style-type: none;
+                            margin         : 0 auto !important;
+
+                            a {
+                                text-decoration: none;
+                                text-transform : uppercase;
+                                color          : #555555;
+                                font-size      : 15px;
+                                cursor         : pointer;
+
+                                &:hover {
+                                    color      : #fcaf17;
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .info {
+                    margin-top    : 30px;
+                    display       : flex;
+                    flex-direction: column;
+                    padding       : 0 0 0 10px !important;
+
+                    p {
+                        margin-left: 20px !important;
+                    }
+                }
+
+                .form-feedback {
+                    border         : none !important;
+                    width          : 100% !important;
+                    margin         : 0 !important;
+                    justify-content: center !important;
+                    align-items    : center !important;
+
+                    .title {
+                        width           : 100% !important;
+                        padding-left    : 0 !important;
+                        text-transform  : uppercase;
+                        background-color: #000000;
+                        color           : #fff;
+                        height          : fit-content !important;
+                        text-align      : center;
+                        font-size       : 12pt !important;
+                        line-height     : 30px !important
+                    }
+
+                    .row-feed {
+                        padding-top   : 20px;
+                        flex-direction: column !important;
+
+                        .col-feed-left {
+                            width: 100% !important;
+
+                            .form-group {
+                                label {
+                                    text-transform: uppercase;
+                                    padding-left  : 5px !important;
+                                }
+                            }
+
+                            label {
+                                padding: 0;
+                            }
+
+                            input {
+                                height: 40px;
+                                width : 100% !important;
+                                margin: 0 auto !important;
+                            }
+                        }
+
+                        .col-feed-right {
+                            width   : 100% !important;
+                            position: relative;
+
+                            label {
+                                padding: 0;
+                            }
+
+                            .form-group {
+                                label {
+                                    text-transform: uppercase;
+                                }
+                            }
+
+                            textarea {
+                                height: 225px;
+                            }
+
+                            .submit-btn {
+                                position: relative !important;
+                                bottom  : 0 !important;
+
+                                button {
+                                    background-color: #FCAF17;
+                                    border          : none;
+                                    padding-left    : 30px;
+                                    padding-right   : 30px;
+                                    // padding: 5px 30px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+        }
+    }
+}
+
 .support-content {
     padding-top: 40px;
 
     .row-support {
 
-        .col-left {
+        .col-left-sp {
+            width: 70%;
 
             .title-tab {
                 ul {
@@ -11,18 +147,18 @@
 
                     li {
                         list-style-type: none;
-                        margin-left: 20px;
-                        margin-right: 20px;
+                        margin-left    : 20px;
+                        margin-right   : 20px;
 
                         a {
                             text-decoration: none;
-                            text-transform: uppercase;
-                            color: #555555;
-                            font-size: 15px;
-                            cursor: pointer;
+                            text-transform : uppercase;
+                            color          : #555555;
+                            font-size      : 15px;
+                            cursor         : pointer;
 
                             &:hover {
-                                color: #fcaf17;
+                                color      : #fcaf17;
                                 font-weight: bold;
                             }
                         }
@@ -31,8 +167,8 @@
             }
 
             .info {
-                margin-top: 50px;
-                display: flex;
+                margin-top  : 30px;
+                display     : flex;
                 padding-left: 22px;
 
                 p {
@@ -44,18 +180,20 @@
                 border: 1px solid #555555;
 
                 .title {
-                    padding-left: 20px;
-                    text-transform: uppercase;
+                    padding-left    : 20px;
+                    text-transform  : uppercase;
                     background-color: #000000;
-                    color: #fff;
-                    height: 50px;
-                    line-height: 50px
+                    color           : #fff;
+                    height          : 50px;
+                    line-height     : 50px
                 }
 
                 .row-feed {
                     padding-top: 20px;
 
                     .col-feed-left {
+                        width: 50%;
+
                         .form-group {
                             label {
                                 text-transform: uppercase;
@@ -72,6 +210,7 @@
                     }
 
                     .col-feed-right {
+                        width   : 50%;
                         position: relative;
 
                         label {
@@ -90,13 +229,13 @@
 
                         .submit-btn {
                             position: absolute;
-                            bottom: 20px;
+                            bottom  : 20px;
 
                             button {
                                 background-color: #FCAF17;
-                                border: none;
-                                padding-left: 30px;
-                                padding-right: 30px;
+                                border          : none;
+                                padding-left    : 30px;
+                                padding-right   : 30px;
                                 // padding: 5px 30px;
                             }
                         }
@@ -106,65 +245,65 @@
 
         }
 
-        .col-right {
-            .title {
-                h5 {
-                    position: relative;
-                    text-transform: uppercase;
-                    font-size: 13pt;
-                    color: #000000;
-                    font-weight: bold;
-                }
+        // .col-right {
+        //     .title {
+        //         h5 {
+        //             position: relative;
+        //             text-transform: uppercase;
+        //             font-size: 13pt;
+        //             color: #000000;
+        //             font-weight: bold;
+        //         }
 
-                &:after {
-                    content: "";
-                    position: absolute;
-                    display: block;
-                    left: 13px;
-                    width: 30%;
-                    height: 3px;
-                    margin-top: -5px;
-                    background: #fcaf17;
-                }
-            }
+        //         &:after {
+        //             content: "";
+        //             position: absolute;
+        //             display: block;
+        //             left: 13px;
+        //             width: 30%;
+        //             height: 3px;
+        //             margin-top: -5px;
+        //             background: #fcaf17;
+        //         }
+        //     }
 
-            .col-image {
-                padding-top: 20px;
+        //     .col-image {
+        //         padding-top: 20px;
 
-                .image-pdc {
-                    flex-direction: column;
+        //         .image-pdc {
+        //             flex-direction: column;
 
-                    img {
-                        width: 100%;
-                    }
+        //             img {
+        //                 width: 100%;
+        //             }
 
-                    .vn {
-                        text-transform: uppercase;
-                        font-weight: bold;
-                        color: #000000;
-                    }
+        //             .vn {
+        //                 text-transform: uppercase;
+        //                 font-weight: bold;
+        //                 color: #000000;
+        //             }
 
-                    .eng {
-                        text-transform: uppercase;
-                        color: #555555;
+        //             .eng {
+        //                 text-transform: uppercase;
+        //                 color: #555555;
 
-                    }
-                }
+        //             }
+        //         }
 
-                .link-read-more {
-                    text-align: center;
+        //         .link-read-more {
+        //             text-align: center;
 
-                    a {
-                        text-decoration: none;
-                        text-transform: uppercase;
-                        color: #fcaf17;
-                        font-weight: bold;
-                    }
-                }
-            }
+        //             a {
+        //                 text-decoration: none;
+        //                 text-transform: uppercase;
+        //                 color: #fcaf17;
+        //                 font-weight: bold;
+        //             }
+        //         }
+        //     }
 
 
-        }
+        // }
 
     }
 }
