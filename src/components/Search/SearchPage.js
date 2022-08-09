@@ -20,7 +20,7 @@ export default function SearchPage() {
 
     async function fetchSearchMovie(keyword) {
         let dataMovie = await getSearchMovie(keyword);
-        console.log('dataMovie: ', dataMovie);
+        // console.log('dataMovie: ', dataMovie);
         if (dataMovie && dataMovie.data) {
             setAllValues({
                 listResult: dataMovie.data,

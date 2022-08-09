@@ -30,7 +30,7 @@ export default function Header() {
     const changeLanguage = (language) => {
         // fire redux event: actions
 
-        console.log(language);
+        //  console.log(language);
         dispatch(updateLanguage(language));
     }
 

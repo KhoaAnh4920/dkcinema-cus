@@ -1,20 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import logo from '../../assets/DKCinema.png';
-import doctor from '../../assets/doctor.jpg';
 import './DanhSachPhim.scss';
 // import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { FormattedMessage } from 'react-intl';
-import { useDispatch } from "react-redux";
-import { updateLanguage } from "../../redux/userSlice";
-import { useSelector } from "react-redux";
-import { selectLanguage } from "../../redux/userSlice";
-import { LANGUAGES } from '../../utils/constant';
+
 
 import { useHistory } from "react-router-dom";
 import { getListMovieByStatus } from '../../services/MovieServices';
-
-//import Pagination from 'react-bootstrap/Pagination';
-// import "antd/dist/antd.css";
 import 'antd/dist/antd.min.css'
 
 import { Pagination } from 'antd';
@@ -29,16 +20,7 @@ import { Image, Button } from 'react-bootstrap';
 
 
 function DanhSachPhim() {
-    // const language = useSelector(selectLanguage);
-    // const dispatch = useDispatch();
 
-
-    // const changeLanguage = (language) => {
-    //     // fire redux event: actions
-
-    //     console.log(language);
-    //     dispatch(updateLanguage(language));
-    // }
     const [allValues, setAllValues] = useState({
         listMovie: [],
         totalData: 1,
@@ -130,11 +112,6 @@ function DanhSachPhim() {
     }
 
 
-
-
-
-
-
     return (
         <>
 
@@ -185,9 +162,7 @@ function DanhSachPhim() {
                                             </div>
 
                                         </div>
-
                                     )
-
                                 })
                             }
 
@@ -206,12 +181,7 @@ function DanhSachPhim() {
 
             </div>
 
-
-
             <Footer />
-
-
-
 
         </>
     );

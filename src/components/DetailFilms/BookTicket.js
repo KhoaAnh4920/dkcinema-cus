@@ -3,10 +3,7 @@ import ModalVideo from 'react-modal-video'
 //import logo from '../../assets/DKCinema.png';
 import { FormattedMessage } from 'react-intl';
 import { useDispatch } from "react-redux";
-import { updateLanguage } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
-import { selectLanguage } from "../../redux/userSlice";
-import { LANGUAGES } from '../../utils/constant';
 import { Image, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from '../Share/DatePicker';
@@ -54,22 +51,8 @@ function BookTicketThrough() {
     }
 
 
-    var settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-    };
-    const language = useSelector(selectLanguage);
 
 
-
-    const changeLanguage = (language) => {
-        // fire redux event: actions
-        console.log(language);
-        dispatch(updateLanguage(language));
-    }
 
     //Rating component
     const [allValues, setAllValues] = useState({
@@ -81,12 +64,6 @@ function BookTicketThrough() {
         cusId: null,
         isShowLoading: true
     });
-
-
-
-
-
-
 
 
 

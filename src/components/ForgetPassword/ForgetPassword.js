@@ -23,23 +23,15 @@ function ForgetPassword() {
         isShowLoading: false
     });
 
-    // async function checkIsEmailReset(email) {
-
-    //     let res = await checkMailReset(mail)
-    //     if (res && res.errCode !== 0) {
-    //         toast.errCode("Địa chỉ mail không hợp lệ");
-    //         history.push('/');
-    //     }else return true;
-    // }
 
     async function handleResetPass(email, token) {
-        console.log('email: ', email);
+        //   console.log('email: ', email);
         let res = await requiredResetPassServices({
             email: email,
             token
         });
         if (res && res.errCode === 0) {
-            console.log('OK')
+            //  console.log('OK')
             setAllValues((prevState) => ({
                 ...prevState,
                 email: email,
@@ -80,7 +72,7 @@ function ForgetPassword() {
     }
 
     const handleSubmit = async () => {
-        console.log('allvalues: ', allValues);
+        //  console.log('allvalues: ', allValues);
         let check = doSubmit();
         if (check) {
             setAllValues((prevState) => ({

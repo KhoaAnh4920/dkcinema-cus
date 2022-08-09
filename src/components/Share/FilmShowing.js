@@ -8,10 +8,12 @@ function FilmShowing() {
     const [allValuesStt, setAllValuesStt] = useState({
         listMovieStt: []
     });
+
+
     async function fetchDataMovie(status) {
         // You can await here
         const dataMovieStt = await getListMovieByStatus(status);
-        console.log("dataMovie: ", dataMovieStt);
+        //  console.log("dataMovie: ", dataMovieStt);
 
         if (dataMovieStt && dataMovieStt.data) {
             setAllValuesStt({
@@ -19,9 +21,14 @@ function FilmShowing() {
             })
         }
     }
+
+
     useEffect(() => {
         fetchDataMovie(1);
     }, [])
+
+
+
     return (
         <>
             <div className='col-4 col-right'>

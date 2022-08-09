@@ -84,7 +84,7 @@ function BookTicket() {
 
     useEffect(() => {
 
-        console.log('setUserInfo: ', selectUser.userInfo);
+        // console.log('setUserInfo: ', selectUser.userInfo);
 
         if (!selectUser.isLoggedInUser) {
             history.push('/login');
@@ -234,7 +234,7 @@ function BookTicket() {
             })
 
 
-            console.log('res: ', res)
+            //  console.log('res: ', res)
 
             setAllCombo({
                 listCombo: res.slice(0, 4)

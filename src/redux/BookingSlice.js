@@ -14,7 +14,6 @@ export const BookingSlice = createSlice({
     // Reducers chứa các hàm xử lý cập nhật state
     reducers: {
         updateDataBooking: (state, action) => {
-            console.log("Check redux: ", action);
             state.dataBooking = action.payload;
         },
 

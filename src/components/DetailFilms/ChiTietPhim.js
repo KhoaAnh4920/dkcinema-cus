@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ModalVideo from 'react-modal-video'
 //import logo from '../../assets/DKCinema.png';
-import pdc1 from '../../assets/PDC/pdc1.jpg';
-import imgtrail from '../../assets/trailer/t1.jpg';
 import { FormattedMessage } from 'react-intl';
-import { useDispatch } from "react-redux";
-import { updateLanguage } from "../../redux/userSlice";
 import { useSelector } from "react-redux";
 import { selectLanguage } from "../../redux/userSlice";
 import { LANGUAGES } from '../../utils/constant';
@@ -16,7 +12,6 @@ import "./ChiTietPhim.scss";
 import Plyr from 'plyr-react'
 import 'plyr-react/dist/plyr.css'
 import "react-modal-video/scss/modal-video.scss";
-import { FacebookProvider, Like } from 'react-facebook';
 import { getMovieById, getListMovieByStatus, voteMovieRatingService } from '../../services/MovieServices';
 import Slider from "react-slick";
 import { Link, useParams } from 'react-router-dom';
@@ -25,7 +20,6 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Footer from '../Share/Footer';
 import Header from '../Share/Header';
-import FilmShowing from '../Share/FilmShowing';
 import { useHistory } from "react-router-dom";
 import moment from 'moment';
 import Ratings from '../Share/Rating';
@@ -69,9 +63,6 @@ function ChiTietPhim() {
         slidesToScroll: 3,
     };
 
-    const language = useSelector(selectLanguage);
-    const dispatch = useDispatch();
-
     const [allValues, setAllValues] = useState({
         transName: '',
         country: '',
@@ -92,25 +83,9 @@ function ChiTietPhim() {
         cusId: null,
     });
     const [allPromotionPost, setPromotionPost] = useState([])
-    //const urlTrailer = allValues.url;
-    //console.log(urlTrailer);
-    const trailer = {
-        type: "video",
-        sources: [
-            {
-                src: allValues.url,
-                provider: "youtube"
-            }
-        ]
-    };
+
 
     const { id } = useParams();
-    const changeLanguage = (language) => {
-        // fire redux event: actions
-
-        console.log(language);
-        dispatch(updateLanguage(language));
-    }
 
     const youtube_parser = (url) => {
         var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
@@ -134,7 +109,7 @@ function ChiTietPhim() {
 
 
         let dateRe = moment(dataMovieId.data.releaseTime).format('DD-MM-YYYY');
-        console.log(dataMovieId);
+        //console.log(dataMovieId);
         //console.log(dateRe)
         if (dataMovieId && dataMovieId.data) {
             let newUrl = youtube_parser(dataMovieId.data.url);
@@ -166,7 +141,16 @@ function ChiTietPhim() {
                 type: dataMovieId.data.type,
                 rating: dataMovieId.data.rating,
                 url: newUrl,
-                dataMovieUpcoming: dataMovieUpcoming
+                dataMovieUpcoming: dataMovieUpcoming,
+                trailer: {
+                    type: "video",
+                    sources: [
+                        {
+                            src: newUrl,
+                            provider: "youtube"
+                        }
+                    ]
+                }
             }))
 
         }
@@ -192,6 +176,8 @@ function ChiTietPhim() {
         fetchDataPost(3);
     }, [id]);
 
+
+
     useEffect(() => {
 
         if (!selectUser.isLoggedInUser) {
@@ -210,10 +196,12 @@ function ChiTietPhim() {
     }, [selectUser]);
 
 
+
+
     const voteMovieRating = async (data) => {
 
 
-        console.log('allValues: ', allValues.isLoginUser)
+        // console.log('allValues: ', allValues.isLoginUser)
         if (!allValues.isLoginUser) {
             toast.warning('Vui lòng đăng nhập để thực hiện')
             return
@@ -226,10 +214,10 @@ function ChiTietPhim() {
             movieId: id
         })
 
-        console.log('res: ', res)
+        // console.log('res: ', res)
 
         if (res && res.errCode === 0) {
-            toast.success("Thank you")
+            toast.success("Cám ơn bạn đã vote")
 
         } else {
             toast.error(res.errMessage);
@@ -364,7 +352,7 @@ function ChiTietPhim() {
                                 {allValues.description}
                             </p>
                             <div className='trailer'>
-                                <Plyr source={trailer} />
+                                <Plyr source={allValues.trailer} />
                             </div>
                         </div>
                         <div className='discount'>
